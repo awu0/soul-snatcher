@@ -1,30 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float stepPause = 0.3f;
-
+    public int startX = 0;
+    public int startY = 0;
+    public int locX;
+    public int locY;
     public GameObject grids;
-    public List<GameObject> path;
-    void Update()
+
+    private void Start()
     {
-        if (grids.GetComponent<GridBehavior>().findDistance) {
-            path = grids.GetComponent<GridBehavior>().path;
-            if (path.Count != 0) {
-                StartCoroutine(MoveAlongPath());
-            }
-        }
+        locX = startX;
+        locY = startY;
+
     }
 
-    IEnumerator MoveAlongPath()
+    private void Update()
     {
-        for (int i = path.Count - 1; i > -1 ; i--) { 
-            UnityEngine.Vector3 targetPosition = path[i].transform.position;
-            transform.position = targetPosition;
-            yield return new WaitForSeconds(stepPause);
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            locY += 1;
+            grids.GetComponent<Grids>().HandelPlayerMovement(0, 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            locY -= 1;
+            grids.GetComponent<Grids>().HandelPlayerMovement(0, -1);
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            locX += 1;
+            grids.GetComponent<Grids>().HandelPlayerMovement(-1, 0);
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            locX -= 1;
+            grids.GetComponent<Grids>().HandelPlayerMovement(1, 0);
         }
     }
 }
