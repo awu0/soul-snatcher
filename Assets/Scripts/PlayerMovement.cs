@@ -19,24 +19,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        //move up
         if (Input.GetKeyDown(KeyCode.W))
         {
             locY += 1;
             grids.GetComponent<Grids>().HandelPlayerMovement(0, 1);
         }
+        //move down
         else if (Input.GetKeyDown(KeyCode.S))
         {
             locY -= 1;
             grids.GetComponent<Grids>().HandelPlayerMovement(0, -1);
         }
+        //move left
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            locX += 1;
+            locX -= 1;
             grids.GetComponent<Grids>().HandelPlayerMovement(-1, 0);
         }
+        //move right
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            locX -= 1;
+            locX += 1;
             grids.GetComponent<Grids>().HandelPlayerMovement(1, 0);
         }
     }
