@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
     
     /**
      * Retrieve the prefab for a given enemy type
-     * In the folder: Resources/Prefabs
+     * In the folder: Assets/Resources/Prefabs
      */
     private GameObject GetPrefabForType<T>() where T : Enemy
     {
@@ -48,11 +48,11 @@ public class EnemyManager : MonoBehaviour
         return prefab;
     }
 
-    public void MoveAllEnemies()
+    public void DetermineEnemiesActions()
     {
         foreach (var enemy in _enemies)
         {
-            enemy.Move();
+            enemy.DetermineNextMove();
         }
     }
 

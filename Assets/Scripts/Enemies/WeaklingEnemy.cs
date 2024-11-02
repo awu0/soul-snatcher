@@ -10,29 +10,18 @@ public class WeaklingEnemy : Enemy
         SetEnemyStats(maxHp: 20, atk: 2);
         Debug.Log("spawned a weakling"); 
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    protected override void Move()
     {
-        
+        Debug.Log($"{gameObject.name} is moving.");
     }
 
-    public override void TakeTurn()
-    {
-        
-    }
-
-    public override void Move()
-    {
-        Debug.Log("move a weakling"); 
-    }
-
-    public override void UseAbility()
+    protected override void UseAbility()
     {
         Debug.Log($"{gameObject.name} used ability.");
     }
 
-    public override bool CheckAbilityConditions()
+    protected override bool CheckAbilityConditions()
     {
         Debug.Log($"{gameObject.name}'s ability conditions are met.");
         return true;

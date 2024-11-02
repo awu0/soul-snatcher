@@ -9,19 +9,29 @@ public abstract class Enemy : MonoBehaviour
     public int attack;
     public int maxHealth;
 
-    //Handles enemy movement, should only be called within TakeTurn
-    public abstract void Move();
+    /**
+     * This function will be exposed to determine the behavior of the enemy.
+     *
+     * i.e.
+     * - When they will attack
+     * - Will they run away, charge the player, etc...
+     */
+    public virtual void DetermineNextMove()
+    {
+        // default behavior is just moving around
+        Move();
+    }
 
-    //Handles ability use, should only be called within TakeTurn
-    public abstract void UseAbility();
+    //Handles enemy movement, should only be called within DetermineNextMove
+    protected abstract void Move();
+
+    //Handles ability use, should only be called within DetermineNextMove
+    protected abstract void UseAbility();
 
     //Checks whether or not the conditions are met for ability use
-    public abstract bool CheckAbilityConditions();
+    protected abstract bool CheckAbilityConditions();
 
-    //Each enemy has their own system to decide on their action
-    public abstract void TakeTurn();
-
-    public void SetEnemyStats(int maxHp, int atk) 
+    protected void SetEnemyStats(int maxHp, int atk) 
     {
         maxHealth = maxHp;
         health = maxHealth;
