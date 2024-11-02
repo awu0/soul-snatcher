@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-    
     public enum STATES
     {
         ROUND_START,
@@ -17,9 +16,15 @@ public class TurnManager : MonoBehaviour
     public STATES state = STATES.ROUND_START;
     public float pauseDuration = 1f;
 
+    public EnemyManager enemyManager;
+
     private void Start()
     {
         StartCoroutine(RunTurnManager());
+        
+        enemyManager.SpawnEnemy<WeaklingEnemy>(9, 9);
+        enemyManager.SpawnEnemy<WeaklingEnemy>(8, 9);
+        enemyManager.SpawnEnemy<WeaklingEnemy>(7, 9);
     }
 
     private IEnumerator RunTurnManager()
@@ -60,6 +65,9 @@ public class TurnManager : MonoBehaviour
 
                 case STATES.ENEMY_ROUND:
                     Debug.Log("ENEMY ROUND");
+                    
+                    enemyManager.MoveAllEnemies();
+                    
                     state = STATES.ROUND_END;
                     yield return new WaitForSeconds(pauseDuration);
                     break;
