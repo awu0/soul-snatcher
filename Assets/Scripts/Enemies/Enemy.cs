@@ -6,7 +6,20 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
     public float health;
-    
+    protected Grid grids;
+    protected GameObject player;
+
+    public void Start()
+    { 
+        var gridObject = GameObject.FindGameObjectWithTag("Game Board");
+        if (gridObject != null)
+        {
+            grids = gridObject.GetComponent<Grid>();
+        }
+        
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
     /**
      * This function will be exposed to determine the behavior of the enemy.
      *
@@ -39,9 +52,22 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    /**
+     * Determines if the player is in range. Use this function to create the enemy's attack range.
+     */
+    protected virtual bool PlayerIsInRange()
+    {
+        return false;
+    }
+
     public void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
         Destroy(gameObject);
+    }
+
+    protected (int x, int y) GetPlayerPosition()
+    {
+        return ((int) player.transform.position.x, (int) player.transform.position.y);
     }
 }

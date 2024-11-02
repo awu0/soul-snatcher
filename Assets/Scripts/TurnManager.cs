@@ -22,9 +22,9 @@ public class TurnManager : MonoBehaviour
     {
         StartCoroutine(RunTurnManager());
         
+        enemyManager.SpawnEnemy<WeaklingEnemy>(1, 9);
+        enemyManager.SpawnEnemy<WeaklingEnemy>(9, 1);
         enemyManager.SpawnEnemy<WeaklingEnemy>(9, 9);
-        enemyManager.SpawnEnemy<WeaklingEnemy>(8, 9);
-        enemyManager.SpawnEnemy<WeaklingEnemy>(7, 9);
     }
 
     private IEnumerator RunTurnManager()
