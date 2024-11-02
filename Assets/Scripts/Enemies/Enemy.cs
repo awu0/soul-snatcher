@@ -8,18 +8,18 @@ public abstract class Enemy : MonoBehaviour
     public int health;
     public int attack;
     public int maxHealth;
-    
+
     protected Grid grids;
     protected GameObject player;
 
     public void Start()
-    { 
+    {
         var gridObject = GameObject.FindGameObjectWithTag("Game Board");
         if (gridObject != null)
         {
             grids = gridObject.GetComponent<Grid>();
         }
-        
+
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -32,26 +32,32 @@ public abstract class Enemy : MonoBehaviour
      */
     public virtual void DetermineNextMove()
     {
-        // default behavior is just moving around
-        Move();
+        if (PlayerIsInRange())
+        {
+            UseAbility();
+        }
+        else
+        {
+            Move();
+        }
     }
 
-    //Handles enemy movement, should only be called within DetermineNextMove
+    // Handles enemy movement, should only be called within DetermineNextMove
     protected abstract void Move();
 
-    //Handles ability use, should only be called within DetermineNextMove
+    // Handles ability use, should only be called within DetermineNextMove
     protected abstract void UseAbility();
 
-    //Checks whether or not the conditions are met for ability use
+    // Checks whether or not the conditions are met for ability use
     protected abstract bool CheckAbilityConditions();
 
-    protected void SetStats(int maxHp, int atk) 
+    protected void SetStats(int maxHp, int atk)
     {
         maxHealth = maxHp;
         health = maxHealth;
         attack = atk;
     }
-    
+
     public virtual void TakeDamage(int amount)
     {
         health -= amount;
@@ -77,6 +83,6 @@ public abstract class Enemy : MonoBehaviour
 
     protected (int x, int y) GetPlayerPosition()
     {
-        return ((int) player.transform.position.x, (int) player.transform.position.y);
+        return ((int)player.transform.position.x, (int)player.transform.position.y);
     }
 }

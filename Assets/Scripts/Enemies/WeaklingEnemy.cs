@@ -19,18 +19,6 @@ public class WeaklingEnemy : ChargingEnemyType
         
     }
 
-    public override void DetermineNextMove()
-    {
-        if (PlayerIsInRange())
-        {
-            UseAbility();
-        }
-        else
-        {
-            Move();
-        }
-    }
-
     protected override void UseAbility()
     {
         Debug.Log($"{gameObject.name} used ability.");
