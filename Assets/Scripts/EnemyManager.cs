@@ -29,7 +29,6 @@ public class EnemyManager : MonoBehaviour
         Vector3 position = new Vector3(x, y, 0);
         GameObject newEnemyObject = Instantiate(prefab, position, Quaternion.identity);
         Enemy newEnemy = newEnemyObject.GetComponent<Enemy>();
-        Debug.Log(newEnemy.health);
         
         _enemies.Add(newEnemy);
     }
