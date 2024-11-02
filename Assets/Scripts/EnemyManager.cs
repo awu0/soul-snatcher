@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
     
     /**
      * Retrieve the prefab for a given enemy type
-     * In the folder: Resources/Prefabs
+     * In the folder: Assets/Resources/Prefabs
      */
     private GameObject GetPrefabForType<T>() where T : Enemy
     {

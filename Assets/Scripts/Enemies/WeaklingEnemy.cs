@@ -19,7 +19,7 @@ public class WeaklingEnemy : Enemy
     
     protected override void Move()
     {
-        Debug.Log("move a weakling"); 
+        Debug.Log($"{gameObject.name} is moving.");
     }
 
     protected override void Attack()
