@@ -7,7 +7,7 @@ public class WeaklingEnemy : Enemy
     // Start is called before the first frame update
     void Start()
     {
-        health = 100;
+        SetEnemyStats(maxHp: 20, atk: 2);
         Debug.Log("spawned a weakling"); 
     }
 
@@ -17,13 +17,24 @@ public class WeaklingEnemy : Enemy
         
     }
 
+    public override void TakeTurn()
+    {
+        
+    }
+
     public override void Move()
     {
         Debug.Log("move a weakling"); 
     }
 
-    public override void Attack()
+    public override void UseAbility()
     {
-        Debug.Log($"{gameObject.name} is attacking.");
+        Debug.Log($"{gameObject.name} used ability.");
+    }
+
+    public override bool CheckAbilityConditions()
+    {
+        Debug.Log($"{gameObject.name}'s ability conditions are met.");
+        return true;
     }
 }

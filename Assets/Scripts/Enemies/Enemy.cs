@@ -5,19 +5,30 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    public float health;
+    public int health;
+    public int attack;
+    public int maxHealth;
 
-    /**
-     * Handle how the enemy moves each turn
-     */
+    //Handles enemy movement, should only be called within TakeTurn
     public abstract void Move();
 
-    /**
-     * Handles how the enemy attacks
-     */
-    public abstract void Attack();
+    //Handles ability use, should only be called within TakeTurn
+    public abstract void UseAbility();
+
+    //Checks whether or not the conditions are met for ability use
+    public abstract bool CheckAbilityConditions();
+
+    //Each enemy has their own system to decide on their action
+    public abstract void TakeTurn();
+
+    public void SetEnemyStats(int maxHp, int atk) 
+    {
+        maxHealth = maxHp;
+        health = maxHealth;
+        attack = atk;
+    }
     
-    public virtual void TakeDamage(float amount)
+    public virtual void TakeDamage(int amount)
     {
         health -= amount;
         if (health <= 0)
