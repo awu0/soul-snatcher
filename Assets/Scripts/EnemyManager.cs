@@ -48,11 +48,11 @@ public class EnemyManager : MonoBehaviour
         return prefab;
     }
 
-    public void MoveAllEnemies()
+    public void DetermineEnemiesActions()
     {
         foreach (var enemy in _enemies)
         {
-            enemy.Move();
+            enemy.DetermineNextMove();
         }
     }
 

@@ -16,13 +16,13 @@ public class WeaklingEnemy : Enemy
     {
         
     }
-
-    public override void Move()
+    
+    protected override void Move()
     {
         Debug.Log("move a weakling"); 
     }
 
-    public override void Attack()
+    protected override void Attack()
     {
         Debug.Log($"{gameObject.name} is attacking.");
     }
