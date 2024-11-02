@@ -5,7 +5,10 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    public float health;
+    public int health;
+    public int attack;
+    public int maxHealth;
+    
     protected Grid grids;
     protected GameObject player;
 
@@ -32,18 +35,24 @@ public abstract class Enemy : MonoBehaviour
         // default behavior is just moving around
         Move();
     }
-    
-    /**
-     * Determines the enemy's movement
-     */
+
+    //Handles enemy movement, should only be called within DetermineNextMove
     protected abstract void Move();
 
-    /**
-     * Handles how the enemy attacks
-     */
-    protected abstract void Attack();
+    //Handles ability use, should only be called within DetermineNextMove
+    protected abstract void UseAbility();
+
+    //Checks whether or not the conditions are met for ability use
+    protected abstract bool CheckAbilityConditions();
+
+    protected void SetStats(int maxHp, int atk) 
+    {
+        maxHealth = maxHp;
+        health = maxHealth;
+        attack = atk;
+    }
     
-    public virtual void TakeDamage(float amount)
+    public virtual void TakeDamage(int amount)
     {
         health -= amount;
         if (health <= 0)

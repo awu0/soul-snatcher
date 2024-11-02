@@ -9,7 +9,7 @@ public class WeaklingEnemy : ChargingEnemyType
     {
         base.Start();
         
-        health = 100;
+        SetStats(maxHp: 20, atk: 2);
         Debug.Log("spawned a weakling"); 
     }
 
@@ -23,17 +23,23 @@ public class WeaklingEnemy : ChargingEnemyType
     {
         if (PlayerIsInRange())
         {
-            Attack();
+            UseAbility();
         }
         else
         {
             Move();
         }
     }
-    
-    protected override void Attack()
+
+    protected override void UseAbility()
     {
-        Debug.Log($"{gameObject.name} is attacking.");
+        Debug.Log($"{gameObject.name} used ability.");
+    }
+
+    protected override bool CheckAbilityConditions()
+    {
+        Debug.Log($"{gameObject.name}'s ability conditions are met.");
+        return true;
     }
 
     /**
