@@ -26,6 +26,10 @@ public abstract class ChargingEnemyType : Enemy
         }
     }
 
+    /**
+     * Returns a 2d grid with how many turns it will take to get to every spot on the map.
+     * -1 means unreachable
+     */
     private int[,] GetGridWithDistances()
     {
         int[,] distanceGrid = new int[grids.columns, grids.rows];
@@ -76,6 +80,10 @@ public abstract class ChargingEnemyType : Enemy
                !grids.IsCellOccupied(position.x, position.y); // Check for obstacles
     }
     
+    /**
+     * Returns a List of coordinates that depicts the steps to take to get to the player.
+     * The first item is the current position
+     */
     private List<Vector2Int> GetPathToPlayer(int[,] distanceGrid)
     {
         var (playerX, playerY) = GetPlayerPosition();
