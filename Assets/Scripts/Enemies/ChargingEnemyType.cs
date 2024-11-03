@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * This enemy has a movement type of finding the shortest path to the player. Moves 1 tile per turn.
+ * This abstract enemy has a movement type of finding the shortest path to the player. Moves 1 tile per turn.
+ * The enemy that inherits this will have this movement behavior.
  */
 public abstract class ChargingEnemyType : Enemy
 {

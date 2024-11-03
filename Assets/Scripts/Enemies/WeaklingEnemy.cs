@@ -18,10 +18,24 @@ public class WeaklingEnemy : ChargingEnemyType
         Debug.Log($"{gameObject.name} used ability.");
     }
 
+    public override void DetermineNextMove()
+    {
+        if (CheckAbilityConditions())
+        {
+            UseAbility();
+        }
+        else
+        {
+            Move();
+        }
+    }
+    
+    /**
+     * The only condition is the player is in range
+     */
     protected override bool CheckAbilityConditions()
     {
-        Debug.Log($"{gameObject.name}'s ability conditions are met.");
-        return true;
+        return PlayerIsInRange();
     }
 
     /**
