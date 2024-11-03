@@ -1,39 +1,46 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaklingEnemy : ChargingEnemyType
+/**
+ *
+ */
+public class GiantPillbug : Enemy
 {
-    // Start is called before the first frame update
     public new void Start()
     {
         base.Start();
-        
+
         // set the base stats
         SetStats(maxHp: 20, atk: 2);
     }
-    
+
+    protected override void Move()
+    {
+        Debug.Log($"{gameObject.name} is moving.");
+    }
+
     protected override void UseAbility()
     {
+        var (playerX, playerY) = GetPlayerPosition();
+        var (enemyX, enemyY) = GetCurrentPosition();
+        
         Debug.Log($"{gameObject.name} used ability.");
     }
-    
+
     /**
-     * Attack Range: 1, no diagonal
-     * Conditions: Player is in range
+     * Attack Range: entire row or column
+     * Conditions: Player is in same row or column
      */
     protected override bool AbilityConditionsMet()
     {
         var (playerX, playerY) = GetPlayerPosition();
         var (enemyX, enemyY) = GetCurrentPosition();
-        
-        int deltaX = Mathf.Abs(playerX - enemyX);
-        int deltaY = Mathf.Abs(playerY - enemyY);
-        
-        // check if the player is exactly 1 space away on either the x or y-axis, not diagonally
-        return (deltaX == 1 && deltaY == 0) || (deltaX == 0 && deltaY == 1);
+
+        return playerX == enemyX || playerY == enemyY;
     }
-    
+
     public override void DetermineNextMove()
     {
         if (AbilityConditionsMet())

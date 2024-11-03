@@ -34,14 +34,21 @@ public abstract class Enemy : MonoBehaviour
      */
     public abstract void DetermineNextMove();
 
-    // Handles enemy movement, should only be called within DetermineNextMove
+    /**
+     * Handles enemy movement, should only be called within DetermineNextMove
+     */
     protected abstract void Move();
 
-    // Handles ability use, should only be called within DetermineNextMove
+    /**
+     * Handles ability use, should only be called within DetermineNextMove
+     */
     protected abstract void UseAbility();
 
-    // Checks whether the conditions are met for ability use
-    protected abstract bool CheckAbilityConditions();
+    /**
+     * Checks whether the conditions are met for ability use.
+     * True if you can use ability.
+     */
+    protected abstract bool AbilityConditionsMet();
 
     protected void SetStats(int maxHp, int atk)
     {
@@ -57,14 +64,6 @@ public abstract class Enemy : MonoBehaviour
         {
             Die();
         }
-    }
-
-    /**
-     * Determines if the player is in range. Use this function to create the enemy's attack range.
-     */
-    protected virtual bool PlayerIsInRange()
-    {
-        return false;
     }
 
     public void Die()

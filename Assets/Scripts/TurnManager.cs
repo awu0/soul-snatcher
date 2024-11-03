@@ -24,7 +24,7 @@ public class TurnManager : MonoBehaviour
         
         enemyManager.SpawnEnemy<WeaklingEnemy>(1, 9);
         enemyManager.SpawnEnemy<WeaklingEnemy>(9, 1);
-        enemyManager.SpawnEnemy<WeaklingEnemy>(9, 9);
+        enemyManager.SpawnEnemy<GiantPillbug>(9, 9);
     }
 
     private IEnumerator RunTurnManager()
