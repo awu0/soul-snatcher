@@ -59,7 +59,7 @@ public class TurnManager : MonoBehaviour
                 case STATES.PLAYER_ACTION:
                     Debug.Log("PLAYER ACTION");
                     state = STATES.ENEMY_ROUND;
-                    yield return new WaitForSeconds(pauseDuration);
+                    //yield return new WaitForSeconds(pauseDuration);
                     break;
 
                 case STATES.ENEMY_ROUND:
@@ -68,7 +68,7 @@ public class TurnManager : MonoBehaviour
                     foreach (var enemy in enemyManager.enemies)
                     {
                         enemy.DetermineNextMove();
-                        yield return new WaitForSeconds(pauseDuration);
+                        //yield return new WaitForSeconds(pauseDuration);
                     }
                     
                     state = STATES.ROUND_END;
