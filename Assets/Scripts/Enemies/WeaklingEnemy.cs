@@ -13,12 +13,6 @@ public class WeaklingEnemy : ChargingEnemyType
         Debug.Log("spawned a weakling"); 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     protected override void UseAbility()
     {
         Debug.Log($"{gameObject.name} used ability.");
