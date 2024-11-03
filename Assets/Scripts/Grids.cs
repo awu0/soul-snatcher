@@ -62,6 +62,10 @@ public class Grids : MonoBehaviour
         }
     }
 
+    public bool IsPositionWithinBounds(int x, int y)
+    {
+        return x >= 0 && x < columns && y >= 0 && y < rows;
+    }
     
     public void SetCellOccupied(int x, int y, bool occupied)
     {

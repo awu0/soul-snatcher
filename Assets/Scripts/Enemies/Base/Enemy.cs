@@ -10,7 +10,7 @@ public abstract class Enemy : MonoBehaviour
     public int maxHealth;
 
     protected Grids grids;
-    protected GameObject player;
+    protected GameObject Player;
 
     public void Start()
     {
@@ -22,7 +22,7 @@ public abstract class Enemy : MonoBehaviour
             grids = gridObject.GetComponent<Grids>();
         }
 
-        player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     /**
@@ -32,26 +32,23 @@ public abstract class Enemy : MonoBehaviour
      * - When they will attack
      * - Will they run away, charge the player, etc...
      */
-    public virtual void DetermineNextMove()
-    {
-        if (PlayerIsInRange())
-        {
-            UseAbility();
-        }
-        else
-        {
-            Move();
-        }
-    }
+    public abstract void DetermineNextMove();
 
-    // Handles enemy movement, should only be called within DetermineNextMove
+    /**
+     * Handles enemy movement, should only be called within DetermineNextMove
+     */
     protected abstract void Move();
 
-    // Handles ability use, should only be called within DetermineNextMove
+    /**
+     * Handles ability use, should only be called within DetermineNextMove
+     */
     protected abstract void UseAbility();
 
-    // Checks whether or not the conditions are met for ability use
-    protected abstract bool CheckAbilityConditions();
+    /**
+     * Checks whether the conditions are met for ability use.
+     * True if you can use ability.
+     */
+    protected abstract bool AbilityConditionsMet();
 
     protected void SetStats(int maxHp, int atk)
     {
@@ -67,14 +64,6 @@ public abstract class Enemy : MonoBehaviour
         {
             Die();
         }
-    }
-
-    /**
-     * Determines if the player is in range. Use this function to create the enemy's attack range.
-     */
-    protected virtual bool PlayerIsInRange()
-    {
-        return false;
     }
 
     public void Die()
@@ -96,6 +85,6 @@ public abstract class Enemy : MonoBehaviour
      */
     protected (int x, int y) GetPlayerPosition()
     {
-        return ((int)player.transform.position.x, (int)player.transform.position.y);
+        return ((int)Player.transform.position.x, (int)Player.transform.position.y);
     }
 }
