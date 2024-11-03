@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public int startY = 0;
     public int locX;
     public int locY;
-    public int maxActionCount = 10;
+    public int maxActionCount = 1;
     public int actionCount = 0;
     public Grids grids;
     public GameObject turnManager;

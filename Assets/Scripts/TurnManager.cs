@@ -14,7 +14,7 @@ public class TurnManager : MonoBehaviour
     }
     public GameObject Player;
     public STATES state = STATES.ROUND_START;
-    public float pauseDuration = 1f;
+    public float pauseDuration = 0.25f;
 
     public EnemyManager enemyManager;
 
@@ -38,7 +38,6 @@ public class TurnManager : MonoBehaviour
                     Player.GetComponent<PlayerMovement>().actionCount = Player.GetComponent<PlayerMovement>().maxActionCount;
                     Debug.Log("ROUND START");
                     state = STATES.PLAYER_ROUND;
-                    yield return new WaitForSeconds(pauseDuration);
                     break;
 
                 case STATES.PLAYER_ROUND:
@@ -73,13 +72,11 @@ public class TurnManager : MonoBehaviour
                     }
                     
                     state = STATES.ROUND_END;
-                    yield return new WaitForSeconds(pauseDuration);
                     break;
 
                 case STATES.ROUND_END:
                     Debug.Log("ROUND END");
                     state = STATES.ROUND_START;
-                    yield return new WaitForSeconds(pauseDuration);
                     break;
             }
         }

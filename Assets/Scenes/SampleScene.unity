@@ -335,7 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 2069660939}
   state: 0
-  pauseDuration: 0.5
+  pauseDuration: 0.25
   enemyManager: {fileID: 442440895}
 --- !u!4 &1166715721
 Transform:
@@ -534,7 +534,7 @@ MonoBehaviour:
   startY: 1
   locX: 0
   locY: 0
-  maxActionCount: 10
+  maxActionCount: 1
   actionCount: 0
   grids: {fileID: 1432450315}
   turnManager: {fileID: 1166715719}
