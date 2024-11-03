@@ -20,4 +20,9 @@ public class PlayerStats : MonoBehaviour
         maxHealth = maxHp;
         health = maxHealth * currHealthRatio;
     }
+
+    public void ChangeHealth(int hp)
+    {
+        health = hp;
+    }
 }

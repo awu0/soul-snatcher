@@ -81,7 +81,7 @@ public class Grids : MonoBehaviour
     }
     
     // Function to change the player's position
-    public void HandlePlayerMovement(int x, int y)
+    public bool HandlePlayerMovement(int x, int y)
     {
         if (Player != null)
         {
@@ -101,11 +101,13 @@ public class Grids : MonoBehaviour
 
                 // Mark the new cell as occupied
                 SetCellOccupied(playerX, playerY, true);
+                return true;
             }
             else
             {
                 Debug.Log("Cannot move to the desired position: out of bounds or occupied.");
             }
         }
+        return false;
     }
 }
