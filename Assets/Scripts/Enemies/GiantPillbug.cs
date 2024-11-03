@@ -63,7 +63,7 @@ public class GiantPillbug : Enemy
     }
 
     /**
-     * Attack Range: on top of the player
+     * Attack Range: Unobstructed line of attack towards the player
      * Conditions: Player is in same row or column
      */
     protected override bool AbilityConditionsMet()
