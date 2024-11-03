@@ -111,7 +111,7 @@ public abstract class Enemy : MonoBehaviour
       Soul soulScript = soul.GetComponent<Soul>();
 
       if (soulScript != null) {
-        soulScript.Initialize(EnemyType.Weakling);
+        soulScript.Initialize(type);
       }
     }
 }
