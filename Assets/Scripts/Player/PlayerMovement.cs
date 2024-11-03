@@ -33,31 +33,27 @@ public class PlayerMovement : MonoBehaviour
 
     void DetectForMovement() {
         //move up
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) && grids.HandlePlayerMovement(0, 1))
         {
             locY += 1;
-            grids.HandlePlayerMovement(0, 1);
             actionCount -= 1;
         }
         //move down
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) && grids.HandlePlayerMovement(0, -1))
         {
             locY -= 1;
-            grids.HandlePlayerMovement(0, -1);
             actionCount -= 1;
         }
         //move left
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.A) && grids.HandlePlayerMovement(-1, 0))
         {
             locX -= 1;
-            grids.HandlePlayerMovement(-1, 0);
             actionCount -= 1;
         }
         //move right
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D) && grids.HandlePlayerMovement(1, 0))
         {
             locX += 1;
-            grids.HandlePlayerMovement(1, 0);
             actionCount -= 1;
         }
     }

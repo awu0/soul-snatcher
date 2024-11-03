@@ -9,39 +9,20 @@ public class WeaklingEnemy : ChargingEnemyType
     {
         base.Start();
         
+        // set the base stats
         SetStats(maxHp: 20, atk: 2);
-        Debug.Log("spawned a weakling"); 
     }
-
+    
     protected override void UseAbility()
     {
         Debug.Log($"{gameObject.name} used ability.");
     }
-
-    public override void DetermineNextMove()
-    {
-        if (CheckAbilityConditions())
-        {
-            UseAbility();
-        }
-        else
-        {
-            Move();
-        }
-    }
     
     /**
-     * The only condition is the player is in range
+     * Attack Range: 1, no diagonal
+     * Conditions: Player is in range
      */
-    protected override bool CheckAbilityConditions()
-    {
-        return PlayerIsInRange();
-    }
-
-    /**
-     * Weakling has an attack range of 1 and can't attack diagonally.
-     */
-    protected override bool PlayerIsInRange()
+    protected override bool AbilityConditionsMet()
     {
         var (playerX, playerY) = GetPlayerPosition();
         var (enemyX, enemyY) = GetCurrentPosition();
@@ -51,5 +32,17 @@ public class WeaklingEnemy : ChargingEnemyType
         
         // check if the player is exactly 1 space away on either the x or y-axis, not diagonally
         return (deltaX == 1 && deltaY == 0) || (deltaX == 0 && deltaY == 1);
+    }
+    
+    public override void DetermineNextMove()
+    {
+        if (AbilityConditionsMet())
+        {
+            UseAbility();
+        }
+        else
+        {
+            Move();
+        }
     }
 }

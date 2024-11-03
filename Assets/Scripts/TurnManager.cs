@@ -14,7 +14,7 @@ public class TurnManager : MonoBehaviour
     }
     public GameObject Player;
     public STATES state = STATES.ROUND_START;
-    public float pauseDuration = 0.25f;
+    public float pauseDuration = 0f;
 
     public EnemyManager enemyManager;
 
@@ -24,7 +24,7 @@ public class TurnManager : MonoBehaviour
         
         enemyManager.SpawnEnemy<WeaklingEnemy>(1, 9);
         enemyManager.SpawnEnemy<WeaklingEnemy>(9, 1);
-        enemyManager.SpawnEnemy<WeaklingEnemy>(9, 9);
+        enemyManager.SpawnEnemy<GiantPillbug>(9, 9);
     }
 
     private IEnumerator RunTurnManager()
@@ -59,7 +59,7 @@ public class TurnManager : MonoBehaviour
                 case STATES.PLAYER_ACTION:
                     Debug.Log("PLAYER ACTION");
                     state = STATES.ENEMY_ROUND;
-                    //yield return new WaitForSeconds(pauseDuration);
+                    yield return new WaitForSeconds(pauseDuration);
                     break;
 
                 case STATES.ENEMY_ROUND:
@@ -68,7 +68,7 @@ public class TurnManager : MonoBehaviour
                     foreach (var enemy in enemyManager.enemies)
                     {
                         enemy.DetermineNextMove();
-                        //yield return new WaitForSeconds(pauseDuration);
+                        yield return new WaitForSeconds(pauseDuration);
                     }
                     
                     state = STATES.ROUND_END;
