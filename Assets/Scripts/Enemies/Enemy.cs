@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyType {
+    Weakling,
+};
+
 public abstract class Enemy : MonoBehaviour
 {
     public int health;
     public int attack;
     public int maxHealth;
+    public EnemyType type;
 
     protected Grids grids;
     protected GameObject Player;
@@ -70,6 +75,8 @@ public abstract class Enemy : MonoBehaviour
     public void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
+
+        SpawnSoul();
         Destroy(gameObject);
     }
 
@@ -87,5 +94,25 @@ public abstract class Enemy : MonoBehaviour
     protected (int x, int y) GetPlayerPosition()
     {
         return ((int)Player.transform.position.x, (int)Player.transform.position.y);
+    }
+
+    /**
+    * Spawns soul death object upon death
+    */
+    protected void SpawnSoul() {
+      GameObject soul = Resources.Load<GameObject>("Prefabs/Soul");;
+
+      if (soul == null) {
+        Debug.Log($"Could not load soul object.");
+        return;
+      }
+
+      (int x, int y) enemyPosition = GetCurrentPosition();
+      Instantiate(soul, new Vector3(enemyPosition.x, enemyPosition.y, 0), Quaternion.identity);
+      Soul soulScript = soul.GetComponent<Soul>();
+
+      if (soulScript != null) {
+        soulScript.Initialize(EnemyType.Weakling);
+      }
     }
 }
