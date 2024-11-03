@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b24b17d17bf5409191aa7fd78ddfec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grids: {fileID: 1432450315}
 --- !u!4 &442440896
 Transform:
   m_ObjectHideFlags: 0
@@ -535,7 +536,7 @@ MonoBehaviour:
   locY: 0
   maxActionCount: 10
   actionCount: 0
-  grids: {fileID: 1432450314}
+  grids: {fileID: 1432450315}
   turnManager: {fileID: 1166715719}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

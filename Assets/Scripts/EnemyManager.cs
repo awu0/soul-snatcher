@@ -10,6 +10,10 @@ public class EnemyManager : MonoBehaviour
 {
     private List<Enemy> _enemies = new List<Enemy>();
     
+    public IReadOnlyList<Enemy> enemies => _enemies.AsReadOnly();
+    
+    public Grids grids;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -22,8 +26,15 @@ public class EnemyManager : MonoBehaviour
         
     }
 
-    public void SpawnEnemy<T>(float x, float y) where T : Enemy
+    public void SpawnEnemy<T>(int x, int y) where T : Enemy
     {
+        // Check if the target position is free
+        if (grids.IsCellOccupied(x, y))
+        {
+            Debug.LogWarning($"Cannot spawn enemy at ({x}, {y}): cell is occupied.");
+            return;
+        }
+        
         GameObject prefab = GetPrefabForType<T>();
 
         Vector3 position = new Vector3(x, y, 0);
@@ -31,6 +42,8 @@ public class EnemyManager : MonoBehaviour
         Enemy newEnemy = newEnemyObject.GetComponent<Enemy>();
         
         _enemies.Add(newEnemy);
+        
+        grids.SetCellOccupied(x, y, true);
     }
     
     /**
@@ -45,14 +58,6 @@ public class EnemyManager : MonoBehaviour
             Debug.LogError($"Prefab not found for {typeof(T).Name}");
         }
         return prefab;
-    }
-
-    public void DetermineEnemiesActions()
-    {
-        foreach (var enemy in _enemies)
-        {
-            enemy.DetermineNextMove();
-        }
     }
 
     public int GetEnemiesCount()

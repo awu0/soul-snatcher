@@ -16,18 +16,25 @@ public class Grids : MonoBehaviour
     public GameObject Player;
     //2D array for the grids
     public GameObject[,] gridArray;
+    
+    // 2D array to determine which cells are occupied
+    private bool[,] occupiedCells;
+    
     //generation point of the grids
     public Vector2 leftBottomLocation = new Vector2(0, 0);
 
-    private void Start()
+    private void Awake()
     {
-        //set the start point
+        // set the start point
         leftBottomLocation = transform.position;
         gridArray = new GameObject[columns, rows];
-        //generate initial grids
+        
+        occupiedCells = new bool[columns, rows];
+        
+        // generate initial grids
         GenerateGrid();
 
-        //set start point for player
+        // set start point for player
         if (Player != null) {
             playerX = Player.GetComponent<PlayerMovement>().startX;
             playerY = Player.GetComponent<PlayerMovement>().startY;
@@ -55,16 +62,50 @@ public class Grids : MonoBehaviour
         }
     }
 
-    //function to change the player's position
-    public void HandelPlayerMovement(int x, int y) {
-        if (Player != null) {
-            if(playerX + x >= 0 && playerX + x < columns) {
-                playerX += x;
+    
+    public void SetCellOccupied(int x, int y, bool occupied)
+    {
+        if (x >= 0 && x < columns && y >= 0 && y < rows)
+        {
+            occupiedCells[x, y] = occupied;
+        }
+    }
+    
+    public bool IsCellOccupied(int x, int y)
+    {
+        if (x < 0 || x >= columns || y < 0 || y >= rows)
+        {
+            return true; // Treat out-of-bounds as occupied
+        }
+        return occupiedCells[x, y];
+    }
+    
+    // Function to change the player's position
+    public void HandlePlayerMovement(int x, int y)
+    {
+        if (Player != null)
+        {
+            int newX = playerX + x;
+            int newY = playerY + y;
+
+            // Check if the new position is within bounds and not occupied
+            if (newX >= 0 && newX < columns && newY >= 0 && newY < rows && !IsCellOccupied(newX, newY))
+            {
+                // Mark the current cell as unoccupied
+                SetCellOccupied(playerX, playerY, false);
+            
+                // Update player's position
+                playerX = newX;
+                playerY = newY;
+                Player.transform.position = gridArray[playerX, playerY].transform.position;
+
+                // Mark the new cell as occupied
+                SetCellOccupied(playerX, playerY, true);
             }
-            if (playerY + y >= 0 && playerY + y < rows) {
-                playerY += y;
+            else
+            {
+                Debug.Log("Cannot move to the desired position: out of bounds or occupied.");
             }
-            Player.transform.position = gridArray[playerX, playerY].transform.position;
         }
     }
 }

@@ -9,15 +9,17 @@ public abstract class Enemy : MonoBehaviour
     public int attack;
     public int maxHealth;
 
-    protected Grid grids;
+    protected Grids grids;
     protected GameObject player;
 
     public void Start()
     {
+        gameObject.tag = "Enemy";
+        
         var gridObject = GameObject.FindGameObjectWithTag("Game Board");
         if (gridObject != null)
         {
-            grids = gridObject.GetComponent<Grid>();
+            grids = gridObject.GetComponent<Grids>();
         }
 
         player = GameObject.FindGameObjectWithTag("Player");
@@ -81,6 +83,17 @@ public abstract class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /**
+     * Returns this enemy's current position
+     */
+    protected (int x, int y) GetCurrentPosition()
+    {
+        return ((int)transform.position.x, (int)transform.position.y);
+    }
+
+    /**
+     * Returns the player's current position
+     */
     protected (int x, int y) GetPlayerPosition()
     {
         return ((int)player.transform.position.x, (int)player.transform.position.y);

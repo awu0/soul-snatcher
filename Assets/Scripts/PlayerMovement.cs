@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public int locY;
     public int maxActionCount = 10;
     public int actionCount = 0;
-    public GameObject grids;
+    public Grids grids;
     public GameObject turnManager;
 
     private void Start()
@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
         locX = startX;
         locY = startY;
         actionCount = maxActionCount;
+        
+        grids.SetCellOccupied(locX, locY, true);
     }
 
     private void Update()
@@ -34,28 +36,28 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             locY += 1;
-            grids.GetComponent<Grids>().HandelPlayerMovement(0, 1);
+            grids.HandlePlayerMovement(0, 1);
             actionCount -= 1;
         }
         //move down
         else if (Input.GetKeyDown(KeyCode.S))
         {
             locY -= 1;
-            grids.GetComponent<Grids>().HandelPlayerMovement(0, -1);
+            grids.HandlePlayerMovement(0, -1);
             actionCount -= 1;
         }
         //move left
         else if (Input.GetKeyDown(KeyCode.A))
         {
             locX -= 1;
-            grids.GetComponent<Grids>().HandelPlayerMovement(-1, 0);
+            grids.HandlePlayerMovement(-1, 0);
             actionCount -= 1;
         }
         //move right
         else if (Input.GetKeyDown(KeyCode.D))
         {
             locX += 1;
-            grids.GetComponent<Grids>().HandelPlayerMovement(1, 0);
+            grids.HandlePlayerMovement(1, 0);
             actionCount -= 1;
         }
     }

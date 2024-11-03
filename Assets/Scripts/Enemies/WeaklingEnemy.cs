@@ -36,8 +36,7 @@ public class WeaklingEnemy : ChargingEnemyType
     protected override bool PlayerIsInRange()
     {
         var (playerX, playerY) = GetPlayerPosition();
-        int enemyX = (int)transform.position.x;
-        int enemyY = (int)transform.position.y;
+        var (enemyX, enemyY) = GetCurrentPosition();
         
         int deltaX = Mathf.Abs(playerX - enemyX);
         int deltaY = Mathf.Abs(playerY - enemyY);

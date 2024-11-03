@@ -65,8 +65,12 @@ public class TurnManager : MonoBehaviour
 
                 case STATES.ENEMY_ROUND:
                     Debug.Log("ENEMY ROUND");
-                    
-                    enemyManager.DetermineEnemiesActions();
+
+                    foreach (var enemy in enemyManager.enemies)
+                    {
+                        enemy.DetermineNextMove();
+                        yield return new WaitForSeconds(pauseDuration);
+                    }
                     
                     state = STATES.ROUND_END;
                     yield return new WaitForSeconds(pauseDuration);
