@@ -44,6 +44,9 @@ public class GiantPillbug : Enemy
         // offset the pill bug by 1 to make sure it is not on top of the player
         int nextMoveX = nextMove.x;
         int nextMoveY = nextMove.y;
+        transform.position = new Vector3(nextMoveX, nextMoveY, transform.position.z);
+        
+        // offset the pill bug by 1 to make sure it is not on top of the player
         // moving along the y-axis
         if (nextMoveX == x)
         {
