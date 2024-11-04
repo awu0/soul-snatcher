@@ -71,6 +71,14 @@ public class Player : Entity
         int newY = playerY + y;
 
         MoveTo(newX, newY);
+        
+        // Check if new cell has a soul in it
+        if (grids.DoesCellHaveSoul(newX, newY)) {
+            Soul soul = grids.soulCells[playerX, playerY];
+            PickUpSoul(soul);
+            grids.soulCells[playerX, playerY] = null;
+            Destroy(soul.gameObject);
+        }
     }
 
     public void PickUpSoul(Soul soul)
