@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/**
- *
- */
+/// <summary>
+/// Moves like a rook.
+/// </summary>
 public class GiantPillbug : Enemy
 {
     private readonly Vector2Int[] _directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
@@ -18,6 +18,9 @@ public class GiantPillbug : Enemy
 
         // set the base stats
         SetStats(maxHp: 20, atk: 2);
+        
+        ability = gameObject.AddComponent<PillbugRoll>();
+        ability.Initialize(this);
     }
 
     protected override void Move()

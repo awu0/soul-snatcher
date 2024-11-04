@@ -12,7 +12,7 @@ public enum EnemyType {
 public abstract class Enemy : Entity
 {
     public EnemyType type;
-    protected GameObject Player;
+    private Player Player;
 
     public new void Start()
     {
@@ -20,7 +20,8 @@ public abstract class Enemy : Entity
         
         gameObject.tag = "Enemy";
         
-        Player = GameObject.FindGameObjectWithTag("Player");
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        Player = playerObject.GetComponent<Player>();
     }
 
     /**

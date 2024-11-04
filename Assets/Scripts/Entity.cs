@@ -1,17 +1,21 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// The base class for all entities in the game, including the Player and all enemies.
+/// </summary>
 public abstract class Entity : MonoBehaviour
 {
-    public int locX;
-    public int locY;
+    [NonSerialized] public int locX;
+    [NonSerialized] public int locY;
     
     [NonSerialized] public int maxActionCount = 1;
     [NonSerialized] public int actionCount = 0;
     
-    public int health;
-    public int attack;
-    public int maxHealth;   
+    private int _health;
+    private int _attack;
+    private int _maxHealth;   
+    protected Ability ability;
     
     protected Grids grids;
 
@@ -29,15 +33,17 @@ public abstract class Entity : MonoBehaviour
     
     protected void SetStats(int maxHp, int atk)
     {
-        maxHealth = maxHp;
-        health = maxHealth;
-        attack = atk;
+        _maxHealth = maxHp;
+        _health = _maxHealth;
+        _attack = atk;
     }
 
-    /**
-     * Moves this entity to another point.
-     * Updates occupiedCells accordingly.
-     */
+    /// <summary>
+    /// Moves this entity to another point.
+    /// Updates occupiedCells accordingly.
+    /// </summary>
+    /// <param name="newX">the x-coord to go to</param>
+    /// <param name="newY">the y-coord to go to</param>
     public void MoveTo(int newX, int newY)
     {
         if (!grids.IsPositionWithinBounds(newX, newY))
@@ -59,8 +65,8 @@ public abstract class Entity : MonoBehaviour
     
     public virtual void TakeDamage(int amount)
     {
-        health -= amount;
-        if (health <= 0)
+        _health -= amount;
+        if (_health <= 0)
         {
             Die();
         }
