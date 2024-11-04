@@ -75,6 +75,11 @@ public class Grids : MonoBehaviour
     {
         return x >= 0 && x < columns && y >= 0 && y < rows;
     }
+
+    public Entity GetEntityAt(int x, int y)
+    {
+        return entityCells[x, y];
+    }
     
     public void SetCellOccupied(int x, int y, Entity entity)
     {
@@ -144,5 +149,30 @@ public class Grids : MonoBehaviour
             }
         }
         return false;
+    }
+    
+    public void PrintEntityGrid()
+    {
+        Debug.Log("Entity Grid:");
+    
+        // Iterate over rows from top to bottom for a more natural display
+        for (int y = rows - 1; y >= 0; y--)
+        {
+            string gridOutput = "";
+            for (int x = 0; x < columns; x++)
+            {
+                if (entityCells[x, y] != null)
+                {
+                    // Shorten to first character or name for compactness
+                    gridOutput += entityCells[x, y].gameObject.name[0] + " ";
+                }
+                else
+                {
+                    gridOutput += "x "; // Use "." to indicate an empty cell
+                }
+            }
+            Debug.Log(gridOutput);
+        }
+
     }
 }
