@@ -19,6 +19,9 @@ public class Grids : MonoBehaviour
     
     // 2D array to determine which cells are occupied
     private bool[,] occupiedCells;
+
+    // 2D array to determine which cells have souls. Separate from occupied since souls don't hinder movement
+    public Soul[,] soulCells;
     
     //generation point of the grids
     public Vector2 leftBottomLocation = new Vector2(0, 0);
@@ -30,6 +33,7 @@ public class Grids : MonoBehaviour
         gridArray = new GameObject[columns, rows];
         
         occupiedCells = new bool[columns, rows];
+        soulCells = new Soul[columns, rows];
         
         // generate initial grids
         GenerateGrid();
@@ -83,6 +87,21 @@ public class Grids : MonoBehaviour
         }
         return occupiedCells[x, y];
     }
+
+    public bool DoesCellHaveSoul(int x, int y)
+    {
+      return soulCells[x, y] != null;
+    }
+
+    public bool SetCellSoul(int x, int y, Soul soul)
+    {
+      if (x >= 0 && x < columns && y >= 0 && y < rows)
+      {
+          soulCells[x, y] = soul;
+          return true;
+      }
+      return false;
+    }
     
     // Function to change the player's position
     public bool HandlePlayerMovement(int x, int y)
@@ -102,6 +121,18 @@ public class Grids : MonoBehaviour
                 playerX = newX;
                 playerY = newY;
                 Player.transform.position = gridArray[playerX, playerY].transform.position;
+
+                // Check if new cell has a soul in it
+                if (DoesCellHaveSoul(playerX, playerY)) {
+                  Player playerClass = Player.GetComponent<Player>();
+                  Debug.Log(Player);
+                  Soul soul = soulCells[playerX, playerY];
+
+                  playerClass.PickUpSoul(soul);
+
+                  soulCells[playerX, playerY] = null;
+                  Destroy(soul.gameObject);
+                }
 
                 // Mark the new cell as occupied
                 SetCellOccupied(playerX, playerY, true);

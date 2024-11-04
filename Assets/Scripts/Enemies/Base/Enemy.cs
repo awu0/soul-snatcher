@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum EnemyType {
+    Slime,
     Weakling,
+    GiantPillbug,
 };
 
 public abstract class Enemy : MonoBehaviour
@@ -99,19 +101,26 @@ public abstract class Enemy : MonoBehaviour
     * Spawns soul death object upon death
     */
     protected void SpawnSoul() {
-      GameObject soul = Resources.Load<GameObject>("Prefabs/Soul");;
+      GameObject soulPrefab = Resources.Load<GameObject>("Prefabs/Soul");;
 
-      if (soul == null) {
-        Debug.Log($"Could not load soul object.");
+      if (soulPrefab == null) {
+        Debug.Log($"Could not load soul prefab.");
         return;
       }
 
       (int x, int y) enemyPosition = GetCurrentPosition();
-      Instantiate(soul, new Vector3(enemyPosition.x, enemyPosition.y, 0), Quaternion.identity);
-      Soul soulScript = soul.GetComponent<Soul>();
+      GameObject newSoul = Instantiate(soulPrefab, new Vector3(enemyPosition.x, enemyPosition.y, 0), Quaternion.identity);
+      Soul soulClass = newSoul.GetComponent<Soul>();
 
-      if (soulScript != null) {
-        soulScript.Initialize(type);
+      if (soulClass == null) {
+        Debug.Log($"Could not load newly created soul.");
+        return;
       }
+
+      soulClass.Initialize(type);
+
+      Grids gridsClass = grids.GetComponent<Grids>();
+      gridsClass.SetCellSoul(enemyPosition.x, enemyPosition.y, soulClass);
+      Debug.Log($"Soul of type {type} created at {enemyPosition.x}, {enemyPosition.y}");
     }
 }
