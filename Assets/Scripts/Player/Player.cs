@@ -6,11 +6,13 @@ public class Player : MonoBehaviour
 {
     private PlayerMovement movement;
     private PlayerStats stats;
+    private EnemyType type;
 
     void Start()
     {
         movement = GetComponent<PlayerMovement>();
         stats = GetComponent<PlayerStats>();
+        type = EnemyType.Slime;
     }
 
     void Update()
@@ -25,6 +27,11 @@ public class Player : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void PickUpSoul(Soul soul) {
+      Debug.Log($"Picked up new soul type: {soul.Type}");
+      type = soul.Type;
     }
 
     public void Die()
