@@ -28,7 +28,7 @@ public class Player : Entity
     private void Update()
     {
         if (turnManager != null) {
-            if (turnManager.GetComponent<TurnManager>().state == TurnManager.STATES.PLAYER_ROUND) { 
+            if (turnManager.GetComponent<GameManager>().state == GameManager.STATES.PLAYER_ROUND) { 
                 DetectForMovement();
             }
         }

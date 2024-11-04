@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 1166715721}
   - component: {fileID: 1166715720}
   m_Layer: 0
-  m_Name: TurnManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,13 +532,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   locX: 0
   locY: 0
-  maxActionCount: 1
-  actionCount: 0
   health: 0
   attack: 0
   maxHealth: 0
-  startX: 0
-  startY: 0
   turnManager: {fileID: 1166715719}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

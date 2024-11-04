@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurnManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public enum STATES
     {
@@ -14,7 +15,7 @@ public class TurnManager : MonoBehaviour
     }
     public GameObject Player;
     public STATES state = STATES.ROUND_START;
-    public float pauseDuration = 0.25f;
+    [NonSerialized] public float pauseDuration = 0.25f;
 
     public EnemyManager enemyManager;
 
