@@ -13,7 +13,11 @@ public class GameManager : MonoBehaviour
         ENEMY_ROUND,
         ROUND_END,
     }
-    public GameObject Player;
+    public Player player;
+
+    private const int _playerStartX = 1;
+    private const int _playerStartY = 1;
+    
     public STATES state = STATES.ROUND_START;
     [NonSerialized] public float pauseDuration = 0.25f;
 
@@ -22,6 +26,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(RunTurnManager());
+        
+        player.MoveTo(_playerStartX, _playerStartY);
         
         enemyManager.SpawnEnemy<WeaklingEnemy>(1, 9);
         enemyManager.SpawnEnemy<WeaklingEnemy>(9, 1);
@@ -36,18 +42,17 @@ public class GameManager : MonoBehaviour
             {
                 case STATES.ROUND_START:
                     //refill action count
-                    Player.GetComponent<Player>().actionCount = Player.GetComponent<Player>().maxActionCount;
+                    player.actionCount = player.maxActionCount;
                     Debug.Log("ROUND START");
-                    Debug.Log($"Health: {Player.GetComponent<Player>().health}");
                     state = STATES.PLAYER_ROUND;
                     break;
 
                 case STATES.PLAYER_ROUND:
                     Debug.Log("PLAYER ROUND");
                     //go to next round if player can't action anymore
-                    if (Player != null)
+                    if (player != null)
                     {
-                        if (Player.GetComponent<Player>().actionCount <= 0)
+                        if (player.actionCount <= 0)
                         {
                             state = STATES.PLAYER_ACTION;
                         }

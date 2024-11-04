@@ -9,14 +9,8 @@ public class Grids : MonoBehaviour
     public int columns = 10;
     public int scale = 1;
     
-    //variable for handle the player movement
-    private int playerX;
-    private int playerY;
-    
     //prefab of a grid
     public GameObject PrefabGrid;
-    
-    public Player player;
     
     // 2D array for the grids
     public GameObject[,] gridArray;
@@ -41,14 +35,6 @@ public class Grids : MonoBehaviour
         
         // generate initial grids
         GenerateGrid();
-
-        // set start point for player
-        if (player != null) {
-            playerX = player.startX;
-            playerY = player.startY;
-            player.transform.position = gridArray[playerX, playerY].transform.position;
-            SetCellOccupied(playerX, playerY, player);
-        }
     }
 
     //Function for generating the grids, use the columns and rows and generate equal amount of grid prefab 
@@ -107,48 +93,6 @@ public class Grids : MonoBehaviour
           return true;
       }
       return false;
-    }
-    
-    // Function to change the player's position
-    public bool HandlePlayerMovement(int x, int y)
-    {
-        if (player != null)
-        {
-            int newX = playerX + x;
-            int newY = playerY + y;
-
-            // Check if the new position is within bounds and not occupied
-            if (newX >= 0 && newX < columns && newY >= 0 && newY < rows && !IsCellOccupied(newX, newY))
-            {
-                // Mark the current cell as unoccupied
-                SetCellOccupied(playerX, playerY, null);
-            
-                // Update player's position
-                playerX = newX;
-                playerY = newY;
-                player.transform.position = gridArray[playerX, playerY].transform.position;
-
-                // Check if new cell has a soul in it
-                if (DoesCellHaveSoul(playerX, playerY)) {
-                  Debug.Log(player);
-                  Soul soul = soulCells[playerX, playerY];
-
-                  player.PickUpSoul(soul);
-
-                  soulCells[playerX, playerY] = null;
-                  Destroy(soul.gameObject);
-                }
-
-                // Mark the new cell as occupied
-                SetCellOccupied(playerX, playerY, player);
-                return true;
-            }
-            else
-            {
-                Debug.Log("Cannot move to the desired position: out of bounds or occupied.");
-            }
-        }
-        return false;
     }
     
     public void PrintEntityGrid()

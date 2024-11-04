@@ -5,19 +5,13 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    [NonSerialized] public int startX = 1;
-    [NonSerialized] public int startY = 1;
-
     private EnemyType type;
 
-    public GameObject turnManager;
+    public GameManager gameManager;
 
     private new void Start()
     {
         base.Start();
-
-        locX = startX;
-        locY = startY;
 
         actionCount = maxActionCount;
 
@@ -28,9 +22,9 @@ public class Player : Entity
 
     private void Update()
     {
-        if (turnManager != null)
+        if (gameManager != null)
         {
-            if (turnManager.GetComponent<GameManager>().state == GameManager.STATES.PLAYER_ROUND)
+            if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
             {
                 DetectForMovement();
             }
@@ -39,30 +33,44 @@ public class Player : Entity
 
     private void DetectForMovement()
     {
-        //move up
-        if (Input.GetKeyDown(KeyCode.W) && grids.HandlePlayerMovement(0, 1))
+        // move up
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            locY += 1;
+            HandlePlayerMovement(0, 1);
             actionCount -= 1;
         }
-        //move down
-        else if (Input.GetKeyDown(KeyCode.S) && grids.HandlePlayerMovement(0, -1))
+        // move down
+        else if (Input.GetKeyDown(KeyCode.S))
         {
-            locY -= 1;
+            HandlePlayerMovement(0, -1);
             actionCount -= 1;
         }
-        //move left
-        else if (Input.GetKeyDown(KeyCode.A) && grids.HandlePlayerMovement(-1, 0))
+        // move left
+        else if (Input.GetKeyDown(KeyCode.A))
         {
-            locX -= 1;
+            HandlePlayerMovement(-1, 0);
             actionCount -= 1;
         }
-        //move right
-        else if (Input.GetKeyDown(KeyCode.D) && grids.HandlePlayerMovement(1, 0))
+        // move right
+        else if (Input.GetKeyDown(KeyCode.D))
         {
-            locX += 1;
+            HandlePlayerMovement(1, 0);
             actionCount -= 1;
         }
+    }
+
+    /// <summary>
+    /// Function to change the player's position
+    /// </summary>
+    /// <param name="x">x delta</param>
+    /// <param name="y">y delta</param>
+    private void HandlePlayerMovement(int x, int y)
+    {
+        var (playerX, playerY) = GetCurrentPosition();
+        int newX = playerX + x;
+        int newY = playerY + y;
+
+        MoveTo(newX, newY);
     }
 
     public void PickUpSoul(Soul soul)
