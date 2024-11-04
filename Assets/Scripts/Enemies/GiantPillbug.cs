@@ -34,29 +34,27 @@ public class GiantPillbug : Enemy
 
     protected override void UseAbility()
     {
-        var (startX, startY) = GetCurrentPosition();
-        Vector2Int nextMove = _path[1];
+        // determine the correct direction
+        var (playerX, playerY) = GetPlayerPosition();
+        var (currentX, currentY) = GetCurrentPosition();
         
-        int nextMoveX = nextMove.x;
-        int nextMoveY = nextMove.y;
-        MoveTo(nextMoveX, nextMoveY);
-        
-        // offset the pill bug by 1 to make sure it is not on top of the player
-        // moving along the y-axis
-        if (nextMoveX == startX)
+        Vector2Int direction = Vector2Int.zero;
+
+        // determine direction if in the same row or column
+        if (currentX == playerX) // same column, move vertically
         {
-            nextMoveY += (startY - nextMoveY) / Math.Abs(startY - nextMoveY);
+            direction = playerY > currentY ? Vector2Int.up : Vector2Int.down;
         }
-        // moving long the x-axis
-        else if (nextMoveY == startY)
+        else if (currentY == playerY) // same row, move horizontally
         {
-            nextMoveX += (startX - nextMoveX) / Math.Abs(startX - nextMoveX);
+            direction = playerX > currentX ? Vector2Int.right : Vector2Int.left;
         }
         
-        MoveTo(nextMoveX, nextMoveY);
-        
-        // do damage
-        Debug.Log($"{gameObject.name} used ability.");
+        // Only activate the ability if a direction is determined
+        if (direction != Vector2Int.zero)
+        {
+            ((PillbugRoll)ability).ActivateAbility(grids, direction);
+        }
     }
 
     /**

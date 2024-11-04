@@ -6,7 +6,6 @@ public class Bash : Ability
 {
     void Start()
     {
-        SetUp(damageAmt: 10);
     }
 
     public override void ActivateAbility()

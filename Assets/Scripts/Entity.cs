@@ -82,7 +82,7 @@ public abstract class Entity : MonoBehaviour
     /**
      * Returns this entity's current position
      */
-    protected (int x, int y) GetCurrentPosition()
+    public (int x, int y) GetCurrentPosition()
     {
         return (locX, locY);
     }
