@@ -12,9 +12,9 @@ public abstract class Entity : MonoBehaviour
     [NonSerialized] public int maxActionCount = 1;
     [NonSerialized] public int actionCount = 0;
     
-    private int _health;
-    private int _attack;
-    private int _maxHealth;   
+    [NonSerialized] public int health;
+    [NonSerialized] public int attack;
+    [NonSerialized] public int maxHealth;   
     protected Ability ability;
     
     protected Grids grids;
@@ -33,9 +33,9 @@ public abstract class Entity : MonoBehaviour
     
     protected void SetStats(int maxHp, int atk)
     {
-        _maxHealth = maxHp;
-        _health = _maxHealth;
-        _attack = atk;
+        maxHealth = maxHp;
+        health = maxHealth;
+        attack = atk;
     }
 
     /// <summary>
@@ -65,8 +65,8 @@ public abstract class Entity : MonoBehaviour
     
     public virtual void TakeDamage(int amount)
     {
-        _health -= amount;
-        if (_health <= 0)
+        health -= amount;
+        if (health <= 0)
         {
             Die();
         }
