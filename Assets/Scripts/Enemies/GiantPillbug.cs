@@ -24,42 +24,33 @@ public class GiantPillbug : Enemy
     {
         if (_path.Count > 1)
         {
-            var (x, y) = GetCurrentPosition();
-            grids.SetCellOccupied(x, y, false);
-            
             Vector2Int nextMove = _path[1]; // The first move towards the target
-            transform.position = new Vector3(nextMove.x, nextMove.y, transform.position.z);
-            
-            grids.SetCellOccupied(nextMove.x, nextMove.y, true);
+            MoveTo(nextMove.x, nextMove.y); 
         }
     }
 
     protected override void UseAbility()
     {
-        var (x, y) = GetCurrentPosition();
-        grids.SetCellOccupied(x, y, false);
-        
+        var (startX, startY) = GetCurrentPosition();
         Vector2Int nextMove = _path[1];
         
-        // offset the pill bug by 1 to make sure it is not on top of the player
         int nextMoveX = nextMove.x;
         int nextMoveY = nextMove.y;
-        transform.position = new Vector3(nextMoveX, nextMoveY, transform.position.z);
+        MoveTo(nextMoveX, nextMoveY);
         
         // offset the pill bug by 1 to make sure it is not on top of the player
         // moving along the y-axis
-        if (nextMoveX == x)
+        if (nextMoveX == startX)
         {
-            nextMoveY += (y - nextMoveY) / Math.Abs(y - nextMoveY);
+            nextMoveY += (startY - nextMoveY) / Math.Abs(startY - nextMoveY);
         }
         // moving long the x-axis
-        else if (nextMoveY == y)
+        else if (nextMoveY == startY)
         {
-            nextMoveX += (x - nextMoveX) / Math.Abs(x - nextMoveX);
+            nextMoveX += (startX - nextMoveX) / Math.Abs(startX - nextMoveX);
         }
         
-        transform.position = new Vector3(nextMoveX, nextMoveY, transform.position.z);
-        grids.SetCellOccupied(nextMoveX, nextMoveY, true);
+        MoveTo(nextMoveX, nextMoveY);
         
         // do damage
         Debug.Log($"{gameObject.name} used ability.");

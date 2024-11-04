@@ -17,13 +17,8 @@ public abstract class ChargingEnemyType : Enemy
 
         if (path.Count > 1)
         {
-            var (x, y) = GetCurrentPosition();
-            grids.SetCellOccupied(x, y, false);
-            
             Vector2Int nextMove = path[1]; // The first move towards the target
-            transform.position = new Vector3(nextMove.x, nextMove.y, transform.position.z);
-            
-            grids.SetCellOccupied(nextMove.x, nextMove.y, true);
+            MoveTo(nextMove.x, nextMove.y);
         }
     }
 
