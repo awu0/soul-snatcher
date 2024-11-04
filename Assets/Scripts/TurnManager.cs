@@ -14,7 +14,7 @@ public class TurnManager : MonoBehaviour
     }
     public GameObject Player;
     public STATES state = STATES.ROUND_START;
-    public float pauseDuration = 0f;
+    public float pauseDuration = 0.25f;
 
     public EnemyManager enemyManager;
 
@@ -35,7 +35,7 @@ public class TurnManager : MonoBehaviour
             {
                 case STATES.ROUND_START:
                     //refill action count
-                    Player.GetComponent<PlayerMovement>().actionCount = Player.GetComponent<PlayerMovement>().maxActionCount;
+                    Player.GetComponent<Player>().actionCount = Player.GetComponent<Player>().maxActionCount;
                     Debug.Log("ROUND START");
                     state = STATES.PLAYER_ROUND;
                     break;
@@ -45,7 +45,7 @@ public class TurnManager : MonoBehaviour
                     //go to next round if player can't action anymore
                     if (Player != null)
                     {
-                        if (Player.GetComponent<PlayerMovement>().actionCount <= 0)
+                        if (Player.GetComponent<Player>().actionCount <= 0)
                         {
                             state = STATES.PLAYER_ACTION;
                         }

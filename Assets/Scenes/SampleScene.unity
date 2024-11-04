@@ -443,7 +443,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2069660941}
   - component: {fileID: 2069660940}
-  - component: {fileID: 2069660943}
   - component: {fileID: 2069660942}
   m_Layer: 0
   m_Name: Player
@@ -531,26 +530,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12d849c4cea9fc438b95fb4d165ea9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startX: 1
-  startY: 1
   locX: 0
   locY: 0
   maxActionCount: 1
   actionCount: 0
-  grids: {fileID: 1432450315}
+  health: 0
+  attack: 0
+  maxHealth: 0
+  startX: 0
+  startY: 0
   turnManager: {fileID: 1166715719}
---- !u!114 &2069660943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069660939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2bd77b61f913a14ba7fd0c95da8d2c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

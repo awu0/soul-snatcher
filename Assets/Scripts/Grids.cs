@@ -40,9 +40,10 @@ public class Grids : MonoBehaviour
 
         // set start point for player
         if (Player != null) {
-            playerX = Player.GetComponent<PlayerMovement>().startX;
-            playerY = Player.GetComponent<PlayerMovement>().startY;
+            playerX = Player.GetComponent<Player>().startX;
+            playerY = Player.GetComponent<Player>().startY;
             Player.transform.position = gridArray[playerX, playerY].transform.position;
+            SetCellOccupied(playerX, playerY, true);
         }
     }
 

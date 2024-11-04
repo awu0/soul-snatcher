@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
@@ -5,8 +6,8 @@ public abstract class Entity : MonoBehaviour
     public int locX;
     public int locY;
     
-    public int maxActionCount = 1;
-    public int actionCount = 0;
+    [NonSerialized] public int maxActionCount = 1;
+    [NonSerialized] public int actionCount = 0;
     
     public int health;
     public int attack;

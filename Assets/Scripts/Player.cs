@@ -1,25 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : Entity
 {
-    public int startX = 0;
-    public int startY = 0;
-    public int locX;
-    public int locY;
-    public int maxActionCount = 1;
-    public int actionCount = 0;
-    public Grids grids;
-    public GameObject turnManager;
+    [NonSerialized] public int startX = 1;
+    [NonSerialized] public int startY = 1;
+    
+    private EnemyType type;
 
-    private void Start()
+    public GameObject turnManager;
+    
+    private new void Start()
     {
+        base.Start();
+        
         locX = startX;
         locY = startY;
+        
         actionCount = maxActionCount;
         
-        grids.SetCellOccupied(locX, locY, true);
+        type = EnemyType.Slime;
+        
     }
 
     private void Update()
@@ -30,8 +33,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-    void DetectForMovement() {
+    
+    private void DetectForMovement() {
         //move up
         if (Input.GetKeyDown(KeyCode.W) && grids.HandlePlayerMovement(0, 1))
         {
@@ -56,5 +59,10 @@ public class PlayerMovement : MonoBehaviour
             locX += 1;
             actionCount -= 1;
         }
+    }
+    
+    public void PickUpSoul(Soul soul) {
+        Debug.Log($"Picked up new soul type: {soul.Type}");
+        type = soul.Type;
     }
 }
