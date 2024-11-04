@@ -8,17 +8,21 @@ public class Grids : MonoBehaviour
     public int rows = 10;
     public int columns = 10;
     public int scale = 1;
+    
     //variable for handle the player movement
     private int playerX;
     private int playerY;
+    
     //prefab of a grid
     public GameObject PrefabGrid;
-    public GameObject Player;
-    //2D array for the grids
+    
+    public Player player;
+    
+    // 2D array for the grids
     public GameObject[,] gridArray;
     
     // 2D array to determine which cells are occupied
-    private bool[,] occupiedCells;
+    private Entity[,] entityCells;
 
     // 2D array to determine which cells have souls. Separate from occupied since souls don't hinder movement
     public Soul[,] soulCells;
@@ -32,18 +36,18 @@ public class Grids : MonoBehaviour
         leftBottomLocation = transform.position;
         gridArray = new GameObject[columns, rows];
         
-        occupiedCells = new bool[columns, rows];
+        entityCells = new Entity[columns, rows];
         soulCells = new Soul[columns, rows];
         
         // generate initial grids
         GenerateGrid();
 
         // set start point for player
-        if (Player != null) {
-            playerX = Player.GetComponent<Player>().startX;
-            playerY = Player.GetComponent<Player>().startY;
-            Player.transform.position = gridArray[playerX, playerY].transform.position;
-            SetCellOccupied(playerX, playerY, true);
+        if (player != null) {
+            playerX = player.startX;
+            playerY = player.startY;
+            player.transform.position = gridArray[playerX, playerY].transform.position;
+            SetCellOccupied(playerX, playerY, player);
         }
     }
 
@@ -72,21 +76,17 @@ public class Grids : MonoBehaviour
         return x >= 0 && x < columns && y >= 0 && y < rows;
     }
     
-    public void SetCellOccupied(int x, int y, bool occupied)
+    public void SetCellOccupied(int x, int y, Entity entity)
     {
         if (x >= 0 && x < columns && y >= 0 && y < rows)
         {
-            occupiedCells[x, y] = occupied;
+            entityCells[x, y] = entity;
         }
     }
     
     public bool IsCellOccupied(int x, int y)
     {
-        if (x < 0 || x >= columns || y < 0 || y >= rows)
-        {
-            return true; // Treat out-of-bounds as occupied
-        }
-        return occupiedCells[x, y];
+        return IsPositionWithinBounds(x, y) && entityCells[x, y] != null;
     }
 
     public bool DoesCellHaveSoul(int x, int y)
@@ -107,7 +107,7 @@ public class Grids : MonoBehaviour
     // Function to change the player's position
     public bool HandlePlayerMovement(int x, int y)
     {
-        if (Player != null)
+        if (player != null)
         {
             int newX = playerX + x;
             int newY = playerY + y;
@@ -116,27 +116,26 @@ public class Grids : MonoBehaviour
             if (newX >= 0 && newX < columns && newY >= 0 && newY < rows && !IsCellOccupied(newX, newY))
             {
                 // Mark the current cell as unoccupied
-                SetCellOccupied(playerX, playerY, false);
+                SetCellOccupied(playerX, playerY, null);
             
                 // Update player's position
                 playerX = newX;
                 playerY = newY;
-                Player.transform.position = gridArray[playerX, playerY].transform.position;
+                player.transform.position = gridArray[playerX, playerY].transform.position;
 
                 // Check if new cell has a soul in it
                 if (DoesCellHaveSoul(playerX, playerY)) {
-                  Player playerClass = Player.GetComponent<Player>();
-                  Debug.Log(Player);
+                  Debug.Log(player);
                   Soul soul = soulCells[playerX, playerY];
 
-                  playerClass.PickUpSoul(soul);
+                  player.PickUpSoul(soul);
 
                   soulCells[playerX, playerY] = null;
                   Destroy(soul.gameObject);
                 }
 
                 // Mark the new cell as occupied
-                SetCellOccupied(playerX, playerY, true);
+                SetCellOccupied(playerX, playerY, player);
                 return true;
             }
             else

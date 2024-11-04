@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
                     //refill action count
                     Player.GetComponent<Player>().actionCount = Player.GetComponent<Player>().maxActionCount;
                     Debug.Log("ROUND START");
+                    Debug.Log($"Health: {Player.GetComponent<Player>().health}");
                     state = STATES.PLAYER_ROUND;
                     break;
 

@@ -34,7 +34,7 @@ public class EnemyManager : MonoBehaviour
         
         _enemies.Add(newEnemy);
         
-        grids.SetCellOccupied(x, y, true);
+        grids.SetCellOccupied(x, y, newEnemy);
     }
     
     /**

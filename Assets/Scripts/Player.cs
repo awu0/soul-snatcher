@@ -7,34 +7,38 @@ public class Player : Entity
 {
     [NonSerialized] public int startX = 1;
     [NonSerialized] public int startY = 1;
-    
+
     private EnemyType type;
 
     public GameObject turnManager;
-    
+
     private new void Start()
     {
         base.Start();
-        
+
         locX = startX;
         locY = startY;
-        
+
         actionCount = maxActionCount;
-        
+
         type = EnemyType.Slime;
-        
+
+        SetStats(20, 5);
     }
 
     private void Update()
     {
-        if (turnManager != null) {
-            if (turnManager.GetComponent<GameManager>().state == GameManager.STATES.PLAYER_ROUND) { 
+        if (turnManager != null)
+        {
+            if (turnManager.GetComponent<GameManager>().state == GameManager.STATES.PLAYER_ROUND)
+            {
                 DetectForMovement();
             }
         }
     }
-    
-    private void DetectForMovement() {
+
+    private void DetectForMovement()
+    {
         //move up
         if (Input.GetKeyDown(KeyCode.W) && grids.HandlePlayerMovement(0, 1))
         {
@@ -60,8 +64,9 @@ public class Player : Entity
             actionCount -= 1;
         }
     }
-    
-    public void PickUpSoul(Soul soul) {
+
+    public void PickUpSoul(Soul soul)
+    {
         Debug.Log($"Picked up new soul type: {soul.Type}");
         type = soul.Type;
     }

@@ -335,7 +335,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 2069660939}
   state: 0
-  pauseDuration: 0.25
   enemyManager: {fileID: 442440895}
 --- !u!4 &1166715721
 Transform:
@@ -416,7 +415,7 @@ MonoBehaviour:
   columns: 10
   scale: 1
   PrefabGrid: {fileID: 4399044442434539005, guid: 33c1cdc85b9d4ef4ba0010eef56334cc, type: 3}
-  Player: {fileID: 2069660939}
+  player: {fileID: 2069660942}
   leftBottomLocation: {x: 0, y: 0}
 --- !u!4 &1432450316
 Transform:
@@ -530,11 +529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c12d849c4cea9fc438b95fb4d165ea9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locX: 0
-  locY: 0
-  health: 0
-  attack: 0
-  maxHealth: 0
   turnManager: {fileID: 1166715719}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

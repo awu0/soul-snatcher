@@ -53,11 +53,11 @@ public abstract class Entity : MonoBehaviour
         }
         
         var (x, y) = GetCurrentPosition();
-        grids.SetCellOccupied(x, y, false);
+        grids.SetCellOccupied(x, y, null);
             
         transform.position = new Vector3(newX, newY, transform.position.z);
             
-        grids.SetCellOccupied(newX, newY, true);
+        grids.SetCellOccupied(newX, newY, this);
         
         locX = newX;
         locY = newY;
