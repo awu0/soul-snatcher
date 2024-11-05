@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/**
- *
- */
+/// <summary>
+/// Moves like a rook.
+/// </summary>
 public class GiantPillbug : Enemy
 {
     private readonly Vector2Int[] _directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
@@ -18,48 +18,43 @@ public class GiantPillbug : Enemy
 
         // set the base stats
         SetStats(maxHp: 20, atk: 2);
+        
+        ability = gameObject.AddComponent<PillbugRoll>();
+        ability.Initialize(this, 5);
     }
 
     protected override void Move()
     {
         if (_path.Count > 1)
         {
-            var (x, y) = GetCurrentPosition();
-            grids.SetCellOccupied(x, y, false);
-            
             Vector2Int nextMove = _path[1]; // The first move towards the target
-            transform.position = new Vector3(nextMove.x, nextMove.y, transform.position.z);
-            
-            grids.SetCellOccupied(nextMove.x, nextMove.y, true);
+            MoveTo(nextMove.x, nextMove.y); 
         }
     }
 
     protected override void UseAbility()
     {
-        var (x, y) = GetCurrentPosition();
-        grids.SetCellOccupied(x, y, false);
+        // determine the correct direction
+        var (playerX, playerY) = GetPlayerPosition();
+        var (currentX, currentY) = GetCurrentPosition();
         
-        Vector2Int nextMove = _path[1];
-        
-        // offset the pill bug by 1 to make sure it is not on top of the player
-        int nextMoveX = nextMove.x;
-        int nextMoveY = nextMove.y;
-        // moving along the y-axis
-        if (nextMoveX == x)
+        Vector2Int direction = Vector2Int.zero;
+
+        // determine direction if in the same row or column
+        if (currentX == playerX) // same column, move vertically
         {
-            nextMoveY += (y - nextMoveY) / Math.Abs(y - nextMoveY);
+            direction = playerY > currentY ? Vector2Int.up : Vector2Int.down;
         }
-        // moving long the x-axis
-        else if (nextMoveY == y)
+        else if (currentY == playerY) // same row, move horizontally
         {
-            nextMoveX += (x - nextMoveX) / Math.Abs(x - nextMoveX);
+            direction = playerX > currentX ? Vector2Int.right : Vector2Int.left;
         }
         
-        transform.position = new Vector3(nextMoveX, nextMoveY, transform.position.z);
-        grids.SetCellOccupied(nextMoveX, nextMoveY, true);
-        
-        // do damage
-        Debug.Log($"{gameObject.name} used ability.");
+        // Only activate the ability if a direction is determined
+        if (direction != Vector2Int.zero)
+        {
+            ((PillbugRoll)ability).ActivateAbility(grids, direction);
+        }
     }
 
     /**

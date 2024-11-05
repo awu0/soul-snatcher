@@ -9,27 +9,19 @@ public enum EnemyType {
     GiantPillbug,
 };
 
-public abstract class Enemy : MonoBehaviour
+public abstract class Enemy : Entity
 {
-    public int health;
-    public int attack;
-    public int maxHealth;
     public EnemyType type;
+    private Player Player;
 
-    protected Grids grids;
-    protected GameObject Player;
-
-    public void Start()
+    public new void Start()
     {
+        base.Start();
+        
         gameObject.tag = "Enemy";
         
-        var gridObject = GameObject.FindGameObjectWithTag("Game Board");
-        if (gridObject != null)
-        {
-            grids = gridObject.GetComponent<Grids>();
-        }
-
-        Player = GameObject.FindGameObjectWithTag("Player");
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        Player = playerObject.GetComponent<Player>();
     }
 
     /**
@@ -57,23 +49,7 @@ public abstract class Enemy : MonoBehaviour
      */
     protected abstract bool AbilityConditionsMet();
 
-    protected void SetStats(int maxHp, int atk)
-    {
-        maxHealth = maxHp;
-        health = maxHealth;
-        attack = atk;
-    }
-
-    public virtual void TakeDamage(int amount)
-    {
-        health -= amount;
-        if (health <= 0)
-        {
-            Die();
-        }
-    }
-
-    public void Die()
+    public override void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
 
@@ -81,13 +57,6 @@ public abstract class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    /**
-     * Returns this enemy's current position
-     */
-    protected (int x, int y) GetCurrentPosition()
-    {
-        return ((int)transform.position.x, (int)transform.position.y);
-    }
 
     /**
      * Returns the player's current position

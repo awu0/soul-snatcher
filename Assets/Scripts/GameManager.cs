@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurnManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public enum STATES
     {
@@ -12,15 +13,21 @@ public class TurnManager : MonoBehaviour
         ENEMY_ROUND,
         ROUND_END,
     }
-    public GameObject Player;
+    public Player player;
+
+    private const int _playerStartX = 1;
+    private const int _playerStartY = 1;
+    
     public STATES state = STATES.ROUND_START;
-    public float pauseDuration = 0f;
+    [NonSerialized] public float pauseDuration = 0.25f;
 
     public EnemyManager enemyManager;
 
     private void Start()
     {
         StartCoroutine(RunTurnManager());
+        
+        player.MoveTo(_playerStartX, _playerStartY);
         
         enemyManager.SpawnEnemy<WeaklingEnemy>(1, 9);
         enemyManager.SpawnEnemy<WeaklingEnemy>(9, 1);
@@ -35,7 +42,7 @@ public class TurnManager : MonoBehaviour
             {
                 case STATES.ROUND_START:
                     //refill action count
-                    Player.GetComponent<PlayerMovement>().actionCount = Player.GetComponent<PlayerMovement>().maxActionCount;
+                    player.actionCount = player.maxActionCount;
                     Debug.Log("ROUND START");
                     state = STATES.PLAYER_ROUND;
                     break;
@@ -43,9 +50,9 @@ public class TurnManager : MonoBehaviour
                 case STATES.PLAYER_ROUND:
                     Debug.Log("PLAYER ROUND");
                     //go to next round if player can't action anymore
-                    if (Player != null)
+                    if (player != null)
                     {
-                        if (Player.GetComponent<PlayerMovement>().actionCount <= 0)
+                        if (player.actionCount <= 0)
                         {
                             state = STATES.PLAYER_ACTION;
                         }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/**
- * This abstract enemy has a movement type of finding the shortest path to the player. Moves 1 tile per turn.
- * The enemy that inherits this will have this movement behavior.
- */
+/// <summary>
+/// This abstract enemy has a movement type of finding the shortest path to the player. Moves 1 tile per turn.
+/// The enemy that inherits this will have this movement behavior.
+/// </summary>
 public abstract class ChargingEnemyType : Enemy
 {
     private readonly Vector2Int[] _directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
@@ -17,13 +17,8 @@ public abstract class ChargingEnemyType : Enemy
 
         if (path.Count > 1)
         {
-            var (x, y) = GetCurrentPosition();
-            grids.SetCellOccupied(x, y, false);
-            
             Vector2Int nextMove = path[1]; // The first move towards the target
-            transform.position = new Vector3(nextMove.x, nextMove.y, transform.position.z);
-            
-            grids.SetCellOccupied(nextMove.x, nextMove.y, true);
+            MoveTo(nextMove.x, nextMove.y);
         }
     }
 

@@ -14,18 +14,6 @@ public class EnemyManager : MonoBehaviour
     
     public Grids grids;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SpawnEnemy<T>(int x, int y) where T : Enemy
     {
         // Check if the target position is free
@@ -40,10 +28,13 @@ public class EnemyManager : MonoBehaviour
         Vector3 position = new Vector3(x, y, 0);
         GameObject newEnemyObject = Instantiate(prefab, position, Quaternion.identity);
         Enemy newEnemy = newEnemyObject.GetComponent<Enemy>();
+
+        newEnemy.locX = x;
+        newEnemy.locY = y;
         
         _enemies.Add(newEnemy);
         
-        grids.SetCellOccupied(x, y, true);
+        grids.SetCellOccupied(x, y, newEnemy);
     }
     
     /**

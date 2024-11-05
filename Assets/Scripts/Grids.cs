@@ -8,17 +8,15 @@ public class Grids : MonoBehaviour
     public int rows = 10;
     public int columns = 10;
     public int scale = 1;
-    //variable for handle the player movement
-    private int playerX;
-    private int playerY;
+    
     //prefab of a grid
     public GameObject PrefabGrid;
-    public GameObject Player;
-    //2D array for the grids
+    
+    // 2D array for the grids
     public GameObject[,] gridArray;
     
     // 2D array to determine which cells are occupied
-    private bool[,] occupiedCells;
+    private Entity[,] entityCells;
 
     // 2D array to determine which cells have souls. Separate from occupied since souls don't hinder movement
     public Soul[,] soulCells;
@@ -32,18 +30,11 @@ public class Grids : MonoBehaviour
         leftBottomLocation = transform.position;
         gridArray = new GameObject[columns, rows];
         
-        occupiedCells = new bool[columns, rows];
+        entityCells = new Entity[columns, rows];
         soulCells = new Soul[columns, rows];
         
         // generate initial grids
         GenerateGrid();
-
-        // set start point for player
-        if (Player != null) {
-            playerX = Player.GetComponent<PlayerMovement>().startX;
-            playerY = Player.GetComponent<PlayerMovement>().startY;
-            Player.transform.position = gridArray[playerX, playerY].transform.position;
-        }
     }
 
     //Function for generating the grids, use the columns and rows and generate equal amount of grid prefab 
@@ -70,22 +61,23 @@ public class Grids : MonoBehaviour
     {
         return x >= 0 && x < columns && y >= 0 && y < rows;
     }
+
+    public Entity GetEntityAt(int x, int y)
+    {
+        return entityCells[x, y];
+    }
     
-    public void SetCellOccupied(int x, int y, bool occupied)
+    public void SetCellOccupied(int x, int y, Entity entity)
     {
         if (x >= 0 && x < columns && y >= 0 && y < rows)
         {
-            occupiedCells[x, y] = occupied;
+            entityCells[x, y] = entity;
         }
     }
     
     public bool IsCellOccupied(int x, int y)
     {
-        if (x < 0 || x >= columns || y < 0 || y >= rows)
-        {
-            return true; // Treat out-of-bounds as occupied
-        }
-        return occupiedCells[x, y];
+        return IsPositionWithinBounds(x, y) && entityCells[x, y] != null;
     }
 
     public bool DoesCellHaveSoul(int x, int y)
@@ -103,46 +95,28 @@ public class Grids : MonoBehaviour
       return false;
     }
     
-    // Function to change the player's position
-    public bool HandlePlayerMovement(int x, int y)
+    public void PrintEntityGrid()
     {
-        if (Player != null)
+        Debug.Log("Entity Grid:");
+    
+        // Iterate over rows from top to bottom for a more natural display
+        for (int y = rows - 1; y >= 0; y--)
         {
-            int newX = playerX + x;
-            int newY = playerY + y;
-
-            // Check if the new position is within bounds and not occupied
-            if (newX >= 0 && newX < columns && newY >= 0 && newY < rows && !IsCellOccupied(newX, newY))
+            string gridOutput = "";
+            for (int x = 0; x < columns; x++)
             {
-                // Mark the current cell as unoccupied
-                SetCellOccupied(playerX, playerY, false);
-            
-                // Update player's position
-                playerX = newX;
-                playerY = newY;
-                Player.transform.position = gridArray[playerX, playerY].transform.position;
-
-                // Check if new cell has a soul in it
-                if (DoesCellHaveSoul(playerX, playerY)) {
-                  Player playerClass = Player.GetComponent<Player>();
-                  Debug.Log(Player);
-                  Soul soul = soulCells[playerX, playerY];
-
-                  playerClass.PickUpSoul(soul);
-
-                  soulCells[playerX, playerY] = null;
-                  Destroy(soul.gameObject);
+                if (entityCells[x, y] != null)
+                {
+                    // Shorten to first character or name for compactness
+                    gridOutput += entityCells[x, y].gameObject.name[0] + " ";
                 }
-
-                // Mark the new cell as occupied
-                SetCellOccupied(playerX, playerY, true);
-                return true;
+                else
+                {
+                    gridOutput += "x "; // Use "." to indicate an empty cell
+                }
             }
-            else
-            {
-                Debug.Log("Cannot move to the desired position: out of bounds or occupied.");
-            }
+            Debug.Log(gridOutput);
         }
-        return false;
+
     }
 }
