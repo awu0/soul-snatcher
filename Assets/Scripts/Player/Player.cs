@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        stats.ChangeHealth(stats.health-amount);
+        stats.SetHealth(stats.health-amount);
         if (stats.health <= 0)
         {
             Die();
