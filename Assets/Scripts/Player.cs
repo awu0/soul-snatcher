@@ -93,10 +93,10 @@ public class Player : Entity
     private void HandleLeftClickAction()
     {
         if (Input.GetMouseButtonDown(0))
-        {
+        {   
             Enemy enemy = gameManager.FindEnemy(Input.mousePosition);
-            if (selectedAction == SELECTED.ATTACK && enemy)
-            {
+            if (enemy)
+            {   
                 BasicAttack(enemy);
                 actionCount -= 1;
             }
@@ -104,7 +104,8 @@ public class Player : Entity
     }
 
     private void BasicAttack(Enemy enemy) //Maybe only usable when your form allows basic attacks
-    {
+    {   
+        Debug.Log($"Attacked: {enemy}");
         enemy.TakeDamage(attack);
     }
 

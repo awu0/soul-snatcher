@@ -120,8 +120,10 @@ public class Grids : MonoBehaviour
 
     }
 
-    public (int x, int y) ConvertToGridPosition(Vector2 worldPosition) //Converts world position to grid position
+    public (int x, int y) ConvertToGridPosition(Vector2 screenPosition) // Converts screen position to grid position
     {
+    // Convert screen position to world position
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, Camera.main.nearClipPlane));
         int gridX = Mathf.FloorToInt(worldPosition.x) / scale;
         int gridY = Mathf.FloorToInt(worldPosition.y) / scale;
 

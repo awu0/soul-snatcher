@@ -23,7 +23,16 @@ public class GameManager : MonoBehaviour
 
     public EnemyManager enemyManager;
 
-    public Grids grid;
+    public Grids grids;
+
+    public void Awake()
+    {
+        var gridObject = GameObject.FindGameObjectWithTag("Game Board");
+        if (gridObject != null)
+        {
+            grids = gridObject.GetComponent<Grids>();
+        } 
+    }
 
     private void Start()
     {
@@ -93,7 +102,8 @@ public class GameManager : MonoBehaviour
 
     public Enemy FindEnemy(Vector2 mousePos)
     {
-        (int x, int y) pos = grid.ConvertToGridPosition(mousePos);
+        (int x, int y) pos = grids.ConvertToGridPosition(mousePos);
+        Debug.Log($"MousePosition: {pos}");
         return enemyManager.CheckForEnemy(pos);
     }
 }
