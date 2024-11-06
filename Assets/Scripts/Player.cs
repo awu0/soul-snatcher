@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class Player : Entity
 {
+    public enum SELECTED
+    {
+        ATTACK,
+        ABILITY, //Ability1, Ability2, ... 
+    }
+
+    public SELECTED selectedAction = SELECTED.ATTACK;
+
     private EnemyType type;
 
     public GameManager gameManager;
@@ -17,7 +25,7 @@ public class Player : Entity
 
         type = EnemyType.Slime;
 
-        SetStats(20, 5);
+        SetStats(maxHealth:20, attack:5, range:1);
     }
 
     private void Update()
@@ -25,7 +33,8 @@ public class Player : Entity
         if (gameManager != null)
         {
             if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
-            {
+            {   
+                HandleLeftClickAction();
                 DetectForMovement();
             }
         }
@@ -79,6 +88,24 @@ public class Player : Entity
             grids.soulCells[playerX, playerY] = null;
             Destroy(soul.gameObject);
         }
+    }
+
+    private void HandleLeftClickAction()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Enemy enemy = gameManager.FindEnemy(Input.mousePosition);
+            if (selectedAction == SELECTED.ATTACK && enemy)
+            {
+                BasicAttack(enemy);
+                actionCount -= 1;
+            }
+        }
+    }
+
+    private void BasicAttack(Enemy enemy) //Maybe only usable when your form allows basic attacks
+    {
+        enemy.TakeDamage(attack);
     }
 
     public void PickUpSoul(Soul soul)

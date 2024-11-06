@@ -119,4 +119,12 @@ public class Grids : MonoBehaviour
         }
 
     }
+
+    public (int x, int y) ConvertToGridPosition(Vector2 worldPosition) //Converts world position to grid position
+    {
+        int gridX = Mathf.FloorToInt(worldPosition.x) / scale;
+        int gridY = Mathf.FloorToInt(worldPosition.y) / scale;
+
+        return (gridX, gridY);
+    }
 }

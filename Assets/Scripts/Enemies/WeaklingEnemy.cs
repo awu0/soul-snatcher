@@ -10,7 +10,7 @@ public class WeaklingEnemy : ChargingEnemyType
         base.Start();
         
         // set the base stats
-        SetStats(maxHp: 20, atk: 2);
+        SetStats(maxHealth: 20, attack: 2, range:1);
     }
     
     protected override void UseAbility()

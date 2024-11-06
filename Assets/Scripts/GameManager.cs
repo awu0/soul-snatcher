@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     public EnemyManager enemyManager;
 
+    public Grids grid;
+
     private void Start()
     {
         StartCoroutine(RunTurnManager());
@@ -87,5 +89,11 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public Enemy FindEnemy(Vector2 mousePos)
+    {
+        (int x, int y) pos = grid.ConvertToGridPosition(mousePos);
+        return enemyManager.CheckForEnemy(pos);
     }
 }

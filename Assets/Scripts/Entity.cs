@@ -15,27 +15,31 @@ public abstract class Entity : MonoBehaviour
     [NonSerialized] public int health;
     [NonSerialized] public int attack;
     [NonSerialized] public int maxHealth;   
+    [NonSerialized] public int range;
     protected Ability ability;
     
     protected Grids grids;
 
-    public void Start()
+    public void Awake()
     {
-        actionCount = maxActionCount; 
-        
-        // initialize the Grids object
         var gridObject = GameObject.FindGameObjectWithTag("Game Board");
         if (gridObject != null)
         {
             grids = gridObject.GetComponent<Grids>();
-        }
+        } 
+    }
+
+    public void Start()
+    {
+        actionCount = maxActionCount; 
     }
     
-    protected void SetStats(int maxHp, int atk)
+    protected void SetStats(int maxHealth, int attack, int range)
     {
-        maxHealth = maxHp;
-        health = maxHealth;
-        attack = atk;
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
+        this.attack = attack;
+        this.range = range;
     }
 
     /// <summary>
