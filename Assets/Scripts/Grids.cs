@@ -80,6 +80,14 @@ public class Grids : MonoBehaviour
         return IsPositionWithinBounds(x, y) && entityCells[x, y] != null;
     }
 
+    public Entity GetEntityAtMouse(Vector2 mousePos)
+    {
+        (int x, int y) pos = ConvertToGridPosition(mousePos);
+        Debug.Log($"MousePosition: {pos}");
+        
+        return GetEntityAt(pos.x, pos.y);
+    }
+    
     public bool DoesCellHaveSoul(int x, int y)
     {
       return soulCells[x, y] != null;

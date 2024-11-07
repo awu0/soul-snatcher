@@ -94,19 +94,19 @@ public class Player : Entity
     {
         if (Input.GetMouseButtonDown(0))
         {   
-            Enemy enemy = gameManager.FindEnemy(Input.mousePosition);
-            if (enemy)
+            Entity entity = grids.GetEntityAtMouse(Input.mousePosition);
+            if (entity)
             {   
-                BasicAttack(enemy);
+                BasicAttack(entity);
                 actionCount -= 1;
             }
         }
     }
 
-    private void BasicAttack(Enemy enemy) //Maybe only usable when your form allows basic attacks
+    private void BasicAttack(Entity entity) //Maybe only usable when your form allows basic attacks
     {   
-        Debug.Log($"Attacked: {enemy}");
-        enemy.TakeDamage(attack);
+        Debug.Log($"Attacked: {entity}");
+        entity.TakeDamage(attack);
     }
 
     public void PickUpSoul(Soul soul)

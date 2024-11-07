@@ -101,10 +101,4 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public Enemy FindEnemy(Vector2 mousePos)
-    {
-        (int x, int y) pos = grids.ConvertToGridPosition(mousePos);
-        Debug.Log($"MousePosition: {pos}");
-        return enemyManager.CheckForEnemy(pos);
-    }
 }

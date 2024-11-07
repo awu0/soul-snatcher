@@ -56,18 +56,6 @@ public class EnemyManager : MonoBehaviour
         return _enemies.Count;
     }
 
-    public Enemy CheckForEnemy((int x, int y) pos)
-    {
-        for (int i=0; i<GetEnemiesCount(); i++)
-        {
-            if (pos == enemies[i].GetCurrentPosition())
-            {   
-                return enemies[i];
-            }
-        }
-        return null;
-    }
-
     public void RemoveDeadEnemies()
     {
         _enemies.RemoveAll(enemy => enemy == null);
