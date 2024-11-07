@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
                     break;
 
                 case STATES.PLAYER_ROUND:
-                    Debug.Log("PLAYER ROUND");
+                    // Debug.Log("PLAYER ROUND");
                     //go to next round if player can't action anymore
                     if (player != null)
                     {

@@ -55,6 +55,12 @@ public abstract class Entity : MonoBehaviour
             Debug.LogWarning($"{gameObject}.MoveTo({newX}, {newY}) is out of range!");
             return;
         }
+
+        if (grids.IsCellOccupied(newX, newY))
+        {
+            Debug.LogWarning($"{gameObject}.MoveTo({newX}, {newY}), but there is already something there!");
+            return;
+        }
         
         var (x, y) = GetCurrentPosition();
         grids.SetCellOccupied(x, y, null);
