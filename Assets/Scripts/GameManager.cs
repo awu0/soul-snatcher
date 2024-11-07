@@ -36,13 +36,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(RunTurnManager());
-        
         player.MoveTo(_playerStartX, _playerStartY);
         
         enemyManager.SpawnEnemy<WeaklingEnemy>(1, 9);
         enemyManager.SpawnEnemy<WeaklingEnemy>(9, 1);
         enemyManager.SpawnEnemy<GiantPillbug>(9, 9);
+        
+        StartCoroutine(RunTurnManager());
     }
 
     private IEnumerator RunTurnManager()
