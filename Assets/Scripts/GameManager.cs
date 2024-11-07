@@ -83,8 +83,9 @@ public class GameManager : MonoBehaviour
                 case STATES.ENEMY_ROUND:
                     Debug.Log("ENEMY ROUND");
 
+                    enemyManager.RemoveDeadEnemies();
                     foreach (var enemy in enemyManager.enemies)
-                    {
+                    {   
                         enemy.DetermineNextMove();
                         yield return new WaitForSeconds(pauseDuration);
                     }

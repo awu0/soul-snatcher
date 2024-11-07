@@ -67,4 +67,9 @@ public class EnemyManager : MonoBehaviour
         }
         return null;
     }
+
+    public void RemoveDeadEnemies()
+    {
+        _enemies.RemoveAll(enemy => enemy == null);
+    }
 }
