@@ -15,10 +15,10 @@ public class Grids : MonoBehaviour
     // 2D array for the grids
     public GameObject[,] gridArray;
     
-    // 2D array to determine which cells are occupied
+    // 2D array to determine which cells are occupied, contains the reference to Entities
     private Entity[,] entityCells;
 
-    // 2D array to determine which cells have souls. Separate from occupied since souls don't hinder movement
+    // 2D array to determine which cells have souls. Separate from entityCells since souls don't hinder movement
     public Soul[,] soulCells;
     
     //generation point of the grids
