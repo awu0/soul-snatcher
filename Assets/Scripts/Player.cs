@@ -95,7 +95,7 @@ public class Player : Entity
         if (Input.GetMouseButtonDown(0))
         {   
             Entity entity = grids.GetEntityAtMouse(Input.mousePosition);
-            if (entity)
+            if (entity && entity != this)
             {   
                 BasicAttack(entity);
                 actionCount -= 1;
