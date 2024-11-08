@@ -6,26 +6,31 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    private const float DAMAGED_HEALTH_FADE_TIMER_MAX = 1f;
+
     public Player playerScript;
     public Image healthBar;
     public Image damagedBar;
+    public float cutBarOffset;
+    public Transform cutBarTemplate;
+
     public bool takeDamage;
     public bool heal;
+
     private float currentHealth;
-    private Color damagedColor;
-    private float damagedHealthFadeTimer;
+    public float barWidth = 332.5f;
+    private float damagedHealthShrinkTimer;
+    private const float DAMAGED_HEALTH_SHRINK_TIMER_MAX = 1f;
 
     private void Awake()
     {
-        damagedColor = damagedBar.color;
-        damagedColor.a = 0f;
-        damagedBar.color = damagedColor;
+        cutBarTemplate = transform.Find("CutBarTemplate");
     }
+
     private void Start()
     {
         playerScript = FindObjectOfType<Player>();
         currentHealth = playerScript.health;
+        damagedBar.fillAmount = healthBar.fillAmount;
     }
 
     private void Update()
@@ -53,39 +58,34 @@ public class PlayerHealth : MonoBehaviour
             }
         }
 
-        if (damagedColor.a > 0) { 
-            damagedHealthFadeTimer -= Time.deltaTime;
-            if (damagedHealthFadeTimer < 0) {
-                float fadeAmount = 5f;
-                damagedColor.a -= fadeAmount * Time.deltaTime;
-                damagedBar.color = damagedColor;
-            }
+        damagedHealthShrinkTimer -= Time.deltaTime;
+        if (damagedHealthShrinkTimer < 0) {
+            if (healthBar.fillAmount < damagedBar.fillAmount) {
+                float shrinkSpeed = .1f;
+                damagedBar.fillAmount -= shrinkSpeed * Time.deltaTime;
+            }  
         }
+
     }
 
-    private void SetDamage() { 
-        //damaged bar is invisible
-        if (damagedColor.a <= 0)
-        {
-            
-            damagedBar.fillAmount = healthBar.fillAmount;
-            damagedColor.a = 1;
-            damagedBar.color = damagedColor;
-            damagedHealthFadeTimer = DAMAGED_HEALTH_FADE_TIMER_MAX;
-        }
-        //damaged bar is already visible
-        else {
-            damagedColor.a = 1;
-            damagedBar.color = damagedColor;
-            damagedHealthFadeTimer = DAMAGED_HEALTH_FADE_TIMER_MAX;
-        }
-
+    private void SetDamage() {
+        damagedHealthShrinkTimer = DAMAGED_HEALTH_SHRINK_TIMER_MAX;
+        float beforeDamagedFillAmount = healthBar.fillAmount;
         healthBar.fillAmount = Mathf.Clamp((float)playerScript.health / playerScript.maxHealth, 0, 1);
+        Transform cutBar = Instantiate(cutBarTemplate, transform);
+        cutBar.gameObject.SetActive(true);
+        cutBar.transform.localScale = new Vector3(1.4f, 1.4f, 1);
+        cutBar.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthBar.fillAmount * barWidth + barWidth/2 + cutBarOffset,
+            cutBar.GetComponent<RectTransform>().anchoredPosition.y);
+        cutBar.GetComponent<Image>().fillAmount = beforeDamagedFillAmount - healthBar.fillAmount;
+        cutBar.gameObject.AddComponent<HealthBarCutFallDown>();
+
     }
 
     private void SetHeal()
     {
         healthBar.fillAmount = Mathf.Clamp((float)playerScript.health / playerScript.maxHealth, 0, 1);
+        damagedBar.fillAmount = healthBar.fillAmount;
     }
 
 
