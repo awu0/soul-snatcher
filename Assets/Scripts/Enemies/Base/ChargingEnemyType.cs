@@ -39,7 +39,8 @@ public abstract class ChargingEnemyType : Enemy
             }
         }
         
-        Vector2Int position = new Vector2Int((int)transform.position.x, (int)transform.position.y);
+        (int x, int y) currentPosition = GetCurrentPosition();
+        Vector2Int position = new Vector2Int(currentPosition.x, currentPosition.y);
 
         // Set the starting position distance to 0
         distanceGrid[position.x, position.y] = 0;
