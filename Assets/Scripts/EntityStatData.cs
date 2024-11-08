@@ -4,7 +4,8 @@ public enum EntityType
 {
     Slime,
     Weakling,
-    GiantPillbug
+    GiantPillbug,
+    EvilEye
 }
 
 public class EntityBaseStats
@@ -28,5 +29,6 @@ public static class EntityData
       [EntityType.Slime] = new EntityBaseStats(attack: 5, maxHealth: 20, range: 1),
       [EntityType.GiantPillbug] = new EntityBaseStats(attack: 6, maxHealth: 20, range: 1),
       [EntityType.Weakling] = new EntityBaseStats(attack: 3, maxHealth: 10, range: 1),
+      [EntityType.EvilEye] = new EntityBaseStats(attack: 5, maxHealth: 7, range: 1),
   };
 }

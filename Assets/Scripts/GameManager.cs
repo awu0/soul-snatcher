@@ -39,8 +39,8 @@ public class GameManager : MonoBehaviour
         player.MoveTo(_playerStartX, _playerStartY);
         
         enemyManager.SpawnEnemy<WeaklingEnemy>(1, 9);
-        enemyManager.SpawnEnemy<WeaklingEnemy>(9, 1);
-        enemyManager.SpawnEnemy<GiantPillbug>(9, 9);
+        enemyManager.SpawnEnemy<EvilEye>(9, 1);
+        // enemyManager.SpawnEnemy<GiantPillbug>(9, 9);
         
         StartCoroutine(RunTurnManager());
     }

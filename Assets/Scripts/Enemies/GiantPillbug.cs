@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class GiantPillbug : Enemy
 {
-    private readonly Vector2Int[] _directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
     private int[,] _distanceGrid;
     private List<Vector2Int> _path;
     
@@ -21,7 +20,7 @@ public class GiantPillbug : Enemy
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.GiantPillbug);
         
         ability = gameObject.AddComponent<PillbugRoll>();
-        ability.Initialize(this, 5);
+        ability.Initialize(this, stats.Attack);
     }
 
     protected override void Move()
@@ -109,7 +108,7 @@ public class GiantPillbug : Enemy
             int currentDistance = distanceGrid[current.x, current.y];
 
             // Traverse in each direction until blocked
-            foreach (var direction in _directions)
+            foreach (var direction in Directions)
             {
                 Vector2Int neighbor = current + direction;
                 while (IsPositionValid(neighbor) && distanceGrid[neighbor.x, neighbor.y] == -1)
@@ -146,7 +145,7 @@ public class GiantPillbug : Enemy
             Vector2Int? nextStep = null;
             int minDistance = int.MaxValue;
 
-            foreach (var direction in _directions)
+            foreach (var direction in Directions)
             {
                 Vector2Int neighbor = currentPosition + direction;
                 while (IsWithinBounds(neighbor) && distanceGrid[neighbor.x, neighbor.y] != -1)

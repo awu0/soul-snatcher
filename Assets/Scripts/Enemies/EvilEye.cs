@@ -1,6 +1,3 @@
-﻿# Template for creating new enemy
-
-```csharp
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,20 +6,15 @@ using UnityEngine;
 /**
  * Description
  */
-public class NewEnemy : Enemy
+public class EvilEye : RangedEnemyType
 {
     public new void Start()
     {
         base.Start();
 
         // set the base stats
-        EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.NewEnemy];
-        SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.NewEnemy);
-    }
-
-    protected override void Move()
-    {
-        
+        EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.EvilEye];
+        SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.EvilEye);
     }
 
     protected override void UseAbility()
@@ -31,8 +23,8 @@ public class NewEnemy : Enemy
     }
 
     /**
-     * Attack Range:
-     * Conditions:
+     * Attack Range: straight line down
+     * Conditions: directly across from player
      */
     protected override bool AbilityConditionsMet()
     {
@@ -51,4 +43,3 @@ public class NewEnemy : Enemy
         }
     }
 }
-```

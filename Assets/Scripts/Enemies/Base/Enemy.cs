@@ -5,6 +5,8 @@ using UnityEngine;
 
 public abstract class Enemy : Entity
 {
+    protected readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+    
     private Player Player;
 
     public new void Start()
