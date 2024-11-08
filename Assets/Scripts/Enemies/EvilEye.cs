@@ -15,11 +15,38 @@ public class EvilEye : RangedEnemyType
         // set the base stats
         EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.EvilEye];
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.EvilEye);
+        
+        ability = gameObject.AddComponent<EyeLaser>();
+        ability.Initialize(this, stats.Attack);
     }
 
     protected override void UseAbility()
     {
         Debug.Log($"{gameObject.name} used ability.");
+        
+        // damage every entity in the same column towards the player
+        
+        // determine the correct direction
+        var (playerX, playerY) = GetPlayerPosition();
+        var (currentX, currentY) = GetCurrentPosition();
+        
+        Vector2Int direction = Vector2Int.zero;
+
+        // determine direction if in the same row or column
+        if (currentX == playerX) // same column, move vertically
+        {
+            direction = playerY > currentY ? Vector2Int.up : Vector2Int.down;
+        }
+        else if (currentY == playerY) // same row, move horizontally
+        {
+            direction = playerX > currentX ? Vector2Int.right : Vector2Int.left;
+        }
+        
+        // Only activate the ability if a direction is determined
+        if (direction != Vector2Int.zero)
+        {
+            ((EyeLaser)ability).ActivateAbility(grids, direction);
+        }
     }
 
     /**
