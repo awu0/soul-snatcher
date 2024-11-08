@@ -3,15 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyType {
-    Slime,
-    Weakling,
-    GiantPillbug,
-};
-
 public abstract class Enemy : Entity
 {
-    public EnemyType type;
     private Player Player;
 
     public new void Start()
@@ -53,8 +46,23 @@ public abstract class Enemy : Entity
     {
         Debug.Log($"{gameObject.name} has died.");
 
-        SpawnSoul();
+        // Create a soul object for dying enemy
+        GameObject soulPrefab = Resources.Load<GameObject>("Prefabs/Soul");
+        (int x, int y) enemyPosition = GetCurrentPosition();
+        GameObject newSoul = Instantiate(soulPrefab, new Vector3(enemyPosition.x, enemyPosition.y, 0), Quaternion.identity);
+        Soul soulClass = newSoul.GetComponent<Soul>();
+        if (soulClass == null) {
+          Debug.Log($"Could not load newly created soul.");
+          return;
+        }
+
+        soulClass.Initialize(type);
         Destroy(gameObject);
+
+        Player.AbsorbSoul(soulClass);
+
+        // Tempoary. Will add logic that displays the soul moving towards the player automatically
+        Destroy(newSoul);
     }
 
 

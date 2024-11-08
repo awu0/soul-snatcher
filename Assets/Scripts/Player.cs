@@ -13,8 +13,6 @@ public class Player : Entity
 
     public SELECTED selectedAction = SELECTED.ATTACK;
 
-    private EnemyType type;
-
     public GameManager gameManager;
 
     private new void Start()
@@ -23,9 +21,8 @@ public class Player : Entity
 
         actionCount = maxActionCount;
 
-        type = EnemyType.Slime;
-
-        SetStats(maxHealth:20, attack:5, range:1);
+        EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.Slime];
+        SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.Slime);
     }
 
     private void Update()
@@ -80,14 +77,6 @@ public class Player : Entity
         int newY = playerY + y;
 
         MoveTo(newX, newY);
-        
-        // Check if new cell has a soul in it
-        if (grids.DoesCellHaveSoul(newX, newY)) {
-            Soul soul = grids.soulCells[playerX, playerY];
-            PickUpSoul(soul);
-            grids.soulCells[playerX, playerY] = null;
-            Destroy(soul.gameObject);
-        }
     }
 
     private void HandleLeftClickAction()
@@ -109,9 +98,14 @@ public class Player : Entity
         entity.TakeDamage(attack);
     }
 
-    public void PickUpSoul(Soul soul)
+    public void AbsorbSoul(Soul soul)
     {
-        Debug.Log($"Picked up new soul type: {soul.Type}");
-        type = soul.Type;
+        Debug.Log($"Absorbed new soul type: {soul.Type}");
+        this.type = soul.Type;
+
+        EntityBaseStats newStats = EntityData.EntityBaseStatMap[soul.Type];
+        SetStats(maxHealth: newStats.MaxHealth, newStats.Attack, newStats.Range, soul.Type);
+
+        Debug.Log($"Player is now of type: {this.type}");
     }
 }
