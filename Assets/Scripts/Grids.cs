@@ -116,11 +116,11 @@ public class Grids : MonoBehaviour
                 if (entityCells[x, y] != null)
                 {
                     // Shorten to first character or name for compactness
-                    gridOutput += entityCells[x, y].gameObject.name[0] + " ";
+                    gridOutput += entityCells[x, y].gameObject.name[0] + "\t";
                 }
                 else
                 {
-                    gridOutput += "x "; // Use "." to indicate an empty cell
+                    gridOutput += "x\t"; // Use "x" to indicate an empty cell
                 }
             }
             Debug.Log(gridOutput);

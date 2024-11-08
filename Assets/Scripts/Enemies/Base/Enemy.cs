@@ -63,7 +63,7 @@ public abstract class Enemy : Entity
      */
     protected (int x, int y) GetPlayerPosition()
     {
-        return ((int)Player.transform.position.x, (int)Player.transform.position.y);
+        return (Player.locX, Player.locY);
     }
 
     /**
