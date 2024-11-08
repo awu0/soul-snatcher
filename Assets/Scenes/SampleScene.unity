@@ -186,7 +186,7 @@ MonoBehaviour:
   playerScript: {fileID: 2069660942}
   healthBar: {fileID: 857142469}
   damagedBar: {fileID: 1213121225}
-  cutBarOffset: 30
+  cutBarOffset: 68
   cutBarTemplate: {fileID: 1096537553}
   takeDamage: 0
   heal: 0
