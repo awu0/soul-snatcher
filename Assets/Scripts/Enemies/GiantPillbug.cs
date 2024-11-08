@@ -142,7 +142,7 @@ public class GiantPillbug : Enemy
         {
             path.Add(currentPosition);
 
-            Vector2Int nextStep = Vector2Int.zero;
+            Vector2Int? nextStep = null;
             int minDistance = int.MaxValue;
 
             foreach (var direction in _directions)
@@ -160,13 +160,13 @@ public class GiantPillbug : Enemy
                 }
             }
 
-            if (nextStep == Vector2Int.zero)
+            if (nextStep == null)
             {
                 Debug.LogWarning("No valid next step found.");
                 break;
             }
 
-            currentPosition = nextStep;
+            currentPosition = nextStep.Value;
         }
 
         path.Add(new Vector2Int((int)transform.position.x, (int)transform.position.y));

@@ -95,7 +95,7 @@ public abstract class ChargingEnemyType : Enemy
         {
             path.Add(currentPosition);
 
-            Vector2Int nextStep = Vector2Int.zero;
+            Vector2Int? nextStep = null;
             int minDistance = int.MaxValue;
 
             // Check all four possible directions
@@ -108,7 +108,7 @@ public abstract class ChargingEnemyType : Enemy
                     neighbor.y >= 0 && neighbor.y < grids.rows)
                 {
                     int neighborDistance = distanceGrid[neighbor.x, neighbor.y];
-
+                    
                     // Only consider valid neighbors (distance not -1)
                     if (neighborDistance >= 0 && neighborDistance < minDistance)
                     {
@@ -119,13 +119,13 @@ public abstract class ChargingEnemyType : Enemy
             }
 
             // If no next step is found, break (should not happen if the grid is correctly filled)
-            if (nextStep == Vector2Int.zero)
+            if (nextStep == null)
             {
                 Debug.LogWarning("No valid next step found, ending path tracing.");
                 break;
             }
 
-            currentPosition = nextStep;
+            currentPosition = nextStep.Value;
         }
 
         // Add the starting position to the path (the enemy's current position)
