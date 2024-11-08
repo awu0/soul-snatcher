@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Damages every entity in a straight line starting from the Caster.
+/// </summary>
 public class EyeLaser : Ability
 {
     public override void ActivateAbility()

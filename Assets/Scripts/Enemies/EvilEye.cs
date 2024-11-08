@@ -24,8 +24,6 @@ public class EvilEye : RangedEnemyType
     {
         Debug.Log($"{gameObject.name} used ability.");
         
-        // damage every entity in the same column towards the player
-        
         // determine the correct direction
         var (playerX, playerY) = GetPlayerPosition();
         var (currentX, currentY) = GetCurrentPosition();
