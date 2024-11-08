@@ -17,7 +17,8 @@ public class GiantPillbug : Enemy
         base.Start();
 
         // set the base stats
-        SetStats(maxHealth: 20, attack: 2, range: 1);
+        EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.GiantPillbug];
+        SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.GiantPillbug);
         
         ability = gameObject.AddComponent<PillbugRoll>();
         ability.Initialize(this, 5);

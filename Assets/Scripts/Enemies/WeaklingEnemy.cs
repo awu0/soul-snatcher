@@ -10,7 +10,8 @@ public class WeaklingEnemy : ChargingEnemyType
         base.Start();
         
         // set the base stats
-        SetStats(maxHealth: 20, attack: 2, range:1);
+        EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.Weakling];
+        SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.Weakling);
     }
     
     protected override void UseAbility()

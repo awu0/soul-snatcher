@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Soul : MonoBehaviour
 {
-  public EnemyType Type { get; private set; }
+  public EntityType Type { get; private set; }
 
-  public void Initialize(EnemyType type) 
+  public void Initialize(EntityType type) 
   {
     Type = type;
   }

@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// The base class for all entities in the game, including the Player and all enemies.
 /// </summary>
+/// 
+
 public abstract class Entity : MonoBehaviour
 {
     [NonSerialized] public int locX;
@@ -16,6 +19,8 @@ public abstract class Entity : MonoBehaviour
     [NonSerialized] public int attack;
     [NonSerialized] public int maxHealth;   
     [NonSerialized] public int range;
+    [NonSerialized] public EntityType type;
+    
     protected Ability ability;
     
     protected Grids grids;
@@ -34,12 +39,13 @@ public abstract class Entity : MonoBehaviour
         actionCount = maxActionCount; 
     }
     
-    protected void SetStats(int maxHealth, int attack, int range)
+    protected void SetStats(int maxHealth, int attack, int range, EntityType type)
     {
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         this.attack = attack;
         this.range = range;
+        this.type = type;
     }
 
     /// <summary>
