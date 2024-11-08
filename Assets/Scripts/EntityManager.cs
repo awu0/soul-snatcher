@@ -6,11 +6,13 @@ using UnityEngine;
 /**
  * Controls all the enemies and handles spawning and death 
  */
-public class EnemyManager : MonoBehaviour
+public class EntityManager : MonoBehaviour
 {
     private List<Enemy> _enemies = new List<Enemy>();
-    
     public IReadOnlyList<Enemy> enemies => _enemies.AsReadOnly();
+    
+    private List<Obstacle> _obstacles = new List<Obstacle>();
+    public IReadOnlyList<Obstacle> obstacles => _obstacles.AsReadOnly();
     
     public Grids grids;
     
@@ -38,10 +40,10 @@ public class EnemyManager : MonoBehaviour
     }
     
     /**
-     * Retrieve the prefab for a given enemy type
+     * Retrieve the prefab for a given entity type
      * In the folder: Assets/Resources/Prefabs
      */
-    private GameObject GetPrefabForType<T>() where T : Enemy
+    private GameObject GetPrefabForType<T>() where T : Entity
     {
         GameObject prefab = Resources.Load<GameObject>("Prefabs/" + typeof(T).Name);
         if (prefab == null)
@@ -51,6 +53,29 @@ public class EnemyManager : MonoBehaviour
         return prefab;
     }
 
+    public void SpawnObstacle<T>(int x, int y) where T : Obstacle
+    {
+        // Check if the target position is free
+        if (grids.IsCellOccupied(x, y))
+        {
+            Debug.LogWarning($"Cannot spawn obstacle at ({x}, {y}): cell is occupied.");
+            return;
+        }
+        
+        GameObject prefab = GetPrefabForType<T>();
+
+        Vector3 position = new Vector3(x, y, 0);
+        GameObject newObstacleObject = Instantiate(prefab, position, Quaternion.identity);
+        Obstacle newObstacle = newObstacleObject.GetComponent<Obstacle>();
+
+        newObstacle.locX = x;
+        newObstacle.locY = y;
+        
+        _obstacles.Add(newObstacle);
+        
+        grids.SetCellOccupied(x, y, newObstacle);
+    }
+    
     public int GetEnemiesCount()
     {
         return _enemies.Count;
@@ -59,5 +84,10 @@ public class EnemyManager : MonoBehaviour
     public void RemoveDeadEnemies()
     {
         _enemies.RemoveAll(enemy => enemy == null);
+    }
+    
+    public void RemoveDeadObstacles()
+    {
+        _obstacles.RemoveAll(obs => obs == null);
     }
 }

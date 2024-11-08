@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
     public STATES state = STATES.ROUND_START;
     [NonSerialized] public float pauseDuration = 0.25f;
 
-    public EnemyManager enemyManager;
+    public EntityManager entityManager;
 
     public Grids grids;
 
@@ -38,9 +39,15 @@ public class GameManager : MonoBehaviour
     {
         player.MoveTo(_playerStartX, _playerStartY);
         
-        enemyManager.SpawnEnemy<WeaklingEnemy>(1, 9);
-        enemyManager.SpawnEnemy<EvilEye>(9, 1);
-        enemyManager.SpawnEnemy<GiantPillbug>(9, 9);
+        entityManager.SpawnEnemy<WeaklingEnemy>(1, 9);
+        entityManager.SpawnEnemy<EvilEye>(9, 1);
+        entityManager.SpawnEnemy<GiantPillbug>(9, 9);
+        
+        entityManager.SpawnObstacle<Rock>(8, 1);
+        entityManager.SpawnObstacle<Rock>(9, 2);
+        entityManager.SpawnObstacle<Rock>(1, 3);
+        entityManager.SpawnObstacle<Rock>(5, 0);
+        entityManager.SpawnObstacle<Rock>(7, 7);
         
         StartCoroutine(RunTurnManager());
     }
@@ -83,8 +90,7 @@ public class GameManager : MonoBehaviour
                 case STATES.ENEMY_ROUND:
                     Debug.Log("ENEMY ROUND");
 
-                    enemyManager.RemoveDeadEnemies();
-                    foreach (var enemy in enemyManager.enemies)
+                    foreach (var enemy in entityManager.enemies)
                     {   
                         enemy.DetermineNextMove();
                         yield return new WaitForSeconds(pauseDuration);
@@ -95,6 +101,10 @@ public class GameManager : MonoBehaviour
 
                 case STATES.ROUND_END:
                     Debug.Log("ROUND END");
+                    
+                    entityManager.RemoveDeadEnemies();
+                    entityManager.RemoveDeadObstacles();
+                    
                     state = STATES.ROUND_START;
                     break;
             }

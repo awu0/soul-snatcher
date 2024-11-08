@@ -6,7 +6,6 @@ using UnityEngine;
 /// The base class for all entities in the game, including the Player and all enemies.
 /// </summary>
 /// 
-
 public abstract class Entity : MonoBehaviour
 {
     [NonSerialized] public int locX;

@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 442440896}
   - component: {fileID: 442440895}
   m_Layer: 0
-  m_Name: EnemyManager
+  m_Name: EntityManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -335,8 +335,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2069660942}
   state: 0
-  enemyManager: {fileID: 442440895}
-  grids: {fileID: 0}
+  entityManager: {fileID: 442440895}
+  grids: {fileID: 1432450315}
 --- !u!4 &1166715721
 Transform:
   m_ObjectHideFlags: 0
