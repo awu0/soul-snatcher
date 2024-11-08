@@ -14,7 +14,7 @@ public class EyeLaser : Ability
     }
 
     /// <summary>
-    /// Damages every entity in the given direction until a wall is hit or another Entity is hit. 
+    /// Damages every entity in the given direction.
     /// </summary>
     /// <param name="grids">The Grids object</param>
     /// <param name="direction">The direction of damage: Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right</param>
