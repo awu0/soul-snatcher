@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * Description
+ * Shoots everything in a straight line, multi hit
  */
 public class EvilEye : RangedEnemyType
 {
@@ -19,7 +19,7 @@ public class EvilEye : RangedEnemyType
 
     protected override void UseAbility()
     {
-        
+        Debug.Log($"{gameObject.name} used ability.");
     }
 
     /**
@@ -28,7 +28,7 @@ public class EvilEye : RangedEnemyType
      */
     protected override bool AbilityConditionsMet()
     {
-        return false;
+        return GetCurrentPosition().x == GetPlayerPosition().x || GetCurrentPosition().y == GetPlayerPosition().y;
     }
 
     public override void DetermineNextMove()
