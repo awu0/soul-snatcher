@@ -8,6 +8,7 @@ public enum EntityType
     GiantPillbug,
     EvilEye,
     Snake,
+    StoneGolem,
 }
 
 public class EntityBaseStats
@@ -16,7 +17,7 @@ public class EntityBaseStats
     public int MaxHealth { get; set; }
     public int Range { get; set; }
 
-    public EntityBaseStats(int attack, int maxHealth, int range)
+    public EntityBaseStats(int attack, int maxHealth, int range=1)
     {
         Attack = attack;
         MaxHealth = maxHealth;
@@ -32,7 +33,8 @@ public static class EntityData
       [EntityType.Slime] = new EntityBaseStats(attack: 8, maxHealth: 20, range: 1), //PLAYER
       [EntityType.GiantPillbug] = new EntityBaseStats(attack: 5, maxHealth: 12, range: 1),
       [EntityType.Weakling] = new EntityBaseStats(attack: 1, maxHealth: 1, range: 1),
-      [EntityType.EvilEye] = new EntityBaseStats(attack: 5, maxHealth: 6, range: 1),
+      [EntityType.EvilEye] = new EntityBaseStats(attack: 5, maxHealth: 6),
       [EntityType.Snake] = new EntityBaseStats(attack: 5, maxHealth: 8, range: 1),
+      [EntityType.StoneGolem] = new EntityBaseStats(attack: 7, maxHealth: 20),
   };
 }

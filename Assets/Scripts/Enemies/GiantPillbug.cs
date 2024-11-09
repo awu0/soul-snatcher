@@ -20,7 +20,7 @@ public class GiantPillbug : Enemy
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.GiantPillbug);
         
         ability = gameObject.AddComponent<PillbugRoll>();
-        ability.Initialize(this, stats.Attack);
+        ability.Initialize(this, attack);
     }
 
     protected override void Move()
