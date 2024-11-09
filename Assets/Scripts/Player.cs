@@ -102,10 +102,24 @@ public class Player : Entity
     {
         Debug.Log($"Absorbed new soul type: {soul.Type}");
         this.type = soul.Type;
+        
+        EntityBaseStats enemyStats = EntityData.EntityBaseStatMap[soul.Type];
+        EntityBaseStats newStats = CalculateNewStats(enemyStats);
 
-        EntityBaseStats newStats = EntityData.EntityBaseStatMap[soul.Type];
+        // EntityBaseStats newStats = EntityData.EntityBaseStatMap[soul.Type];
         SetStats(maxHealth: newStats.MaxHealth, newStats.Attack, newStats.Range, soul.Type);
 
         Debug.Log($"Player is now of type: {this.type}");
+        Debug.Log($"Player maxHealth: {this.maxHealth}");
+    }
+
+    public EntityBaseStats CalculateNewStats(EntityBaseStats enemyStats)
+    {
+        EntityBaseStats oriStats = EntityData.EntityBaseStatMap[EntityType.Slime];
+        int enemyStatTotal = enemyStats.Attack + enemyStats.MaxHealth;
+        int statTotal = oriStats.MaxHealth + oriStats.Attack;
+        int newAttack = Mathf.RoundToInt(statTotal * (enemyStats.Attack / (float)enemyStatTotal));
+        int newMaxHealth = Mathf.RoundToInt(statTotal * (enemyStats.MaxHealth / (float)enemyStatTotal));
+        return new EntityBaseStats(attack: newAttack, maxHealth: newMaxHealth, range: enemyStats.Range);
     }
 }
