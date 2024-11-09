@@ -38,6 +38,12 @@ public abstract class Enemy : Entity
      */
     protected abstract void UseAbility();
 
+    /// <summary>
+    /// Basic attack, which an enemy might have
+    /// </summary>
+    protected virtual void BasicAttack() {}
+    protected virtual bool BasicAttackConditionMet() { return false; }
+
     /**
      * Checks whether the conditions are met for ability use.
      * True if you can use ability.

@@ -60,8 +60,19 @@ public class GameManager : MonoBehaviour
             switch (state)
             {
                 case STATES.ROUND_START:
-                    //refill action count
+                    // refill action count
                     player.actionCount = player.maxActionCount;
+                    
+                    // reduce buffs/debuffs/status effects duration by 1 turn
+                    player.TickDownStatusEffectsAndBuffs();
+                    foreach (var enemy in entityManager.enemies)
+                    {
+                        if (enemy != null)
+                        {
+                            enemy.TickDownStatusEffectsAndBuffs();  
+                        }
+                    }
+                    
                     Debug.Log("ROUND START");
                     state = STATES.PLAYER_ROUND;
                     break;
@@ -108,6 +119,16 @@ public class GameManager : MonoBehaviour
                     
                     entityManager.RemoveDeadEnemies();
                     entityManager.RemoveDeadObstacles();
+                    
+                    // remove buffs/debuffs/status effects if duration is 0
+                    player.RemoveStatusEffectsAndBuffs();
+                    foreach (var enemy in entityManager.enemies)
+                    {
+                        if (enemy != null)
+                        {
+                            enemy.RemoveStatusEffectsAndBuffs();  
+                        }
+                    }
                     
                     state = STATES.ROUND_START;
                     break;
