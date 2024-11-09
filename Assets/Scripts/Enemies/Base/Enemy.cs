@@ -7,7 +7,7 @@ public abstract class Enemy : Entity
 {
     protected readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
     
-    private Player Player;
+    protected Player player;
 
     public new void Start()
     {
@@ -16,7 +16,7 @@ public abstract class Enemy : Entity
         gameObject.tag = "Enemy";
         
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        Player = playerObject.GetComponent<Player>();
+        player = playerObject.GetComponent<Player>();
     }
 
     /**
@@ -61,7 +61,7 @@ public abstract class Enemy : Entity
         soulClass.Initialize(type);
         Destroy(gameObject);
 
-        Player.AbsorbSoul(soulClass);
+        player.AbsorbSoul(soulClass);
 
         // Tempoary. Will add logic that displays the soul moving towards the player automatically
         Destroy(newSoul);
@@ -73,7 +73,7 @@ public abstract class Enemy : Entity
      */
     protected (int x, int y) GetPlayerPosition()
     {
-        return (Player.locX, Player.locY);
+        return (player.locX, player.locY);
     }
 
     /**
