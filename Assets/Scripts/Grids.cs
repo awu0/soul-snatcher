@@ -85,6 +85,12 @@ public class Grids : MonoBehaviour
         (int x, int y) pos = ConvertToGridPosition(mousePos);
         Debug.Log($"MousePosition: {pos}");
         
+        if (!IsPositionWithinBounds(pos.x, pos.y))
+        {
+            Debug.LogError($"MousePosition: {pos} is not on the grid.");
+            return null;
+        }
+        
         return GetEntityAt(pos.x, pos.y);
     }
     
