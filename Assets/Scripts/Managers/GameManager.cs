@@ -91,9 +91,12 @@ public class GameManager : MonoBehaviour
                     Debug.Log("ENEMY ROUND");
 
                     foreach (var enemy in entityManager.enemies)
-                    {   
-                        enemy.DetermineNextMove();
-                        yield return new WaitForSeconds(pauseDuration);
+                    {
+                        if (enemy != null)
+                        {
+                            enemy.DetermineNextMove();
+                            yield return new WaitForSeconds(pauseDuration);   
+                        }
                     }
                     
                     state = STATES.ROUND_END;
