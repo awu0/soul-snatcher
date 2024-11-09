@@ -208,7 +208,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 442440894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b24b17d17bf5409191aa7fd78ddfec7, type: 3}
+  m_Script: {fileID: 11500000, guid: 719145ee2cfc1bf4689bb5bac07bd1b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   grids: {fileID: 1432450315}
@@ -655,9 +655,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1166715719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64048678164e3746b1e72df97a6707c, type: 3}
+  m_Script: {fileID: 11500000, guid: bd1f53fb25774b845904c52cb76daec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 2069660942}
+  state: 0
+  entityManager: {fileID: 442440895}
+  grids: {fileID: 1432450315}
 --- !u!4 &1166715721
 Transform:
   m_ObjectHideFlags: 0
