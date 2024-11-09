@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9025179072804793451}
   - component: {fileID: -7020767241686652346}
   - component: {fileID: 829588127455595311}
+  - component: {fileID: 3717179024501195995}
   m_Layer: 0
   m_Name: EvilEye
   m_TagString: Untagged
@@ -75,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 1997547531
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.070743516, g: 0.26415092, b: 0.03613386, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 1402978e53f47488e8324364b813d0de, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -113,3 +114,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e2785a632bd4a2a8c1452c912795bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  guardingDuration: 0
+--- !u!95 &3717179024501195995
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231044995348376588}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 36631a95467af6d4fb12adae0e0ead44, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
