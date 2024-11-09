@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerHealth : MonoBehaviour
     public Image damagedBar;
     public float cutBarOffset;
     public Transform cutBarTemplate;
+    public TextMeshProUGUI healthText;
 
     public bool takeDamage;
     public bool heal;
@@ -31,11 +33,16 @@ public class PlayerHealth : MonoBehaviour
         playerScript = FindObjectOfType<Player>();
         currentHealth = playerScript.health;
         damagedBar.fillAmount = healthBar.fillAmount;
+        Debug.Log(playerScript.health);
+        Debug.Log(playerScript.maxHealth);
     }
 
     private void Update()
     {
         if (playerScript != null) {
+
+            healthText.text = $"{playerScript.health} / {playerScript.maxHealth}";
+
             if (playerScript.health < currentHealth)
             {
                 SetDamage();
@@ -88,7 +95,4 @@ public class PlayerHealth : MonoBehaviour
         healthBar.fillAmount = Mathf.Clamp((float)playerScript.health / playerScript.maxHealth, 0, 1);
         damagedBar.fillAmount = healthBar.fillAmount;
     }
-
-
-
 }
