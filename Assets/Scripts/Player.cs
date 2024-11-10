@@ -269,7 +269,7 @@ public class Player : Entity
           selectedAbility.ActivateAbility(targetedContext);
           break;
         case Ability.AbilityType.Buff: 
-          var buffContext = new TargetedContext {
+          var buffContext = new BuffContext {
               Grids = grids
           };
 
