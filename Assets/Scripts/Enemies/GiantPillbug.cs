@@ -53,7 +53,13 @@ public class GiantPillbug : Enemy
         // Only activate the ability if a direction is determined
         if (direction != Vector2Int.zero)
         {
-            ((PillbugRoll)ability).ActivateAbility(grids, direction);
+            var context = new DirectionalContext {
+              Grids = grids,
+              Damage = 3,
+              Direction = direction,
+            };
+
+            ((PillbugRoll)ability).ActivateAbility(context);
         }
     }
 

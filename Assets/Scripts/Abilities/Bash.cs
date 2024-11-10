@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Bash : Ability
 {
+    public override AbilityType Type => AbilityType.Targeted;
     void Start()
     {
     }
 
-    public override void ActivateAbility()
+    protected override void ActivateInternal(AbilityContext context)
     {
         //target.changeHp(-damage);
         //Play animation

@@ -6,19 +6,33 @@ public abstract class Ability : MonoBehaviour
 {   
     /// The entity that will be using this ability.
     protected Entity Caster;
+
+    public enum AbilityType {
+      Targeted,
+      Directional,
+      Buff
+    }
+
+    public abstract AbilityType Type { get; }
     
-    protected int damage;
 
     public void Initialize(Entity caster, int damage=0)
     {
         Caster = caster;
-        this.damage = damage;
     }
 
-    public abstract void ActivateAbility(); // Apply damage to target, effect to self/target, and play animation
+    public virtual void ActivateAbility(AbilityContext context) {
+      bool isValidContext = (Type == AbilityType.Targeted && context is TargetedContext) ||
+                            (Type == AbilityType.Directional && context is DirectionalContext) ||
+                            (Type == AbilityType.Buff && context is BuffContext);
 
-    private void SetDamage(int damageAmt)
-    {
-        damage = damageAmt;
+      if (!isValidContext) {
+        Debug.LogError($"Invalid context type for {GetType().Name}");
+        return;
+      }
+
+      ActivateInternal(context);
     }
+
+    protected abstract void ActivateInternal(AbilityContext context);
 }
