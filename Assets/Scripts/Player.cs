@@ -16,6 +16,7 @@ public class Player : Entity
     public GameManager gameManager;
 
     public Queue<Ability> abilities = new Queue<Ability>();
+    private Ability selectedAbility;
 
     private new void Start()
     {
@@ -33,8 +34,13 @@ public class Player : Entity
         {
             if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
             {   
-                HandleLeftClickAction();
-                DetectForMovement();
+                if (selectedAbility != null) {
+                  HandleAbilityInput();
+                } else {
+                  HandleLeftClickAction();
+                  DetectForMovement();
+                  DetectForAbilitySelection();
+                }
             }
         }
     }
@@ -65,6 +71,12 @@ public class Player : Entity
             HandlePlayerMovement(1, 0);
             actionCount -= 1;
         }
+    }
+
+    private void DetectForAbilitySelection() {
+      if (Input.GetKeyDown(KeyCode.Alpha1)) SelectAbility(0);
+      if (Input.GetKeyDown(KeyCode.Alpha2)) SelectAbility(1);
+      if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(2);
     }
 
     /// <summary>
@@ -98,6 +110,44 @@ public class Player : Entity
     {   
         Debug.Log($"Attacked: {entity}");
         entity.TakeDamage(attack);
+    }
+
+    private void SelectAbility(int index) {
+      Ability[] abilitiesArray = abilities.ToArray();
+      if (index >= abilitiesArray.Length) {
+        Debug.Log($"Ability not found in slot: {index}");
+        return;
+      }
+
+      Ability ability = abilitiesArray[index];
+
+      Debug.Log($"Selecting ability: {ability.GetType().Name}");
+      
+      // direction is irrelevant for buff type abilities. Use them immediately
+      if (ability.Type == Ability.AbilityType.Buff) {
+        UseAbility(Vector2Int.zero);
+      }
+
+      selectedAbility = ability;
+    }
+
+    private void HandleAbilityInput() {
+      Vector2Int direction = Vector2Int.zero;
+        
+      if (Input.GetKeyDown(KeyCode.W)) direction.y = 1;
+      if (Input.GetKeyDown(KeyCode.S)) direction.y = -1;
+      if (Input.GetKeyDown(KeyCode.D)) direction.x = 1;
+      if (Input.GetKeyDown(KeyCode.A)) direction.x = -1;
+
+      if (Input.GetKeyDown(KeyCode.Escape)) {
+        Debug.Log("Deselected Ability");
+        selectedAbility = null;
+        return;
+      }
+
+      if (direction != Vector2Int.zero) {
+        UseAbility(direction);
+      }
     }
 
     public void AbsorbSoul(Soul soul)
@@ -153,8 +203,10 @@ public class Player : Entity
         return;
       }
 
+
       Ability newAbility = gameObject.AddComponent(abilityType) as Ability;
-        
+      newAbility.Initialize(this, attack);
+
       if (newAbility != null) {
         abilities.Enqueue(newAbility);
         Debug.Log("Successfully added ability: " + abilityType.Name);
@@ -172,5 +224,40 @@ public class Player : Entity
           Debug.Log("Null ability found in queue");
         }
       }
+    }
+
+    private void UseAbility(Vector2Int direction) {
+      if (selectedAbility == null) return;
+
+      switch (selectedAbility.Type) {
+        case Ability.AbilityType.Directional:
+          var dirContext = new DirectionalContext {
+              Grids = grids,
+              Direction = direction,
+              Damage = 3 // change
+          };
+
+          selectedAbility.ActivateAbility(dirContext);
+          break;
+        case Ability.AbilityType.Targeted:
+          var targetedContext = new TargetedContext {
+              Grids = grids,
+              Target = null, // fix
+              Damage = 3 // change
+          };
+
+          selectedAbility.ActivateAbility(targetedContext);
+          break;
+        case Ability.AbilityType.Buff: 
+          var buffContext = new TargetedContext {
+              Grids = grids
+          };
+
+          selectedAbility.ActivateAbility(buffContext);
+          break;
+      }
+
+      selectedAbility = null;
+      actionCount -= 1;
     }
 }
