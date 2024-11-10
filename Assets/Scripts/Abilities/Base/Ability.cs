@@ -7,8 +7,7 @@ public abstract class Ability : MonoBehaviour
     protected StatusEffectManager statusEffectManager;
     
     protected Entity Caster;
-    protected Entity Target;
-    protected int damage;
+    public int damage;
 
     public enum AbilityType {
       Targeted,
@@ -18,10 +17,9 @@ public abstract class Ability : MonoBehaviour
 
     public abstract AbilityType Type { get; }
     
-    public void Initialize(Entity caster, Entity target=null, int damage=0)
+    public void Initialize(Entity caster, int damage = 0)
     {
         Caster = caster;
-        Target = target;
         this.damage = damage;
     }
 

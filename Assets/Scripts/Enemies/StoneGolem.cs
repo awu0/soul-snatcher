@@ -26,7 +26,6 @@ public class StoneGolem : ChargingEnemyType
     {
         var context = new BuffContext {
           Grids = grids,
-          Damage = 0,
         };
         ((Guard)ability).ActivateAbility(context);
         _guardedLastTurn = true;

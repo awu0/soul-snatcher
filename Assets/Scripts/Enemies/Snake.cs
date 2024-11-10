@@ -13,7 +13,7 @@ public class Snake : ChargingEnemyType
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.Snake);
 
         ability = gameObject.AddComponent<SnakeBite>();
-        ability.Initialize(caster: this, target: player, damage: stats.Attack);
+        ability.Initialize(caster: this, damage: stats.Attack);
     }
     
     protected override void UseAbility()
