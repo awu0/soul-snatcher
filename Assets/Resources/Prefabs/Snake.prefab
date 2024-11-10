@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7612768365283076468}
   - component: {fileID: 9025179072804793451}
-  - component: {fileID: -7020767241686652346}
-  - component: {fileID: 1242102889402211000}
+  - component: {fileID: 8558654365449734176}
+  - component: {fileID: -8074138866372046313}
   m_Layer: 0
-  m_Name: Rock
+  m_Name: Snake
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 1997547531
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 19df15675bb6e45ac96fce2a64a44b8b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-7020767241686652346
+--- !u!114 &8558654365449734176
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,7 +101,7 @@ MonoBehaviour:
   _data:
     _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
     _objectReferences: []
---- !u!114 &1242102889402211000
+--- !u!114 &-8074138866372046313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4231044995348376588}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7c1def435484f75a93c38e18604e97f, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ab354cdcc984d34f8d3467df939e173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   guardingDuration: 0

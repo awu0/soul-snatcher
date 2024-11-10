@@ -11,10 +11,14 @@ public class Snake : ChargingEnemyType
         // set the base stats
         EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.Snake];
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.Snake);
+
+        ability = gameObject.AddComponent<SnakeBite>();
+        ability.Initialize(caster: this, target: player, damage: stats.Attack);
     }
     
     protected override void UseAbility()
     {   
+        ability.ActivateAbility();
         Debug.Log($"{gameObject.name} used ability.");
     }
     

@@ -4,14 +4,16 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {   
-    /// The entity that will be using this ability.
-    protected Entity Caster;
+    protected StatusEffectManager statusEffectManager;
     
+    protected Entity Caster;
+    protected Entity Target;
     protected int damage;
 
-    public void Initialize(Entity caster, int damage=0)
+    public void Initialize(Entity caster, Entity target=null, int damage=0)
     {
         Caster = caster;
+        Target = target;
         this.damage = damage;
     }
 

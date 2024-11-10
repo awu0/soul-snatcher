@@ -7,10 +7,10 @@ public class Poison : StatusEffect
 {   
     private int damage; 
 
-    public Poison(Entity entity, int duration) 
-        : base(StatusEffectType.Poison, duration, entity)
+    public override void InitializeSub()
     {
-        damage = Mathf.Max(Mathf.FloorToInt(entity.maxHealth/10), 1);
+        damage = Mathf.Max(Mathf.RoundToInt(entity.maxHealth/12), 1);
+        Type = StatusEffectType.Poison;
     }
 
     public override void ActivateEffect()

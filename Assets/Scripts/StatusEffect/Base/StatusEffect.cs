@@ -11,21 +11,24 @@ public enum StatusEffectType
 
 public abstract class StatusEffect : MonoBehaviour
 {
-    public StatusEffectType Type { get; private set; }
+    public StatusEffectType Type { get; protected set; }
     public int Duration { get; set; }
     protected Entity entity;
 
-    public StatusEffect(StatusEffectType type, int duration, Entity entity)
+    public void Initialize(int duration, Entity entity)
     {
-        Type = type;
         Duration = duration;
         this.entity = entity;
+        InitializeSub();
     }
 
-    public void Remove()
-    {
-        Destroy(this.gameObject);
+    public void Removed()
+    {   
+        Debug.Log($"{this.name} has worn off.");
+        Destroy(this);
     }
 
     public abstract void ActivateEffect();
+
+    public abstract void InitializeSub(); //Init subclass things
 }

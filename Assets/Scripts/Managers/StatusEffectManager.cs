@@ -18,16 +18,16 @@ public class StatusEffectManager : MonoBehaviour
 
     public void UpdateStatuses()
     {
-        for (int i = 0; i < activeEffects.Count; i++)
+        for (int i = activeEffects.Count-1; i >= 0; i--)
         {
             var effect = activeEffects[i];
-
             effect.ActivateEffect();
             effect.Duration--;
 
             if (effect.Duration <= 0)
-            {
-                effect.Remove();
+            {   
+                activeEffects.RemoveAt(i);
+                effect.Removed();
             }
         }
     }

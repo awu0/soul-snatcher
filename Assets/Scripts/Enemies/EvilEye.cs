@@ -17,7 +17,7 @@ public class EvilEye : RangedEnemyType
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.EvilEye);
         
         ability = gameObject.AddComponent<EyeLaser>();
-        ability.Initialize(this, stats.Attack);
+        ability.Initialize(caster: this, damage: stats.Attack);
     }
 
     protected override void UseAbility()

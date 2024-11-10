@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         entityManager.SpawnEnemy<EvilEye>(9, 1);
         entityManager.SpawnEnemy<GiantPillbug>(9, 9);
         entityManager.SpawnEnemy<StoneGolem>(5, 5);
+        entityManager.SpawnEnemy<Snake>(3, 3);
         
         entityManager.SpawnObstacle<Rock>(8, 1);
         entityManager.SpawnObstacle<Rock>(9, 2);

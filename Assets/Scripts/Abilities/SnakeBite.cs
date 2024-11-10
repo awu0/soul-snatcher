@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SnakeBite : MonoBehaviour
+public class SnakeBite : Ability
 {
-    public void ActivateAbility(Entity target) {
-        StatusEffect poison = new Poison(target, 2);
-        target.ReceiveStatusEffect(poison);
+    public override void ActivateAbility() {
+        Poison poison = Target.gameObject.AddComponent<Poison>();
+        poison.Initialize(duration: 3, entity: Target);
+        Target.ReceiveStatusEffect(poison);
+        Target.TakeDamage(damage);
     }
 }
