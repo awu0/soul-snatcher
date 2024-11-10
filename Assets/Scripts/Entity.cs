@@ -31,6 +31,8 @@ public abstract class Entity : MonoBehaviour
     
     protected Grids grids;
 
+    protected StatusEffectManager statusEffectManager;
+
     public void Awake()
     {
         var gridObject = GameObject.FindGameObjectWithTag("Game Board");
@@ -38,6 +40,12 @@ public abstract class Entity : MonoBehaviour
         {
             grids = gridObject.GetComponent<Grids>();
         } 
+        
+    statusEffectManager = GetComponent<StatusEffectManager>();
+    if (statusEffectManager == null)
+    {
+        statusEffectManager = gameObject.AddComponent<StatusEffectManager>();
+    }
     }
 
     public void Start()
@@ -96,8 +104,14 @@ public abstract class Entity : MonoBehaviour
         }
     }
 
-    public void TickDownStatusEffectsAndBuffs()
+    public void ReceiveStatusEffect(StatusEffect effect)
     {
+        statusEffectManager.AddStatusEffect(effect);
+    }
+
+    public void TickDownStatusEffectsAndBuffs()
+    {   
+        statusEffectManager.UpdateStatuses();
         if (guardingDuration > 0) guardingDuration--;
     }
 

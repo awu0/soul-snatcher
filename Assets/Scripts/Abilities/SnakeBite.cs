@@ -5,6 +5,7 @@ using UnityEngine;
 public class SnakeBite : MonoBehaviour
 {
     public void ActivateAbility(Entity target) {
-        StatusEffect poison = GetComponent<Poison>();
+        StatusEffect poison = new Poison(target, 2);
+        target.ReceiveStatusEffect(poison);
     }
 }

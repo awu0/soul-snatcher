@@ -1,17 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum StatusEffectType
+{
+    Poison,
+    Block,
+}
+
 public abstract class StatusEffect : MonoBehaviour
 {
-    public int frequency;
-    public int stacks;
-    public int maxStacks;
+    public StatusEffectType Type { get; private set; }
+    public int Duration { get; set; }
+    protected Entity entity;
 
-    public void SetEffect(int freq, int maxStks)
+    public StatusEffect(StatusEffectType type, int duration, Entity entity)
     {
-        frequency = freq;
-        maxStacks = maxStks;
+        Type = type;
+        Duration = duration;
+        this.entity = entity;
+    }
+
+    public void Remove()
+    {
+        Destroy(this.gameObject);
     }
 
     public abstract void ActivateEffect();

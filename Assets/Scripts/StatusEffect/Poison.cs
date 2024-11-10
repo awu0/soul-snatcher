@@ -1,18 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Poison : StatusEffect
 {   
-    private Enemy target;
+    private int damage; 
 
-    void Start()
+    public Poison(Entity entity, int duration) 
+        : base(StatusEffectType.Poison, duration, entity)
     {
-        SetEffect(freq:1, maxStks:10);
+        damage = Mathf.Max(Mathf.FloorToInt(entity.maxHealth/10), 1);
     }
 
     public override void ActivateEffect()
     {
-        target.health -= target.health/10;
+        if (entity != null)
+        {
+            entity.TakeDamage(damage);
+            Debug.Log($"Poison effect: {damage} damage dealt to {entity.name}.");
+        }
     }
 }
