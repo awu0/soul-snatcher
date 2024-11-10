@@ -97,13 +97,17 @@ public class Player : Entity
     {
         if (Input.GetMouseButtonDown(0))
         {   
-            Entity entity = grids.GetEntityAtMouse(Input.mousePosition);
+            Entity entity = GetEntityAtMouse();
             if (entity && entity != this)
             {   
                 BasicAttack(entity);
                 actionCount -= 1;
             }
         }
+    }
+
+    private Entity GetEntityAtMouse() {
+      return grids.GetEntityAtMouse(Input.mousePosition);
     }
 
     private void BasicAttack(Entity entity) //Maybe only usable when your form allows basic attacks
@@ -122,31 +126,47 @@ public class Player : Entity
       Ability ability = abilitiesArray[index];
 
       Debug.Log($"Selecting ability: {ability.GetType().Name}");
-      
-      // direction is irrelevant for buff type abilities. Use them immediately
-      if (ability.Type == Ability.AbilityType.Buff) {
-        UseAbility(Vector2Int.zero);
-      }
 
       selectedAbility = ability;
     }
 
     private void HandleAbilityInput() {
-      Vector2Int direction = Vector2Int.zero;
-        
-      if (Input.GetKeyDown(KeyCode.W)) direction.y = 1;
-      if (Input.GetKeyDown(KeyCode.S)) direction.y = -1;
-      if (Input.GetKeyDown(KeyCode.D)) direction.x = 1;
-      if (Input.GetKeyDown(KeyCode.A)) direction.x = -1;
+      switch (selectedAbility.Type) {
+        // Directional Abilities use WASD
+        case Ability.AbilityType.Directional:
+          Vector2Int direction = Vector2Int.zero;
+
+          if (Input.GetKeyDown(KeyCode.W)) direction.y = 1;
+          if (Input.GetKeyDown(KeyCode.S)) direction.y = -1;
+          if (Input.GetKeyDown(KeyCode.D)) direction.x = 1;
+          if (Input.GetKeyDown(KeyCode.A)) direction.x = -1;
+
+          if (direction != Vector2Int.zero) {
+            UseAbility(direction: direction);
+          }
+          break;
+        // Targeted Abilities use mouse input
+        case Ability.AbilityType.Targeted:
+          Entity target = null;
+
+          if (Input.GetMouseButtonDown(0)) {
+            target = GetEntityAtMouse();
+          }
+
+          if (target != null) {
+            UseAbility(target: target);
+         }
+         break;
+        // Buff Abilities activate automatically
+        case Ability.AbilityType.Buff:
+          UseAbility();
+          break;
+      }
 
       if (Input.GetKeyDown(KeyCode.Escape)) {
         Debug.Log("Deselected Ability");
         selectedAbility = null;
         return;
-      }
-
-      if (direction != Vector2Int.zero) {
-        UseAbility(direction);
       }
     }
 
@@ -226,7 +246,7 @@ public class Player : Entity
       }
     }
 
-    private void UseAbility(Vector2Int direction) {
+    private void UseAbility(Vector2Int direction=default, Entity target=null) {
       if (selectedAbility == null) return;
 
       switch (selectedAbility.Type) {
@@ -234,7 +254,7 @@ public class Player : Entity
           var dirContext = new DirectionalContext {
               Grids = grids,
               Direction = direction,
-              Damage = 3 // change
+              Damage = selectedAbility.damage
           };
 
           selectedAbility.ActivateAbility(dirContext);
@@ -242,8 +262,8 @@ public class Player : Entity
         case Ability.AbilityType.Targeted:
           var targetedContext = new TargetedContext {
               Grids = grids,
-              Target = null, // fix
-              Damage = 3 // change
+              Target = target,
+              Damage = selectedAbility.damage
           };
 
           selectedAbility.ActivateAbility(targetedContext);
