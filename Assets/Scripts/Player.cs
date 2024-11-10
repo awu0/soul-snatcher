@@ -15,6 +15,8 @@ public class Player : Entity
 
     public GameManager gameManager;
 
+    public Queue<Ability> abilities = new Queue<Ability>();
+
     private new void Start()
     {
         base.Start();
@@ -109,17 +111,66 @@ public class Player : Entity
         // EntityBaseStats newStats = EntityData.EntityBaseStatMap[soul.Type];
         SetStats(maxHealth: newStats.MaxHealth, newStats.Attack, newStats.Range, soul.Type);
 
+        GainAbility(soul.Type);
+
         Debug.Log($"Player is now of type: {this.type}");
         Debug.Log($"Player maxHealth: {this.maxHealth}");
+        LogCurrentAbilities();
     }
 
     public EntityBaseStats CalculateNewStats(EntityBaseStats enemyStats)
     {
         EntityBaseStats oriStats = EntityData.EntityBaseStatMap[EntityType.Slime];
+
         int enemyStatTotal = enemyStats.Attack + enemyStats.MaxHealth;
         int statTotal = oriStats.MaxHealth + oriStats.Attack;
+
         int newAttack = Mathf.RoundToInt(statTotal * (enemyStats.Attack / (float)enemyStatTotal));
         int newMaxHealth = Mathf.RoundToInt(statTotal * (enemyStats.MaxHealth / (float)enemyStatTotal));
+
         return new EntityBaseStats(attack: newAttack, maxHealth: newMaxHealth, range: enemyStats.Range);
+    }
+
+    public void GainAbility(EntityType type) {
+      // Handle enemies without an ability
+      if (!EntityData.EntityAbilityMap.TryGetValue(type, out Type abilityType) || abilityType == null) {
+        Debug.Log("No ability found for enemy type: " + type);
+        return;
+      }
+
+      // Remove old ability if we have too many
+      if (abilities.Count >= 3) {
+        Ability oldAbility = abilities.Dequeue();
+        if (oldAbility != null) {
+          Destroy(oldAbility);
+          Debug.LogWarning("Removed ability: " + oldAbility);
+        }
+      }
+
+      // Add ability
+      if (!typeof(Ability).IsAssignableFrom(abilityType)) {
+        Debug.LogError($"Type {abilityType.Name} does not derive from Ability!");
+        return;
+      }
+
+      Ability newAbility = gameObject.AddComponent(abilityType) as Ability;
+        
+      if (newAbility != null) {
+        abilities.Enqueue(newAbility);
+        Debug.Log("Successfully added ability: " + abilityType.Name);
+      } else {
+        Debug.LogWarning("Failed to add ability component of type: " + abilityType.Name);
+      }
+    }
+
+    public void LogCurrentAbilities() {
+      foreach (var ability in abilities) {
+        if (ability != null) {
+          name = ability.GetType().Name;
+          Debug.Log($"Ability: {name}");
+        } else { 
+          Debug.Log("Null ability found in queue");
+        }
+      }
     }
 }

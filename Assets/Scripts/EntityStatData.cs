@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public enum EntityType
@@ -36,5 +37,16 @@ public static class EntityData
       [EntityType.EvilEye] = new EntityBaseStats(attack: 5, maxHealth: 6),
       [EntityType.Snake] = new EntityBaseStats(attack: 5, maxHealth: 8, range: 1),
       [EntityType.StoneGolem] = new EntityBaseStats(attack: 7, maxHealth: 20),
+  };
+
+  public static readonly Dictionary<EntityType, Type> EntityAbilityMap = new Dictionary<EntityType, Type>
+  {
+      [EntityType.Obstacle] = null,
+      [EntityType.Slime] = null, //PLAYER
+      [EntityType.GiantPillbug] = typeof(PillbugRoll),
+      [EntityType.Weakling] = null,
+      [EntityType.EvilEye] = typeof(EyeLaser),
+      [EntityType.Snake] = typeof(SnakeBite),
+      [EntityType.StoneGolem] = typeof(Guard),
   };
 }
