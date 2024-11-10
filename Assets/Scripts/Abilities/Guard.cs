@@ -8,7 +8,9 @@ using UnityEngine;
 /// </summary>
 public class Guard : Ability
 {
-    public override void ActivateAbility()
+    public override AbilityType Type => AbilityType.Buff;
+
+    protected override void ActivateInternal(AbilityContext context)
     {
         Debug.Log($"{gameObject} used Guard");
         

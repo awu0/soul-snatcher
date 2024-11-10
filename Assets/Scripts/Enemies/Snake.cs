@@ -18,7 +18,13 @@ public class Snake : ChargingEnemyType
     
     protected override void UseAbility()
     {   
-        ability.ActivateAbility();
+        var context = new TargetedContext {
+            Grids = grids,
+            Damage = 3,
+            Target = player,
+        };
+
+        ((SnakeBite)ability).ActivateAbility(context);
         Debug.Log($"{gameObject.name} used ability.");
     }
     

@@ -43,7 +43,13 @@ public class EvilEye : RangedEnemyType
         // Only activate the ability if a direction is determined
         if (direction != Vector2Int.zero)
         {
-            ((EyeLaser)ability).ActivateAbility(grids, direction);
+            var context = new DirectionalContext {
+              Grids = grids,
+              Damage = 3,
+              Direction = direction,
+            };
+
+            ((EyeLaser)ability).ActivateAbility(context);
         }
     }
 
