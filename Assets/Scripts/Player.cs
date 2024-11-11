@@ -16,6 +16,7 @@ public class Player : Entity
     public GameManager gameManager;
 
     public Queue<Ability> abilities = new Queue<Ability>();
+    public AudioSource damageSFX;
     private Ability selectedAbility;
 
     private new void Start()
@@ -340,5 +341,24 @@ public class Player : Entity
       }
 
       return false;
+    }
+
+    override public int TakeDamage(int amount)
+    {
+        if (statusEffectManager.HasStatusEffect<Guarding>())
+        {
+            amount = 0;
+        }
+
+        
+        damageSFX.Play();
+        health -= amount;
+
+        if (health <= 0)
+        {
+            Die();
+        }
+
+        return amount;
     }
 }

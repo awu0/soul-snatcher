@@ -19,7 +19,8 @@ public abstract class Entity : MonoBehaviour
     [NonSerialized] public int maxHealth;   
     [NonSerialized] public int range;
     [NonSerialized] public EntityType type;
-    
+    [NonSerialized] public AudioSource enemydmgSFX;
+
     protected Ability ability;
     
     protected Grids grids;
@@ -43,7 +44,8 @@ public abstract class Entity : MonoBehaviour
 
     public void Start()
     {
-        actionCount = maxActionCount; 
+        actionCount = maxActionCount;
+        enemydmgSFX = gameObject.GetComponent<AudioSource>();
     }
     
     protected void SetStats(int maxHealth, int attack, int range, EntityType type)
@@ -97,7 +99,8 @@ public abstract class Entity : MonoBehaviour
         {
             amount = 0;
         }
-        
+
+        enemydmgSFX.Play();
         health -= amount;
         if (health <= 0)
         {
