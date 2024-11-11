@@ -131,14 +131,6 @@ public class Player : Entity
       Ability ability = abilitiesArray[index];
 
       Debug.Log($"Selecting ability: {ability.GetType().Name}");
-<<<<<<< HEAD
-      
-      // direction is irrelevant for buff type abilities. Use them immediately
-      if (ability.Type == Ability.AbilityType.Buff) {
-        UseAbility(direction: Vector2Int.zero);
-      }
-=======
->>>>>>> 3d310c2f59c488af3d4a0400f1957615c3be4364
 
       selectedAbility = ability;
     }
@@ -275,13 +267,8 @@ public class Player : Entity
         case Ability.AbilityType.Targeted:
           var targetedContext = new TargetedContext {
               Grids = grids,
-<<<<<<< HEAD
-              Target = target, // fix
-              Damage = 3 // change
-=======
               Target = target,
               Damage = selectedAbility.damage
->>>>>>> 3d310c2f59c488af3d4a0400f1957615c3be4364
           };
 
           selectedAbility.ActivateAbility(targetedContext);
