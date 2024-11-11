@@ -350,7 +350,7 @@ public class Player : Entity
             amount = 0;
         }
 
-        
+        damageSFX.volume = 0.5f;
         damageSFX.Play();
         health -= amount;
 
