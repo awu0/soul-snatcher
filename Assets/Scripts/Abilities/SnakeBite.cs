@@ -17,10 +17,10 @@ public class SnakeBite : Ability
       var targetedContext = (TargetedContext)context;
       Entity target = targetedContext.Target;
 
-        Poison poison = Target.gameObject.AddComponent<Poison>();
-        poison.Initialize(duration: 3, entity: Target);
-        Target.ReceiveStatusEffect(poison);
-        Target.TakeDamage(damage);
+      Poison poison = target.gameObject.AddComponent<Poison>();
+      poison.Initialize(duration: 3, entity: target);
+      target.ReceiveStatusEffect(poison);
+      target.TakeDamage(damage);
     }
 
     // public void ActivateAbility(Entity target) {

@@ -100,8 +100,13 @@ public class Player : Entity
             Entity entity = grids.GetEntityAtMouse(Input.mousePosition);
             if (entity && entity != this)
             {   
+              if (selectedAbility) {
+                UseAbility(target: entity);
+              }
+              else {
                 BasicAttack(entity);
                 actionCount -= 1;
+              }
             }
         }
     }
@@ -125,28 +130,34 @@ public class Player : Entity
       
       // direction is irrelevant for buff type abilities. Use them immediately
       if (ability.Type == Ability.AbilityType.Buff) {
-        UseAbility(Vector2Int.zero);
+        UseAbility(direction: Vector2Int.zero);
       }
 
       selectedAbility = ability;
     }
 
     private void HandleAbilityInput() {
-      Vector2Int direction = Vector2Int.zero;
-        
-      if (Input.GetKeyDown(KeyCode.W)) direction.y = 1;
-      if (Input.GetKeyDown(KeyCode.S)) direction.y = -1;
-      if (Input.GetKeyDown(KeyCode.D)) direction.x = 1;
-      if (Input.GetKeyDown(KeyCode.A)) direction.x = -1;
-
-      if (Input.GetKeyDown(KeyCode.Escape)) {
-        Debug.Log("Deselected Ability");
-        selectedAbility = null;
-        return;
+      if (selectedAbility.Type == Ability.AbilityType.Targeted)
+      {
+        HandleLeftClickAction();
       }
+      else {
+        Vector2Int direction = Vector2Int.zero;
+          
+        if (Input.GetKeyDown(KeyCode.W)) direction.y = 1;
+        if (Input.GetKeyDown(KeyCode.S)) direction.y = -1;
+        if (Input.GetKeyDown(KeyCode.D)) direction.x = 1;
+        if (Input.GetKeyDown(KeyCode.A)) direction.x = -1;
 
-      if (direction != Vector2Int.zero) {
-        UseAbility(direction);
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+          Debug.Log("Deselected Ability");
+          selectedAbility = null;
+          return;
+        }
+
+        if (direction != Vector2Int.zero) {
+          UseAbility(direction: direction);
+        }
       }
     }
 
@@ -226,7 +237,7 @@ public class Player : Entity
       }
     }
 
-    private void UseAbility(Vector2Int direction) {
+    private void UseAbility(Vector2Int direction=default, Entity target=null) {
       if (selectedAbility == null) return;
 
       switch (selectedAbility.Type) {
@@ -242,7 +253,7 @@ public class Player : Entity
         case Ability.AbilityType.Targeted:
           var targetedContext = new TargetedContext {
               Grids = grids,
-              Target = null, // fix
+              Target = target, // fix
               Damage = 3 // change
           };
 
