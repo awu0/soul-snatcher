@@ -34,13 +34,13 @@ public class Player : Entity
         {
             if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
             {   
-                if (selectedAbility != null) {
-                  HandleAbilityInput();
-                } else {
-                  HandleLeftClickAction();
-                  DetectForMovement();
-                  DetectForAbilitySelection();
-                }
+              DetectForAbilitySelection();
+              if (selectedAbility != null) {
+                HandleAbilityInput();
+              } else {
+                HandleLeftClickAction();
+                DetectForMovement();
+              }
             }
         }
     }
@@ -100,10 +100,7 @@ public class Player : Entity
             Entity entity = GetEntityAtMouse();
             if (entity && entity != this)
             {   
-              if (selectedAbility) {
-                UseAbility(target: entity);
-              }
-              else {
+              if (InRange(range, entity)) {
                 BasicAttack(entity);
                 actionCount -= 1;
               }
@@ -125,6 +122,12 @@ public class Player : Entity
       Ability[] abilitiesArray = abilities.ToArray();
       if (index >= abilitiesArray.Length) {
         Debug.Log($"Ability not found in slot: {index}");
+        return;
+      }
+
+      if (selectedAbility == abilitiesArray[index]) {
+        selectedAbility = null;
+        Debug.Log($"Deselected {abilitiesArray[index].GetType().Name}");
         return;
       }
 
@@ -156,6 +159,9 @@ public class Player : Entity
 
           if (Input.GetMouseButtonDown(0)) {
             target = GetEntityAtMouse();
+            if (!InRange(range, target)) {
+              target = null;
+            }
           }
 
           if (target != null) {
@@ -284,5 +290,19 @@ public class Player : Entity
 
       selectedAbility = null;
       actionCount -= 1;
+    }
+
+    public bool InRange(int range, Entity entity)
+    {
+      if (entity != null)
+      {
+        int distanceX = Mathf.Abs(entity.locX - this.locX);
+        int distanceY = Mathf.Abs(entity.locY - this.locY);
+
+        int totalDistance = distanceX + distanceY;
+        return totalDistance <= range;
+      }
+
+      return false;
     }
 }

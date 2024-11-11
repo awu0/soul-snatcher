@@ -87,7 +87,7 @@ public class Grids : MonoBehaviour
         
         if (!IsPositionWithinBounds(pos.x, pos.y))
         {
-            Debug.LogError($"MousePosition: {pos} is not on the grid.");
+            Debug.Log($"MousePosition: {pos} is not on the grid.");
             return null;
         }
         
