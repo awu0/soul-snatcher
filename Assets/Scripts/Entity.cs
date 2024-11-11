@@ -19,13 +19,6 @@ public abstract class Entity : MonoBehaviour
     [NonSerialized] public int maxHealth;   
     [NonSerialized] public int range;
     [NonSerialized] public EntityType type;
-
-    /// <summary>
-    /// If guarding, takes no damage.
-    /// </summary>
-    [NonSerialized] public bool guarding = false;
-
-    public int guardingDuration = 0;
     
     protected Ability ability;
     
@@ -95,7 +88,10 @@ public abstract class Entity : MonoBehaviour
     
     public virtual void TakeDamage(int amount)
     {
-        if (guarding) amount = 0;
+        if (statusEffectManager.HasStatusEffect<Guarding>())
+        {
+            amount = 0;
+        }
         
         health -= amount;
         if (health <= 0)
@@ -112,15 +108,6 @@ public abstract class Entity : MonoBehaviour
     public void TickDownStatusEffectsAndBuffs()
     {   
         statusEffectManager.UpdateStatuses();
-        if (guardingDuration > 0) guardingDuration--;
-    }
-
-    /// <summary>
-    /// For guarding: Damage reduction resets at the beginning of the round.
-    /// </summary>
-    public void RemoveStatusEffectsAndBuffs()
-    {
-        if (guardingDuration == 0) guarding = false;
     }
     
     public virtual void Die()
