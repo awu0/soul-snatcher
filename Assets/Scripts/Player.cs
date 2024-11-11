@@ -33,13 +33,17 @@ public class Player : Entity
         if (gameManager != null)
         {
             if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
-            {   
-                if (selectedAbility != null) {
-                  HandleAbilityInput();
-                } else {
-                  HandleLeftClickAction();
-                  DetectForMovement();
-                  DetectForAbilitySelection();
+            {
+                DetectForAbilitySelection();
+                HandleLeftClickAction();
+                
+                if (selectedAbility != null)
+                {
+                    HandleAbilityInput();
+                }
+                else
+                {
+                    DetectForMovement();
                 }
             }
         }
@@ -73,10 +77,18 @@ public class Player : Entity
         }
     }
 
-    private void DetectForAbilitySelection() {
-      if (Input.GetKeyDown(KeyCode.Alpha1)) SelectAbility(0);
-      if (Input.GetKeyDown(KeyCode.Alpha2)) SelectAbility(1);
-      if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(2);
+    private void DetectForAbilitySelection()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("Selected Basic Attack");
+            selectedAbility = null;
+            selectedAction = SELECTED.ATTACK;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SelectAbility(0);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(1);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) SelectAbility(2);
     }
 
     /// <summary>
@@ -96,90 +108,103 @@ public class Player : Entity
     private void HandleLeftClickAction()
     {
         if (Input.GetMouseButtonDown(0))
-        {   
+        {
             Entity entity = GetEntityAtMouse();
             if (entity && entity != this)
-            {   
-              if (selectedAbility) {
-                UseAbility(target: entity);
-              }
-              else {
-                BasicAttack(entity);
-                actionCount -= 1;
-              }
+            {
+                if (selectedAbility)
+                {
+                    UseAbility(target: entity);
+                }
+                else
+                {
+                    BasicAttack(entity);
+                    actionCount -= 1;
+                }
             }
         }
     }
 
-    private Entity GetEntityAtMouse() {
-      return grids.GetEntityAtMouse(Input.mousePosition);
+    private Entity GetEntityAtMouse()
+    {
+        return grids.GetEntityAtMouse(Input.mousePosition);
     }
 
     private void BasicAttack(Entity entity) //Maybe only usable when your form allows basic attacks
-    {   
+    {
         Debug.Log($"Attacked: {entity}");
         entity.TakeDamage(attack);
     }
 
-    private void SelectAbility(int index) {
-      Ability[] abilitiesArray = abilities.ToArray();
-      if (index >= abilitiesArray.Length) {
-        Debug.Log($"Ability not found in slot: {index}");
-        return;
-      }
+    private void SelectAbility(int index)
+    {
+        Ability[] abilitiesArray = abilities.ToArray();
+        if (index >= abilitiesArray.Length)
+        {
+            Debug.Log($"Ability not found in slot: {index}");
+            return;
+        }
 
-      Ability ability = abilitiesArray[index];
+        Ability ability = abilitiesArray[index];
 
-      Debug.Log($"Selecting ability: {ability.GetType().Name}");
+        Debug.Log($"Selecting ability: {ability.GetType().Name}");
 
-      selectedAbility = ability;
+        selectedAbility = ability;
     }
 
-    private void HandleAbilityInput() {
-      switch (selectedAbility.Type) {
-        // Directional Abilities use WASD
-        case Ability.AbilityType.Directional:
-          Vector2Int direction = Vector2Int.zero;
+    private void HandleAbilityInput()
+    {
+        switch (selectedAbility.Type)
+        {
+            // Directional Abilities use WASD
+            case Ability.AbilityType.Directional:
+                Vector2Int direction = Vector2Int.zero;
 
-          if (Input.GetKeyDown(KeyCode.W)) direction.y = 1;
-          if (Input.GetKeyDown(KeyCode.S)) direction.y = -1;
-          if (Input.GetKeyDown(KeyCode.D)) direction.x = 1;
-          if (Input.GetKeyDown(KeyCode.A)) direction.x = -1;
+                if (Input.GetKeyDown(KeyCode.W)) direction.y = 1;
+                if (Input.GetKeyDown(KeyCode.S)) direction.y = -1;
+                if (Input.GetKeyDown(KeyCode.D)) direction.x = 1;
+                if (Input.GetKeyDown(KeyCode.A)) direction.x = -1;
 
-          if (direction != Vector2Int.zero) {
-            UseAbility(direction: direction);
-          }
-          break;
-        // Targeted Abilities use mouse input
-        case Ability.AbilityType.Targeted:
-          Entity target = null;
+                if (direction != Vector2Int.zero)
+                {
+                    UseAbility(direction: direction);
+                }
 
-          if (Input.GetMouseButtonDown(0)) {
-            target = GetEntityAtMouse();
-          }
+                break;
+            // Targeted Abilities use mouse input
+            case Ability.AbilityType.Targeted:
+                Entity target = null;
 
-          if (target != null) {
-            UseAbility(target: target);
-         }
-         break;
-        // Buff Abilities activate automatically
-        case Ability.AbilityType.Buff:
-          UseAbility();
-          break;
-      }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    target = GetEntityAtMouse();
+                }
 
-      if (Input.GetKeyDown(KeyCode.Escape)) {
-        Debug.Log("Deselected Ability");
-        selectedAbility = null;
-        return;
-      }
+                if (target != null)
+                {
+                    UseAbility(target: target);
+                }
+
+                break;
+            // Buff Abilities activate automatically
+            case Ability.AbilityType.Buff:
+                UseAbility();
+                break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Deselected Ability");
+            selectedAbility = null;
+            return;
+        }
     }
 
     public void AbsorbSoul(Soul soul)
     {
         Debug.Log($"Absorbed new soul type: {soul.Type}");
         this.type = soul.Type;
-        
+
         EntityBaseStats enemyStats = EntityData.EntityBaseStatMap[soul.Type];
         EntityBaseStats newStats = CalculateNewStats(enemyStats);
 
@@ -206,83 +231,101 @@ public class Player : Entity
         return new EntityBaseStats(attack: newAttack, maxHealth: newMaxHealth, range: enemyStats.Range);
     }
 
-    public void GainAbility(EntityType type) {
-      // Handle enemies without an ability
-      if (!EntityData.EntityAbilityMap.TryGetValue(type, out Type abilityType) || abilityType == null) {
-        Debug.Log("No ability found for enemy type: " + type);
-        return;
-      }
-
-      // Remove old ability if we have too many
-      if (abilities.Count >= 3) {
-        Ability oldAbility = abilities.Dequeue();
-        if (oldAbility != null) {
-          Destroy(oldAbility);
-          Debug.LogWarning("Removed ability: " + oldAbility);
+    public void GainAbility(EntityType type)
+    {
+        // Handle enemies without an ability
+        if (!EntityData.EntityAbilityMap.TryGetValue(type, out Type abilityType) || abilityType == null)
+        {
+            Debug.Log("No ability found for enemy type: " + type);
+            return;
         }
-      }
 
-      // Add ability
-      if (!typeof(Ability).IsAssignableFrom(abilityType)) {
-        Debug.LogError($"Type {abilityType.Name} does not derive from Ability!");
-        return;
-      }
+        // Remove old ability if we have too many
+        if (abilities.Count >= 3)
+        {
+            Ability oldAbility = abilities.Dequeue();
+            if (oldAbility != null)
+            {
+                Destroy(oldAbility);
+                Debug.LogWarning("Removed ability: " + oldAbility);
+            }
+        }
+
+        // Add ability
+        if (!typeof(Ability).IsAssignableFrom(abilityType))
+        {
+            Debug.LogError($"Type {abilityType.Name} does not derive from Ability!");
+            return;
+        }
 
 
-      Ability newAbility = gameObject.AddComponent(abilityType) as Ability;
-      newAbility.Initialize(caster: this, damage: attack);
+        Ability newAbility = gameObject.AddComponent(abilityType) as Ability;
+        newAbility.Initialize(caster: this, damage: attack);
 
-      if (newAbility != null) {
-        abilities.Enqueue(newAbility);
-        Debug.Log("Successfully added ability: " + abilityType.Name);
-      } else {
-        Debug.LogWarning("Failed to add ability component of type: " + abilityType.Name);
-      }
+        if (newAbility != null)
+        {
+            abilities.Enqueue(newAbility);
+            Debug.Log("Successfully added ability: " + abilityType.Name);
+        }
+        else
+        {
+            Debug.LogWarning("Failed to add ability component of type: " + abilityType.Name);
+        }
     }
 
-    public void LogCurrentAbilities() {
-      foreach (var ability in abilities) {
-        if (ability != null) {
-          name = ability.GetType().Name;
-          Debug.Log($"Ability: {name}");
-        } else { 
-          Debug.Log("Null ability found in queue");
+    public void LogCurrentAbilities()
+    {
+        foreach (var ability in abilities)
+        {
+            if (ability != null)
+            {
+                name = ability.GetType().Name;
+                Debug.Log($"Ability: {name}");
+            }
+            else
+            {
+                Debug.Log("Null ability found in queue");
+            }
         }
-      }
     }
 
-    private void UseAbility(Vector2Int direction=default, Entity target=null) {
-      if (selectedAbility == null) return;
+    private void UseAbility(Vector2Int direction = default, Entity target = null)
+    {
+        if (selectedAbility == null) return;
 
-      switch (selectedAbility.Type) {
-        case Ability.AbilityType.Directional:
-          var dirContext = new DirectionalContext {
-              Grids = grids,
-              Direction = direction,
-              Damage = selectedAbility.damage
-          };
+        switch (selectedAbility.Type)
+        {
+            case Ability.AbilityType.Directional:
+                var dirContext = new DirectionalContext
+                {
+                    Grids = grids,
+                    Direction = direction,
+                    Damage = selectedAbility.damage
+                };
 
-          selectedAbility.ActivateAbility(dirContext);
-          break;
-        case Ability.AbilityType.Targeted:
-          var targetedContext = new TargetedContext {
-              Grids = grids,
-              Target = target,
-              Damage = selectedAbility.damage
-          };
+                selectedAbility.ActivateAbility(dirContext);
+                break;
+            case Ability.AbilityType.Targeted:
+                var targetedContext = new TargetedContext
+                {
+                    Grids = grids,
+                    Target = target,
+                    Damage = selectedAbility.damage
+                };
 
-          selectedAbility.ActivateAbility(targetedContext);
-          break;
-        case Ability.AbilityType.Buff: 
-          var buffContext = new BuffContext {
-              Grids = grids
-          };
+                selectedAbility.ActivateAbility(targetedContext);
+                break;
+            case Ability.AbilityType.Buff:
+                var buffContext = new BuffContext
+                {
+                    Grids = grids
+                };
 
-          selectedAbility.ActivateAbility(buffContext);
-          break;
-      }
+                selectedAbility.ActivateAbility(buffContext);
+                break;
+        }
 
-      selectedAbility = null;
-      actionCount -= 1;
+        selectedAbility = null;
+        actionCount -= 1;
     }
 }
