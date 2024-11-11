@@ -18,18 +18,22 @@ public class StatusEffectManager : MonoBehaviour
 
     public void UpdateStatuses()
     {
-        for (int i = activeEffects.Count - 1; i >= 0; i--)
+        foreach (var effect in activeEffects)
         {
-            var effect = activeEffects[i];
             effect.ActivateEffect();
             effect.Duration--;
-
+        }
+        
+        // remove expired effects
+        activeEffects.RemoveAll(effect =>
+        {
             if (effect.Duration <= 0)
             {
-                activeEffects.RemoveAt(i);
                 effect.Removed();
+                return true;
             }
-        }
+            return false;
+        });
     }
 
     public bool HasStatusEffect<T>() where T : StatusEffect

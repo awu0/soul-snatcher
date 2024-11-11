@@ -17,8 +17,8 @@ public class Poison : StatusEffect
     {
         if (entity != null)
         {
-            entity.TakeDamage(damage);
-            Debug.Log($"Poison effect: {damage} damage dealt to {entity.name}.");
+            float damageTaken = entity.TakeDamage(damage);
+            Debug.Log($"Poison effect: {damageTaken} damage dealt to {entity.name}.");
         }
     }
 }

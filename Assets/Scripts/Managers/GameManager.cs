@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     {
         ROUND_START,
         PLAYER_ROUND,
-        PLAYER_ACTION,
         ENEMY_ROUND,
         ROUND_END,
     }
@@ -60,35 +59,30 @@ public class GameManager : MonoBehaviour
             switch (state)
             {
                 case STATES.ROUND_START:
+                    Debug.Log("ROUND START");
                     // refill action count
                     player.actionCount = player.maxActionCount;
                     
-                    Debug.Log("ROUND START");
+                    // reduce buffs/debuffs/status effects duration by 1 turn
+                    player.TickDownStatusEffectsAndBuffs();
+                    
                     state = STATES.PLAYER_ROUND;
+                    
+                    Debug.Log("PLAYER ROUND");
                     break;
 
                 case STATES.PLAYER_ROUND:
-                    // Debug.Log("PLAYER ROUND");
                     //go to next round if player can't action anymore
                     if (player != null)
                     {
-                        // reduce buffs/debuffs/status effects duration by 1 turn
-                        player.TickDownStatusEffectsAndBuffs();
-                        
                         if (player.actionCount <= 0)
                         {
-                            state = STATES.PLAYER_ACTION;
+                            state = STATES.ENEMY_ROUND;
                         }
                     }
                     else {
-                        state = STATES.PLAYER_ACTION;
+                        state = STATES.ENEMY_ROUND;
                     }
-                    yield return new WaitForSeconds(pauseDuration);
-                    break;
-
-                case STATES.PLAYER_ACTION:
-                    Debug.Log("PLAYER ACTION");
-                    state = STATES.ENEMY_ROUND;
                     yield return new WaitForSeconds(pauseDuration);
                     break;
 
