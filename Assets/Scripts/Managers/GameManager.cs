@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     {
         ROUND_START,
         PLAYER_ROUND,
-        PLAYER_ACTION,
         ENEMY_ROUND,
         ROUND_END,
     }
@@ -39,9 +38,9 @@ public class GameManager : MonoBehaviour
     {
         player.MoveTo(_playerStartX, _playerStartY);
         
-        // entityManager.SpawnEnemy<EvilEye>(9, 1);
-        // entityManager.SpawnEnemy<GiantPillbug>(9, 9);
-        // entityManager.SpawnEnemy<StoneGolem>(5, 5);
+        entityManager.SpawnEnemy<EvilEye>(9, 1);
+        entityManager.SpawnEnemy<GiantPillbug>(9, 9);
+        entityManager.SpawnEnemy<StoneGolem>(5, 5);
         entityManager.SpawnEnemy<Snake>(3, 3);
         
         entityManager.SpawnObstacle<Rock>(8, 1);
@@ -68,27 +67,22 @@ public class GameManager : MonoBehaviour
                     player.TickDownStatusEffectsAndBuffs();
                     
                     state = STATES.PLAYER_ROUND;
+                    
+                    Debug.Log("PLAYER ROUND");
                     break;
 
                 case STATES.PLAYER_ROUND:
-                    // Debug.Log("PLAYER ROUND");
                     //go to next round if player can't action anymore
                     if (player != null)
                     {
                         if (player.actionCount <= 0)
                         {
-                            state = STATES.PLAYER_ACTION;
+                            state = STATES.ENEMY_ROUND;
                         }
                     }
                     else {
-                        state = STATES.PLAYER_ACTION;
+                        state = STATES.ENEMY_ROUND;
                     }
-                    yield return new WaitForSeconds(pauseDuration);
-                    break;
-
-                case STATES.PLAYER_ACTION:
-                    Debug.Log("PLAYER ACTION");
-                    state = STATES.ENEMY_ROUND;
                     yield return new WaitForSeconds(pauseDuration);
                     break;
 
