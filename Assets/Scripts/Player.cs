@@ -76,16 +76,16 @@ public class Player : Entity
 
     private void DetectForAbilitySelection()
     {
-        // if (Input.GetKeyDown(KeyCode.Alpha1))
-        // {
-        //     Debug.Log("Selected Basic Attack");
-        //     selectedAbility = null;
-        //     selectedAction = SELECTED.ATTACK;
-        // }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("Selected Basic Attack");
+            selectedAbility = null;
+            selectedAction = SELECTED.ATTACK;
+        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SelectAbility(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SelectAbility(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(2);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SelectAbility(0);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(1);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) SelectAbility(2);
     }
 
     /// <summary>
@@ -137,11 +137,11 @@ public class Player : Entity
             return;
         }
 
-      if (selectedAbility == abilitiesArray[index]) {
-        selectedAbility = null;
-        Debug.Log($"Deselected {abilitiesArray[index].GetType().Name}");
-        return;
-      }
+      // if (selectedAbility == abilitiesArray[index]) {
+      //   selectedAbility = null;
+      //   Debug.Log($"Deselected {abilitiesArray[index].GetType().Name}");
+      //   return;
+      // }
 
       Ability ability = abilitiesArray[index];
 
