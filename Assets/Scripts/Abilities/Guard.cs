@@ -13,9 +13,10 @@ public class Guard : Ability
     protected override void ActivateInternal(AbilityContext context)
     {
         Debug.Log($"{gameObject} used Guard");
-        
+
         // blocks all damage
-        Caster.guarding = true;
-        Caster.guardingDuration = 1;
+        Guarding guarding = gameObject.AddComponent<Guarding>();
+        guarding.Initialize(1, Caster);
+        Caster.ReceiveStatusEffect(guarding);
     }
 }

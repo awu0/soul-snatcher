@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
     {
         player.MoveTo(_playerStartX, _playerStartY);
         
-        entityManager.SpawnEnemy<WeaklingEnemy>(1, 9);
         entityManager.SpawnEnemy<EvilEye>(9, 1);
         entityManager.SpawnEnemy<GiantPillbug>(9, 9);
         entityManager.SpawnEnemy<StoneGolem>(5, 5);
@@ -64,16 +63,6 @@ public class GameManager : MonoBehaviour
                     // refill action count
                     player.actionCount = player.maxActionCount;
                     
-                    // reduce buffs/debuffs/status effects duration by 1 turn
-                    player.TickDownStatusEffectsAndBuffs();
-                    foreach (var enemy in entityManager.enemies)
-                    {
-                        if (enemy != null)
-                        {
-                            enemy.TickDownStatusEffectsAndBuffs();  
-                        }
-                    }
-                    
                     Debug.Log("ROUND START");
                     state = STATES.PLAYER_ROUND;
                     break;
@@ -83,6 +72,9 @@ public class GameManager : MonoBehaviour
                     //go to next round if player can't action anymore
                     if (player != null)
                     {
+                        // reduce buffs/debuffs/status effects duration by 1 turn
+                        player.TickDownStatusEffectsAndBuffs();
+                        
                         if (player.actionCount <= 0)
                         {
                             state = STATES.PLAYER_ACTION;
@@ -107,6 +99,9 @@ public class GameManager : MonoBehaviour
                     {
                         if (enemy != null)
                         {
+                            // reduce buffs/debuffs/status effects duration by 1 turn
+                            enemy.TickDownStatusEffectsAndBuffs(); 
+                            
                             enemy.DetermineNextMove();
                             yield return new WaitForSeconds(pauseDuration);   
                         }
@@ -120,16 +115,6 @@ public class GameManager : MonoBehaviour
                     
                     entityManager.RemoveDeadEnemies();
                     entityManager.RemoveDeadObstacles();
-                    
-                    // remove buffs/debuffs/status effects if duration is 0
-                    player.RemoveStatusEffectsAndBuffs();
-                    foreach (var enemy in entityManager.enemies)
-                    {
-                        if (enemy != null)
-                        {
-                            enemy.RemoveStatusEffectsAndBuffs();  
-                        }
-                    }
                     
                     state = STATES.ROUND_START;
                     break;

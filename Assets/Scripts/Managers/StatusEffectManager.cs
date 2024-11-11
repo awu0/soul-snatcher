@@ -8,7 +8,7 @@ using UnityEngine;
 */
 
 public class StatusEffectManager : MonoBehaviour
-{   
+{
     private List<StatusEffect> activeEffects = new List<StatusEffect>();
 
     public void AddStatusEffect(StatusEffect effect)
@@ -18,17 +18,27 @@ public class StatusEffectManager : MonoBehaviour
 
     public void UpdateStatuses()
     {
-        for (int i = activeEffects.Count-1; i >= 0; i--)
+        for (int i = activeEffects.Count - 1; i >= 0; i--)
         {
             var effect = activeEffects[i];
             effect.ActivateEffect();
             effect.Duration--;
 
             if (effect.Duration <= 0)
-            {   
+            {
                 activeEffects.RemoveAt(i);
                 effect.Removed();
             }
         }
+    }
+
+    public bool HasStatusEffect<T>() where T : StatusEffect
+    {
+        foreach (var effect in activeEffects)
+        {
+            if (effect is T) return true;
+        }
+
+        return false;
     }
 }

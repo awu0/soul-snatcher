@@ -6,7 +6,7 @@ using UnityEngine;
 public enum StatusEffectType
 {
     Poison,
-    Block,
+    Guarding,
 }
 
 public abstract class StatusEffect : MonoBehaviour
@@ -24,11 +24,11 @@ public abstract class StatusEffect : MonoBehaviour
 
     public void Removed()
     {   
-        Debug.Log($"{this.name} has worn off.");
+        Debug.Log($"StatusEffect ({Type}) for {this.name} has worn off.");
         Destroy(this);
     }
 
     public abstract void ActivateEffect();
 
-    public abstract void InitializeSub(); //Init subclass things
+    public abstract void InitializeSub(); // Init subclass things
 }
