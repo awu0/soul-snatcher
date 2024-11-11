@@ -86,7 +86,12 @@ public abstract class Entity : MonoBehaviour
         locY = newY;
     }
     
-    public virtual void TakeDamage(int amount)
+    /// <summary>
+    /// Makes the entity take damage.
+    /// </summary>
+    /// <param name="amount">How much damage to take</param>
+    /// <returns>The actual damage amount after modifiers</returns>
+    public virtual int TakeDamage(int amount)
     {
         if (statusEffectManager.HasStatusEffect<Guarding>())
         {
@@ -98,6 +103,8 @@ public abstract class Entity : MonoBehaviour
         {
             Die();
         }
+
+        return amount;
     }
 
     public void ReceiveStatusEffect(StatusEffect effect)
