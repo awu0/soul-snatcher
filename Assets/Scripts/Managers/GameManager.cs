@@ -39,9 +39,9 @@ public class GameManager : MonoBehaviour
     {
         player.MoveTo(_playerStartX, _playerStartY);
         
-        entityManager.SpawnEnemy<EvilEye>(9, 1);
-        entityManager.SpawnEnemy<GiantPillbug>(9, 9);
-        entityManager.SpawnEnemy<StoneGolem>(5, 5);
+        // entityManager.SpawnEnemy<EvilEye>(9, 1);
+        // entityManager.SpawnEnemy<GiantPillbug>(9, 9);
+        // entityManager.SpawnEnemy<StoneGolem>(5, 5);
         entityManager.SpawnEnemy<Snake>(3, 3);
         
         entityManager.SpawnObstacle<Rock>(8, 1);
@@ -60,10 +60,13 @@ public class GameManager : MonoBehaviour
             switch (state)
             {
                 case STATES.ROUND_START:
+                    Debug.Log("ROUND START");
                     // refill action count
                     player.actionCount = player.maxActionCount;
                     
-                    Debug.Log("ROUND START");
+                    // reduce buffs/debuffs/status effects duration by 1 turn
+                    player.TickDownStatusEffectsAndBuffs();
+                    
                     state = STATES.PLAYER_ROUND;
                     break;
 
@@ -72,9 +75,6 @@ public class GameManager : MonoBehaviour
                     //go to next round if player can't action anymore
                     if (player != null)
                     {
-                        // reduce buffs/debuffs/status effects duration by 1 turn
-                        player.TickDownStatusEffectsAndBuffs();
-                        
                         if (player.actionCount <= 0)
                         {
                             state = STATES.PLAYER_ACTION;
