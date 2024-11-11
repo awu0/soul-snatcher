@@ -8,6 +8,8 @@ public abstract class Enemy : Entity
     protected readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
     
     protected Player player;
+    
+    public AudioSource damageSFX;
 
     public new void Start()
     {
@@ -49,6 +51,13 @@ public abstract class Enemy : Entity
      * True if you can use ability.
      */
     protected abstract bool AbilityConditionsMet();
+
+    public override int TakeDamage(int amount)
+    {
+        damageSFX.Play();
+        
+        return base.TakeDamage(amount);
+    }
 
     public override void Die()
     {

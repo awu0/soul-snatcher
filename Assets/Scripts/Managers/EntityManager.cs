@@ -29,10 +29,28 @@ public class EntityManager : MonoBehaviour
 
         Vector3 position = new Vector3(x, y, 0);
         GameObject newEnemyObject = Instantiate(prefab, position, Quaternion.identity);
+        
         Enemy newEnemy = newEnemyObject.GetComponent<Enemy>();
 
         newEnemy.locX = x;
         newEnemy.locY = y;
+        
+        // get audio
+        AudioClip damageSFXClip = Resources.Load<AudioClip>("Audio/Enemy Damage");
+        if (damageSFXClip == null)
+        {
+            Debug.LogWarning("Failed to load damage audio clip from Resources/Audio/Enemy Damage.");
+        }
+        else
+        {
+            AudioSource audioSource = newEnemyObject.GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = newEnemyObject.AddComponent<AudioSource>();
+            }
+            audioSource.clip = damageSFXClip;
+            newEnemy.damageSFX = audioSource;
+        }
         
         _enemies.Add(newEnemy);
         
