@@ -84,9 +84,12 @@ public class Player : Entity
             selectedAction = SELECTED.ATTACK;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SelectAbility(0);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(1);
-        if (Input.GetKeyDown(KeyCode.Alpha4)) SelectAbility(2);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) {
+          SelectAbility(0);
+        }
+
+        // if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(1);
+        // if (Input.GetKeyDown(KeyCode.Alpha4)) SelectAbility(2);
     }
 
     /// <summary>
@@ -145,30 +148,29 @@ public class Player : Entity
       // }
 
       Ability ability = abilitiesArray[index];
-
-        Debug.Log($"Selecting ability: {ability.GetType().Name}");
-
-        selectedAbility = ability;
+      Debug.Log($"Selecting ability: {ability.GetType().Name}");
+      selectedAbility = ability;
     }
 
     private void HandleAbilityInput()
     {
         switch (selectedAbility.Type)
         {
-            // Directional Abilities use WASD
-            case Ability.AbilityType.Directional:
+            // Directional Abilities use directional mouse input
+            case Ability.AbilityType.Directional: 
                 Vector2Int direction = Vector2Int.zero;
-
-                if (Input.GetKeyDown(KeyCode.W)) direction.y = 1;
-                if (Input.GetKeyDown(KeyCode.S)) direction.y = -1;
-                if (Input.GetKeyDown(KeyCode.D)) direction.x = 1;
-                if (Input.GetKeyDown(KeyCode.A)) direction.x = -1;
-
-                if (direction != Vector2Int.zero)
-                {
-                    UseAbility(direction: direction);
+                (int x, int y) playerGridPosition = GetCurrentPosition();
+                
+                if (Input.GetMouseButtonDown(0)) {
+                  direction = grids.GetDirectionFromMouse(
+                    playerPos: new Vector2Int(playerGridPosition.x, playerGridPosition.y),
+                    mousePos: Input.mousePosition
+                  );
                 }
 
+                if (direction != Vector2Int.zero) {
+                    UseAbility(direction: direction);
+                }
                 break;
             // Targeted Abilities use mouse input
             case Ability.AbilityType.Targeted:
@@ -212,7 +214,12 @@ public class Player : Entity
         // EntityBaseStats newStats = EntityData.EntityBaseStatMap[soul.Type];
         SetStats(maxHealth: newStats.MaxHealth, newStats.Attack, newStats.Range, soul.Type);
 
+        // Gain ability of enemy
         GainAbility(soul.Type);
+
+        // Gain Sprite of enemy
+        PlayerSpriteChanger playerSpriteChanger = gameObject.GetComponent<PlayerSpriteChanger>();
+        playerSpriteChanger.ChangePlayerSprite(soul.Type);
 
         Debug.Log($"Player is now of type: {this.type}");
         Debug.Log($"Player maxHealth: {this.maxHealth}");
@@ -242,7 +249,7 @@ public class Player : Entity
         }
 
         // Remove old ability if we have too many
-        if (abilities.Count >= 3)
+        if (abilities.Count >= 1)
         {
             Ability oldAbility = abilities.Dequeue();
             if (oldAbility != null)
@@ -258,7 +265,6 @@ public class Player : Entity
             Debug.LogError($"Type {abilityType.Name} does not derive from Ability!");
             return;
         }
-
 
         Ability newAbility = gameObject.AddComponent(abilityType) as Ability;
         newAbility.Initialize(caster: this, damage: attack);
