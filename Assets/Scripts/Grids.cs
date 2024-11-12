@@ -143,4 +143,23 @@ public class Grids : MonoBehaviour
 
         return (gridX, gridY);
     }
+
+    public Vector2Int GetDirectionFromMouse(Vector2Int playerPos, Vector2 mousePos) {
+      (int x, int y) mouseGridPos = ConvertToGridPosition(mousePos);
+
+      int xDiff = mouseGridPos.x - playerPos.x;
+      int yDiff = mouseGridPos.y - playerPos.y;
+
+      if (xDiff == 0 && yDiff > 0) {
+        return Vector2Int.up;
+      } else if (xDiff == 0 && yDiff < 0) {
+        return Vector2Int.down;
+      } else if (xDiff > 0 && yDiff == 0) {
+        return Vector2Int.right;
+      } else if (xDiff < 0 && yDiff == 0) {
+        return Vector2Int.left;
+      } else {
+        return Vector2Int.zero;
+      }
+    }
 }
