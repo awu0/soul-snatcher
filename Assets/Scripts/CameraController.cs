@@ -13,6 +13,13 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        HandlePanning();
+
+        HandleZoom();
+    }
+
+    private void HandlePanning()
+    {
         // Check if the right mouse button is pressed
         if (Input.GetMouseButtonDown(1))
         {
@@ -31,8 +38,6 @@ public class CameraController : MonoBehaviour
 
             dragOrigin = currentMousePosition;
         }
-
-        HandleZoom();
     }
 
     private void HandleZoom()

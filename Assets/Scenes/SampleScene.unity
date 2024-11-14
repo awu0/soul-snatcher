@@ -514,6 +514,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragSpeed: 5
+  minZoom: 5
+  maxZoom: 20
+  scrollSpeed: 10
 --- !u!1 &573239100
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,6 +1134,8 @@ MonoBehaviour:
   columns: 30
   scale: 1
   PrefabGrid: {fileID: 4399044442434539005, guid: 904d3bbd89b52724b97983e2b0a21c0e, type: 3}
+  PrefabGrid2: {fileID: 4399044442434539005, guid: 1961706bc9da092408e030aa1a808e94, type: 3}
+  PrefabGrid3: {fileID: 4399044442434539005, guid: c62a87dbeb11d8e4d88189c1612ffe00, type: 3}
   leftBottomLocation: {x: 0, y: 0}
 --- !u!4 &1432450316
 Transform:

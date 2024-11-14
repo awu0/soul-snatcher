@@ -11,6 +11,8 @@ public class Grids : MonoBehaviour
     
     //prefab of a grid
     public GameObject PrefabGrid;
+    public GameObject PrefabGrid2;
+    public GameObject PrefabGrid3;
 
     // 2D array for the grids
     public GameObject[,] gridArray;
@@ -49,8 +51,25 @@ public class Grids : MonoBehaviour
                     leftBottomLocation.y + j * scale,
                     0
                     );
+                GameObject chosenPrefab;
+                float randomValue = Random.value;
+                if (randomValue < 0.33f)
+                {
+                    chosenPrefab = PrefabGrid;
+                }
+                else if (randomValue < 0.66f)
+                {
+                    chosenPrefab = PrefabGrid2;
+                }
+                else
+                {
+                    chosenPrefab = PrefabGrid3;
+                }
 
-                GameObject obj = Instantiate(PrefabGrid, position, Quaternion.identity);
+                // Randomly rotate the object in increments of 90 degrees
+                Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(0, 4) * 90);
+
+                GameObject obj = Instantiate(chosenPrefab, position, rotation);
                 obj.transform.SetParent(gameObject.transform);
                 gridArray[i, j] = obj;
             }

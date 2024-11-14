@@ -48,23 +48,25 @@ public class GameManager : MonoBehaviour
         // entityManager.SpawnObstacle<Rock>(1, 3);
         // entityManager.SpawnObstacle<Rock>(5, 0);
         // entityManager.SpawnObstacle<Rock>(7, 7);
-        int width = 30; 
-        int height = 30;
+        int width = grids.columns;
+        int height = grids.rows;
         bool[] map = GenerateMap.Generate(width, height);
+        Vector2Int playerSpawn = grids.RandomValidSpawnPosition(map, width, height);
+        _playerStartX = playerSpawn.x;
+        _playerStartY = playerSpawn.y;
+        player.MoveTo(_playerStartX, _playerStartY);
+
+        GenerateMap.ConnectOpenSpaces(map, width, height, playerSpawn);
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
                 if (map[x + y * width])
                 {
-                    entityManager.SpawnObstacle<Rock>(x, y);
+                    entityManager.SpawnObstacle<Rock>(x, y); //Replace with proper walls later
                 }
             }
         }
-        Vector2Int playerSpawn = grids.RandomValidSpawnPosition(map, width, height);
-        _playerStartX = playerSpawn.x;
-        _playerStartY = playerSpawn.y;
-        player.MoveTo(_playerStartX, _playerStartY);
 
         List<Type> enemiesToSpawn = new List<Type>
         {
