@@ -11,7 +11,7 @@ public class Grids : MonoBehaviour
     
     //prefab of a grid
     public GameObject PrefabGrid;
-    
+
     // 2D array for the grids
     public GameObject[,] gridArray;
     
@@ -161,5 +161,31 @@ public class Grids : MonoBehaviour
       } else {
         return Vector2Int.zero;
       }
+    }
+
+
+    public Vector2Int RandomValidSpawnPosition(bool[] map, int width, int height)
+    {
+        List<Vector2Int> validPositions = new List<Vector2Int>();
+
+        // Collect all valid positions
+        for (int y = 1; y < height - 1; y++)
+        {
+            for (int x = 1; x < width - 1; x++)
+            {
+                if (!map[x + y * width] && !IsCellOccupied(x, y)) 
+                {   
+                    validPositions.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+
+        if (validPositions.Count > 0)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, validPositions.Count);
+            return validPositions[randomIndex];
+        }
+
+        return new Vector2Int(1, 1);
     }
 }
