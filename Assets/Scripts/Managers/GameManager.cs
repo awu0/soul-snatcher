@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
         ROUND_END,
     }
     public Player player;
+    public Vector2Int stairsPos;
 
     private int _playerStartX = 1;
     private int _playerStartY = 1;
@@ -36,20 +37,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // player.MoveTo(_playerStartX, _playerStartY);
-        
-        // entityManager.SpawnEnemy<EvilEye>(9, 1);
-        // entityManager.SpawnEnemy<GiantPillbug>(9, 9);
-        // entityManager.SpawnEnemy<StoneGolem>(5, 5);
-        // entityManager.SpawnEnemy<Snake>(3, 3);
-        
-        // entityManager.SpawnObstacle<Rock>(8, 1);
-        // entityManager.SpawnObstacle<Rock>(9, 2);
-        // entityManager.SpawnObstacle<Rock>(1, 3);
-        // entityManager.SpawnObstacle<Rock>(5, 0);
-        // entityManager.SpawnObstacle<Rock>(7, 7);
+        StartLevel();
+        StartCoroutine(RunTurnManager());
+
+    }
+
+    private void StartLevel() 
+    {
         int width = grids.columns;
         int height = grids.rows;
+
         bool[] map = GenerateMap.Generate(width, height);
         Vector2Int playerSpawn = grids.RandomValidSpawnPosition(map, width, height);
         _playerStartX = playerSpawn.x;
@@ -67,14 +64,8 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-        List<Type> enemiesToSpawn = new List<Type>
-        {
-            typeof(EvilEye),
-            typeof(GiantPillbug),
-            typeof(StoneGolem),
-            typeof(Snake)
-        };
+        
+        List<Type> enemiesToSpawn = GenerateEnemyList();
 
         for (int i = 0; i < enemiesToSpawn.Count; i++)
         {
@@ -86,8 +77,19 @@ public class GameManager : MonoBehaviour
                 .MakeGenericMethod(enemyType)
                 .Invoke(entityManager, new object[] { enemySpawn.x, enemySpawn.y });
         }
+    }
 
-        StartCoroutine(RunTurnManager());
+    private List<Type> GenerateEnemyList()
+    {
+        List<Type> enemiesToSpawn = new List<Type>
+        {
+            typeof(EvilEye),
+            typeof(GiantPillbug),
+            typeof(StoneGolem),
+            typeof(Snake)
+        }; 
+
+        return enemiesToSpawn;
     }
 
     private IEnumerator RunTurnManager()

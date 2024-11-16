@@ -186,6 +186,7 @@ public class Grids : MonoBehaviour
     public Vector2Int RandomValidSpawnPosition(bool[] map, int width, int height)
     {
         List<Vector2Int> validPositions = new List<Vector2Int>();
+        int entityDist = 2; //Distance of spawn so entities dont spawn next to each other
 
         // Collect all valid positions
         for (int y = 1; y < height - 1; y++)

@@ -940,6 +940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2069660942}
+  stairsPos: {x: 0, y: 0}
   state: 0
   entityManager: {fileID: 442440895}
   grids: {fileID: 1432450315}
@@ -1130,8 +1131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3e9d74eb9a9024d92f75533d4584f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows: 30
-  columns: 30
+  rows: 20
+  columns: 20
   scale: 1
   PrefabGrid: {fileID: 4399044442434539005, guid: 904d3bbd89b52724b97983e2b0a21c0e, type: 3}
   PrefabGrid2: {fileID: 4399044442434539005, guid: 1961706bc9da092408e030aa1a808e94, type: 3}
