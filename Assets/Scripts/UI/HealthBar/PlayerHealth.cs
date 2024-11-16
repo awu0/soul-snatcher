@@ -14,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     public float cutBarOffset;
     public Transform cutBarTemplate;
     public TextMeshProUGUI healthText;
+    public GameObject HitTextPrefab;
 
     public bool takeDamage;
     public bool heal;
@@ -22,10 +23,15 @@ public class PlayerHealth : MonoBehaviour
     public float barWidth = 332.5f;
     private float damagedHealthShrinkTimer;
     private const float DAMAGED_HEALTH_SHRINK_TIMER_MAX = 1f;
+    private float damageTaken = 0;
 
     private void Awake()
     {
         cutBarTemplate = transform.Find("CutBarTemplate");
+        if (playerScript != null)
+        {
+            healthText.text = $"{playerScript.health}";
+        }
     }
 
     private void Start()
@@ -40,11 +46,14 @@ public class PlayerHealth : MonoBehaviour
     private void Update()
     {
         if (playerScript != null) {
-
-            healthText.text = $"{playerScript.health} / {playerScript.maxHealth}";
+            if (healthText.text == "0")
+            {
+                healthText.text = $"{playerScript.health}";
+            }
 
             if (playerScript.health < currentHealth)
             {
+                damageTaken = currentHealth - playerScript.health;
                 SetDamage();
                 currentHealth = playerScript.health;
             }
@@ -88,11 +97,30 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log(cutBar.GetComponent<Image>().fillAmount);
         cutBar.gameObject.AddComponent<HealthBarCutFallDown>();
 
+        if (HitTextPrefab != null) {
+            showHitText(true);
+        }
+
+    }
+
+    void showHitText(bool damage)
+    {
+        var hitText = Instantiate(HitTextPrefab, playerScript.transform.position, Quaternion.identity);
+        hitText.GetComponent<TextMeshPro>().text = damageTaken.ToString();
+
+        if (!damage) {
+            hitText.GetComponent<TextMeshPro>().color = Color.green;
+        }
     }
 
     private void SetHeal()
     {
         healthBar.fillAmount = Mathf.Clamp((float)playerScript.health / playerScript.maxHealth, 0, 1);
         damagedBar.fillAmount = healthBar.fillAmount;
+
+        if (HitTextPrefab != null && playerScript.health != playerScript.maxHealth)
+        {
+            showHitText(false);
+        }
     }
 }

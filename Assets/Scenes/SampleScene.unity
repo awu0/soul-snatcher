@@ -315,6 +315,7 @@ MonoBehaviour:
   cutBarOffset: 55
   cutBarTemplate: {fileID: 573239101}
   healthText: {fileID: 58847439}
+  HitTextPrefab: {fileID: 192908768856460434, guid: 96cefa6679de78b40b51d9c342ffc1f3, type: 3}
   takeDamage: 0
   heal: 0
   barWidth: 253.89
@@ -728,11 +729,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -1242,6 +1243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthTextDisplay: {fileID: 58847439}
+  playerScript: {fileID: 2069660942}
 --- !u!1 &2069660939
 GameObject:
   m_ObjectHideFlags: 0

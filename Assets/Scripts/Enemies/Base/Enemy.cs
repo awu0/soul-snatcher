@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public abstract class Enemy : Entity
@@ -11,6 +12,8 @@ public abstract class Enemy : Entity
     
     public AudioSource damageSFX;
 
+    private GameObject enemyHitPrefab;
+
     public new void Start()
     {
         base.Start();
@@ -19,6 +22,12 @@ public abstract class Enemy : Entity
         
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         player = playerObject.GetComponent<Player>();
+
+        enemyHitPrefab = Resources.Load<GameObject>("Prefabs/UI/EnemyHitText");
+        if (enemyHitPrefab == null)
+        {
+            Debug.LogError("Prefab not found!");
+        }
     }
 
     /**
@@ -55,8 +64,14 @@ public abstract class Enemy : Entity
     public override int TakeDamage(int amount)
     {
         damageSFX.Play();
-        
+
+        if (enemyHitPrefab != null)
+        {
+            showHitText(true, amount);
+        }
+
         return base.TakeDamage(amount);
+        
     }
 
     public override void Die()
@@ -117,4 +132,11 @@ public abstract class Enemy : Entity
       gridsClass.SetCellSoul(enemyPosition.x, enemyPosition.y, soulClass);
       Debug.Log($"Soul of type {type} created at {enemyPosition.x}, {enemyPosition.y}");
     }
+
+    private void showHitText(bool takenDamage, int amount) {
+        var hitText = Instantiate(enemyHitPrefab, gameObject.transform.position, Quaternion.identity);
+        hitText.GetComponent<TextMeshPro>().text = amount.ToString();
+        hitText.GetComponent<TextMeshPro>().color = Color.white;
+    }
+
 }

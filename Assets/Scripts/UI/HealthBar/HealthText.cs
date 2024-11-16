@@ -5,22 +5,20 @@ using TMPro;
 public class HealthText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public TextMeshProUGUI healthTextDisplay; // Reference to the health text display
+    public Player playerScript;
 
     private void Awake()
     {
-        // Hide the health text initially
-        if (healthTextDisplay != null)
-        {
-            healthTextDisplay.gameObject.SetActive(false);
-        }
+        
     }
 
     // Show health text when the mouse is over the child object
     public void OnPointerEnter(PointerEventData eventData)
     {
+        
         if (healthTextDisplay != null)
         {
-            healthTextDisplay.gameObject.SetActive(true);
+            healthTextDisplay.text = $"{playerScript.health} / {playerScript.maxHealth}";
         }
     }
 
@@ -29,7 +27,7 @@ public class HealthText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (healthTextDisplay != null)
         {
-            healthTextDisplay.gameObject.SetActive(false);
+            healthTextDisplay.text = $"{playerScript.health}";
         }
     }
 }
