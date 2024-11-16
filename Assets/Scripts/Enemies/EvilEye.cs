@@ -54,12 +54,47 @@ public class EvilEye : RangedEnemyType
     }
 
     /**
-     * Attack Range: straight line down
+     * Attack Range: straight line down; no wall
      * Conditions: directly across from player
      */
     protected override bool AbilityConditionsMet()
     {
-        return GetCurrentPosition().x == GetPlayerPosition().x || GetCurrentPosition().y == GetPlayerPosition().y;
+        var (currentX, currentY) = GetCurrentPosition();
+        var (playerX, playerY) = GetPlayerPosition();
+
+        if (currentX != playerX && currentY != playerY) return false;
+        
+        // check if the player is in sight and not blocked by walls
+        
+        // same column
+        if (currentX == playerX)
+        {
+            int step = playerY > currentY ? 1 : -1;
+            for (int y = currentY + step; y != playerY; y += step)
+            {
+                if (grids.IsWall(currentX, y)) // blocked by a wall
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        // same row
+        if (currentY == playerY)
+        {
+            int step = playerX > currentX ? 1 : -1;
+            for (int x = currentX + step; x != playerX; x += step)
+            {
+                if (grids.IsWall(x, currentY)) // blocked by a wall
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        return false;
     }
 
     public override void DetermineNextMove()

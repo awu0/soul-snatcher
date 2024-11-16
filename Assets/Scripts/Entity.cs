@@ -10,18 +10,18 @@ public abstract class Entity : MonoBehaviour
 {
     [NonSerialized] public int locX;
     [NonSerialized] public int locY;
-    
+
     [NonSerialized] public int maxActionCount = 1;
     [NonSerialized] public int actionCount = 0;
-    
+
     [NonSerialized] public int health;
     [NonSerialized] public int attack;
-    [NonSerialized] public int maxHealth;   
+    [NonSerialized] public int maxHealth;
     [NonSerialized] public int range;
     [NonSerialized] public EntityType type;
 
     protected Ability ability;
-    
+
     protected Grids grids;
 
     protected StatusEffectManager statusEffectManager;
@@ -32,20 +32,20 @@ public abstract class Entity : MonoBehaviour
         if (gridObject != null)
         {
             grids = gridObject.GetComponent<Grids>();
-        } 
-        
-    statusEffectManager = GetComponent<StatusEffectManager>();
-    if (statusEffectManager == null)
-    {
-        statusEffectManager = gameObject.AddComponent<StatusEffectManager>();
-    }
+        }
+
+        statusEffectManager = GetComponent<StatusEffectManager>();
+        if (statusEffectManager == null)
+        {
+            statusEffectManager = gameObject.AddComponent<StatusEffectManager>();
+        }
     }
 
     public void Start()
     {
         actionCount = maxActionCount;
     }
-    
+
     protected void SetStats(int maxHealth, int attack, int range, EntityType type)
     {
         this.maxHealth = maxHealth;
@@ -74,18 +74,18 @@ public abstract class Entity : MonoBehaviour
             Debug.LogWarning($"{gameObject}.MoveTo({newX}, {newY}), but there is already something there!");
             return;
         }
-        
+
         var (x, y) = GetCurrentPosition();
         grids.SetCellOccupied(x, y, null);
-            
+
         transform.position = new Vector3(newX, newY, transform.position.z);
-            
+
         grids.SetCellOccupied(newX, newY, this);
-        
+
         locX = newX;
         locY = newY;
     }
-    
+
     /// <summary>
     /// Makes the entity take damage.
     /// </summary>
@@ -97,7 +97,7 @@ public abstract class Entity : MonoBehaviour
         {
             amount = 0;
         }
-        
+
         health -= amount;
         if (health <= 0)
         {
@@ -113,17 +113,17 @@ public abstract class Entity : MonoBehaviour
     }
 
     public void TickDownStatusEffectsAndBuffs()
-    {   
+    {
         statusEffectManager.UpdateStatuses();
     }
-    
+
     public virtual void Die()
     {
         Debug.Log($"{gameObject.name} has died.");
 
         Destroy(gameObject);
     }
-    
+
     /**
      * Returns this entity's current position
      */
