@@ -88,7 +88,7 @@ public class Grids : MonoBehaviour
     /// <returns></returns>
     public bool IsPositionWithinBounds(int x, int y)
     {
-        return x >= 0 && x < columns && y >= 0 && y < rows;
+        return x >= 0 && x < columns && y >= 0 && y < rows && !IsWall(x, y);
     }
 
     public Entity GetEntityAt(int x, int y)
