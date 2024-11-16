@@ -123,7 +123,7 @@ public class Grids : MonoBehaviour
         return GetEntityAt(pos.x, pos.y);
     }
     
-    public bool IsWall(int x, int y)
+    private bool IsWall(int x, int y)
     {
         return wallCells[x, y];
     }
