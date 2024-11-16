@@ -72,12 +72,8 @@ public class EvilEye : RangedEnemyType
             int step = playerY > currentY ? 1 : -1;
             for (int y = currentY + step; y != playerY; y += step)
             {
-                if (grids.IsWall(currentX, y)) // blocked by a wall
-                {
-                    return false;
-                }
+                if (!grids.IsPositionWithinBounds(currentX, y)) return false;
             }
-            return true;
         }
         
         // same row
@@ -86,15 +82,11 @@ public class EvilEye : RangedEnemyType
             int step = playerX > currentX ? 1 : -1;
             for (int x = currentX + step; x != playerX; x += step)
             {
-                if (grids.IsWall(x, currentY)) // blocked by a wall
-                {
-                    return false;
-                }
+                if (!grids.IsPositionWithinBounds(x, currentY)) return false;
             }
-            return true;
         }
 
-        return false;
+        return true;
     }
 
     public override void DetermineNextMove()
