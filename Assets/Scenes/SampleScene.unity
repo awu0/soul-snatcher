@@ -1241,6 +1241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthTextDisplay: {fileID: 58847439}
+  playerScript: {fileID: 2069660942}
 --- !u!1 &2069660939
 GameObject:
   m_ObjectHideFlags: 0
