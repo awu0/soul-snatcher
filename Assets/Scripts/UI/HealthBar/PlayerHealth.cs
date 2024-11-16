@@ -98,20 +98,29 @@ public class PlayerHealth : MonoBehaviour
         cutBar.gameObject.AddComponent<HealthBarCutFallDown>();
 
         if (HitTextPrefab != null) {
-            showHitText();
+            showHitText(true);
         }
 
     }
 
-    void showHitText()
+    void showHitText(bool damage)
     {
         var hitText = Instantiate(HitTextPrefab, playerScript.transform.position, Quaternion.identity);
         hitText.GetComponent<TextMeshPro>().text = damageTaken.ToString();
+
+        if (!damage) {
+            hitText.GetComponent<TextMeshPro>().color = Color.green;
+        }
     }
 
     private void SetHeal()
     {
         healthBar.fillAmount = Mathf.Clamp((float)playerScript.health / playerScript.maxHealth, 0, 1);
         damagedBar.fillAmount = healthBar.fillAmount;
+
+        if (HitTextPrefab != null && playerScript.health != playerScript.maxHealth)
+        {
+            showHitText(false);
+        }
     }
 }
