@@ -14,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
     public float cutBarOffset;
     public Transform cutBarTemplate;
     public TextMeshProUGUI healthText;
+    public GameObject HitTextPrefab;
 
     public bool takeDamage;
     public bool heal;
@@ -22,6 +23,7 @@ public class PlayerHealth : MonoBehaviour
     public float barWidth = 332.5f;
     private float damagedHealthShrinkTimer;
     private const float DAMAGED_HEALTH_SHRINK_TIMER_MAX = 1f;
+    private float damageTaken = 0;
 
     private void Awake()
     {
@@ -51,6 +53,7 @@ public class PlayerHealth : MonoBehaviour
 
             if (playerScript.health < currentHealth)
             {
+                damageTaken = currentHealth - playerScript.health;
                 SetDamage();
                 currentHealth = playerScript.health;
             }
@@ -94,6 +97,16 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log(cutBar.GetComponent<Image>().fillAmount);
         cutBar.gameObject.AddComponent<HealthBarCutFallDown>();
 
+        if (HitTextPrefab != null) {
+            showHitText();
+        }
+
+    }
+
+    void showHitText()
+    {
+        var hitText = Instantiate(HitTextPrefab, playerScript.transform.position, Quaternion.identity);
+        hitText.GetComponent<TextMeshPro>().text = damageTaken.ToString();
     }
 
     private void SetHeal()
