@@ -24,6 +24,7 @@ public class PlayerHealth : MonoBehaviour
     private float damagedHealthShrinkTimer;
     private const float DAMAGED_HEALTH_SHRINK_TIMER_MAX = 1f;
     private float damageTaken = 0;
+    private float healTaken = 0;
 
     private void Awake()
     {
@@ -58,6 +59,7 @@ public class PlayerHealth : MonoBehaviour
                 currentHealth = playerScript.health;
             }
             else if (playerScript.health > currentHealth) {
+                healTaken = playerScript.health - currentHealth;
                 SetHeal();
                 currentHealth = playerScript.health;
             }
@@ -110,6 +112,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (!damage) {
             hitText.GetComponent<TextMeshPro>().color = Color.green;
+            hitText.GetComponent<TextMeshPro>().text = healTaken.ToString();
         }
     }
 
