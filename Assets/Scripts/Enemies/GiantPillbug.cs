@@ -131,9 +131,8 @@ public class GiantPillbug : Enemy
 
     private bool IsPositionValid(Vector2Int position)
     {
-        return position.x >= 0 && position.x < grids.columns &&
-               position.y >= 0 && position.y < grids.rows &&
-               !grids.IsCellOccupied(position.x, position.y); // Check for obstacles
+        return grids.IsPositionWithinBounds(position.x, position.y) && 
+               !grids.IsCellOccupied(position.x, position.y);
     }
 
     private List<Vector2Int> GetPathToPlayer(int[,] distanceGrid)

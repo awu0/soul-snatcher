@@ -20,6 +20,9 @@ public class Grids : MonoBehaviour
     // 2D array to determine which cells are occupied, contains the reference to Entities
     private Entity[,] entityCells;
 
+    // 2D array to handle where the walls are. false if no wall, true if wall
+    private bool[,] wallCells;
+
     // 2D array to determine which cells have souls. Separate from entityCells since souls don't hinder movement
     public Soul[,] soulCells;
     
@@ -33,6 +36,7 @@ public class Grids : MonoBehaviour
         gridArray = new GameObject[columns, rows];
         
         entityCells = new Entity[columns, rows];
+        wallCells = new bool[columns, rows];
         soulCells = new Soul[columns, rows];
         
         // generate initial grids
@@ -76,9 +80,15 @@ public class Grids : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Determines if (x, y) is within the map. Also returns false if the position is a wall.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     public bool IsPositionWithinBounds(int x, int y)
     {
-        return x >= 0 && x < columns && y >= 0 && y < rows;
+        return x >= 0 && x < columns && y >= 0 && y < rows && !IsWall(x, y);
     }
 
     public Entity GetEntityAt(int x, int y)
@@ -111,6 +121,16 @@ public class Grids : MonoBehaviour
         }
         
         return GetEntityAt(pos.x, pos.y);
+    }
+    
+    private bool IsWall(int x, int y)
+    {
+        return wallCells[x, y];
+    }
+
+    public void SetWall(int x, int y, bool isWall)
+    {
+        wallCells[x, y] = isWall;
     }
     
     public bool DoesCellHaveSoul(int x, int y)

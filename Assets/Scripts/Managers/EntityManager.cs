@@ -95,6 +95,33 @@ public class EntityManager : MonoBehaviour
         grids.SetCellOccupied(x, y, newObstacle);
     }
     
+    /// <summary>
+    /// Spawns a wall, which blocks line of sight
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    public void SpawnWall(int x, int y)
+    {
+        // Check if the target position is free
+        if (grids.IsCellOccupied(x, y))
+        {
+            Debug.LogWarning($"Cannot spawn wall at ({x}, {y}): cell is occupied.");
+            return;
+        }
+        
+        GameObject prefab = GetPrefabForType<Wall>();
+
+        Vector3 position = new Vector3(x, y, 0);
+        GameObject newWallObject = Instantiate(prefab, position, Quaternion.identity);
+        Wall newWall = newWallObject.GetComponent<Wall>();
+
+        newWall.locX = x;
+        newWall.locY = y;
+        
+        grids.SetCellOccupied(x, y, newWall);
+        grids.SetWall(x, y, true);
+    }
+    
     public int GetEnemiesCount()
     {
         return _enemies.Count;

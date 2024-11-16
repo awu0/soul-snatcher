@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
             {
                 if (map[x + y * width])
                 {
-                    entityManager.SpawnObstacle<Rock>(x, y); //Replace with proper walls later
+                    entityManager.SpawnWall(x, y); 
                 }
             }
         }

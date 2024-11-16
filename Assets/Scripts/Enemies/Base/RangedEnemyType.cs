@@ -42,7 +42,6 @@ public abstract class RangedEnemyType : OneTileMovePerTurnEnemyType
             {
                 // Check if this position aligns with the player's position in a straight line
                 if (
-                    (position.x == playerPosition.x || position.y == playerPosition.y) &&
                     !grids.IsCellOccupied(position.x, position.y) &&
                     distanceGrid[position.x, position.y] != -1
                 )
