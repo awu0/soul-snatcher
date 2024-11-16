@@ -26,7 +26,8 @@ public class PlayerHealth : MonoBehaviour
     private void Awake()
     {
         cutBarTemplate = transform.Find("CutBarTemplate");
-        if (playerScript != null) {
+        if (playerScript != null)
+        {
             healthText.text = $"{playerScript.health}";
         }
     }
@@ -43,7 +44,10 @@ public class PlayerHealth : MonoBehaviour
     private void Update()
     {
         if (playerScript != null) {
-
+            if (healthText.text == "0")
+            {
+                healthText.text = $"{playerScript.health}";
+            }
 
             if (playerScript.health < currentHealth)
             {
