@@ -83,18 +83,20 @@ public abstract class Enemy : Entity
         (int x, int y) enemyPosition = GetCurrentPosition();
         GameObject newSoul = Instantiate(soulPrefab, new Vector3(enemyPosition.x, enemyPosition.y, 0), Quaternion.identity);
         Soul soulClass = newSoul.GetComponent<Soul>();
+
         if (soulClass == null) {
           Debug.Log($"Could not load newly created soul.");
           return;
         }
 
+        // Initiating a new soul will:
+        // 1. Create the soul
+        // 2. Move it towards the player
+        // 3. Absorb it
+        // 4. Destroy it
         soulClass.Initialize(type);
+
         Destroy(gameObject);
-
-        player.AbsorbSoul(soulClass);
-
-        // Tempoary. Will add logic that displays the soul moving towards the player automatically
-        Destroy(newSoul);
     }
 
 
