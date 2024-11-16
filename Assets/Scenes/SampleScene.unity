@@ -942,6 +942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2069660942}
   stairsPos: {x: 0, y: 0}
+  PrefabStairs: {fileID: 8572012012790667049, guid: c563dc181a66e694f89b436f2b21ede5, type: 3}
   state: 0
   entityManager: {fileID: 442440895}
   grids: {fileID: 1432450315}

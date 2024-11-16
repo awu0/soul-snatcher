@@ -182,13 +182,10 @@ public class Grids : MonoBehaviour
       }
     }
 
-
-    public Vector2Int RandomValidSpawnPosition(bool[] map, int width, int height)
-    {
+    public List<Vector2Int> GetAllValidPositions(bool[] map, int width, int height)
+    {   
         List<Vector2Int> validPositions = new List<Vector2Int>();
-        int entityDist = 2; //Distance of spawn so entities dont spawn next to each other
 
-        // Collect all valid positions
         for (int y = 1; y < height - 1; y++)
         {
             for (int x = 1; x < width - 1; x++)
@@ -200,6 +197,13 @@ public class Grids : MonoBehaviour
             }
         }
 
+        return validPositions;
+    }
+
+    public Vector2Int RandomValidSpawnPosition(bool[] map, int width, int height)
+    {
+        List<Vector2Int> validPositions = GetAllValidPositions(map, width, height);
+
         if (validPositions.Count > 0)
         {
             int randomIndex = UnityEngine.Random.Range(0, validPositions.Count);
@@ -207,5 +211,23 @@ public class Grids : MonoBehaviour
         }
 
         return new Vector2Int(1, 1);
+    }
+
+    public Vector2Int FindRandomDistantPosition(bool[] map, int width, int height, Vector2Int origin, int minDistance)
+    {
+        List<Vector2Int> validPositions = GetAllValidPositions(map, width, height);
+        List<Vector2Int> distantPositions = new List<Vector2Int>();
+
+        // Filter positions to ensure they are at least `minDistance` away from the origin
+        foreach (Vector2Int pos in validPositions)
+        {
+            if (Vector2Int.Distance(pos, origin) >= minDistance)
+            {
+                distantPositions.Add(pos);
+            }
+        }
+
+        // Return a random distant position, or Vector2Int.zero if none found
+        return distantPositions.Count > 0 ? distantPositions[UnityEngine.Random.Range(0, distantPositions.Count)] : Vector2Int.zero;
     }
 }

@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public Player player;
     public Vector2Int stairsPos;
 
+    public GameObject PrefabStairs;
+
     private int _playerStartX = 1;
     private int _playerStartY = 1;
     
@@ -46,13 +48,21 @@ public class GameManager : MonoBehaviour
     {
         int width = grids.columns;
         int height = grids.rows;
+        bool[] map = GenerateMap.Generate(width, height); //GENERATE MAP
 
-        bool[] map = GenerateMap.Generate(width, height);
+        //SPAWN PLAYER
         Vector2Int playerSpawn = grids.RandomValidSpawnPosition(map, width, height);
         _playerStartX = playerSpawn.x;
         _playerStartY = playerSpawn.y;
         player.MoveTo(_playerStartX, _playerStartY);
 
+        //SPAWN STAIRS
+        stairsPos = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 5);
+        GameObject stairs = Instantiate(PrefabStairs, new Vector3(grids.leftBottomLocation.x + stairsPos.x * grids.scale, grids.leftBottomLocation.y + stairsPos.y * grids.scale, 0), Quaternion.identity);
+        stairs.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        Debug.Log($"Stairs spawned at: {stairsPos}");
+
+        //CONNECT CLOSED AREAS
         GenerateMap.ConnectOpenSpaces(map, width, height, playerSpawn);
         for (int y = 0; y < height; y++)
         {
@@ -65,12 +75,14 @@ public class GameManager : MonoBehaviour
             }
         }
         
+        //SPAWN ENEMIES
         List<Type> enemiesToSpawn = GenerateEnemyList();
 
         for (int i = 0; i < enemiesToSpawn.Count; i++)
         {
             Type enemyType = enemiesToSpawn[i];
-            Vector2Int enemySpawn = grids.RandomValidSpawnPosition(map, width, height);
+            Vector2Int enemySpawn = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 4);
+            //grids.RandomValidSpawnPosition(map, width, height);
 
             // Use reflection to call SpawnEnemy<T>
             typeof(EntityManager).GetMethod("SpawnEnemy")
