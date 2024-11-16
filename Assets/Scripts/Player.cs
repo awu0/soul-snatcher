@@ -37,12 +37,13 @@ public class Player : Entity
             if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
             {   
               DetectForAbilitySelection();
+              DetectForMovement();
+              
               if (selectedAbility != null) {
                 HandleAbilityInput();
                 updateSelectedAction();
               } else {
                 HandleLeftClickAction();
-                DetectForMovement();
               }
             }
         }
