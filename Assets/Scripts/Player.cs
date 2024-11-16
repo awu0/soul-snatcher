@@ -39,6 +39,7 @@ public class Player : Entity
               DetectForAbilitySelection();
               if (selectedAbility != null) {
                 HandleAbilityInput();
+                updateSelectedAction();
               } else {
                 HandleLeftClickAction();
                 DetectForMovement();
@@ -356,5 +357,15 @@ public class Player : Entity
         damageSFX.Play();
         
         return base.TakeDamage(amount);
+    }
+
+    public void updateSelectedAction() {
+        if (selectedAbility == null)
+        {
+            selectedAction = SELECTED.ATTACK;
+        }
+        else {
+            selectedAction = SELECTED.ABILITY;
+        }
     }
 }
