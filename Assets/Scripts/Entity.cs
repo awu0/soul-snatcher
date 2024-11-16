@@ -107,6 +107,16 @@ public abstract class Entity : MonoBehaviour
         return amount;
     }
 
+    public int Heal(int amount)
+    {
+        if (health + amount > maxHealth) {
+            amount = maxHealth - health;
+        }
+        health += amount;
+
+        return amount;
+    }
+
     public void ReceiveStatusEffect(StatusEffect effect)
     {
         statusEffectManager.AddStatusEffect(effect);
