@@ -1,57 +1,59 @@
-using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class ModeSelectionUI : MonoBehaviour
+public class AttackRangeIO : MonoBehaviour
 {
-    public TextMeshProUGUI modeText;
     public Player player;
+    public GameObject rangeUIPrefab;
 
-    public Color inactiveColor = new Color(63f / 255f, 28f / 255f, 28f / 255f, 1f);
-    public Color activeColor = new Color(255f / 255f, 174f / 255f, 0f / 255f, 1f);
+    private List<GameObject> rangeIndicators = new List<GameObject>();
 
-    public UnityEngine.UI.Image attackSlot;
-    public UnityEngine.UI.Image abilitySlotA;
-
-    private UnityEngine.UI.Image selectedSlot;
     private void Start()
     {
-        selectedSlot = attackSlot;
-        UpdateSlotColor(selectedSlot, activeColor);
+        if (player == null || rangeUIPrefab == null)
+        {
+            Debug.LogError("Player or RangeUIPrefab is not assigned!");
+            return;
+        }
+
+        Vector3 playerPosition = player.transform.position;
+
+        // Instantiate range indicators and parent them to the player
+        rangeIndicators.Add(CreateRangeIndicator(new Vector3(-1, 0, 0) + playerPosition));
+        rangeIndicators.Add(CreateRangeIndicator(new Vector3(1, 0, 0) + playerPosition));
+        rangeIndicators.Add(CreateRangeIndicator(new Vector3(0, 1, 0) + playerPosition));
+        rangeIndicators.Add(CreateRangeIndicator(new Vector3(0, -1, 0) + playerPosition));
+
+        // Initially hide the range indicators
+        SetRangeIndicatorsActive(false);
     }
 
     private void Update()
     {
-        if (player == null || modeText == null) return;
-
-        UnityEngine.UI.Image currentSlot = null;
-
-        switch (player.selectedAction) {
-            case Player.SELECTED.ATTACK:
-                modeText.text = "Mode: Attack";
-                currentSlot = attackSlot;
-                break;
-
-            case Player.SELECTED.ABILITY:
-                modeText.text = "Mode: Ability";
-                currentSlot = abilitySlotA;
-                break;
-        }
-
-        if (currentSlot != selectedSlot) {
-            UpdateSlotColor(selectedSlot, inactiveColor);
-            UpdateSlotColor(currentSlot, activeColor);
-            selectedSlot = currentSlot;
+        if (player != null)
+        {
+            // Display range indicators only when the selected action is ATTACK
+            bool showRange = player.selectedAction == Player.SELECTED.ATTACK;
+            SetRangeIndicatorsActive(showRange);
         }
     }
 
-    void UpdateSlotColor(UnityEngine.UI.Image slot, Color color) {
-        if (slot != null) {
-            slot.color = color;
+    private GameObject CreateRangeIndicator(Vector3 position)
+    {
+        GameObject rangeIndicator = Instantiate(rangeUIPrefab, position, Quaternion.identity);
+        rangeIndicator.transform.SetParent(player.transform);
+        return rangeIndicator;
+    }
+
+    private void SetRangeIndicatorsActive(bool isActive)
+    {
+        foreach (GameObject indicator in rangeIndicators)
+        {
+            if (indicator != null)
+            {
+                indicator.SetActive(isActive);
+            }
         }
     }
 }
