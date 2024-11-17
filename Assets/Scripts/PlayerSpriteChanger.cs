@@ -14,9 +14,10 @@ public class PlayerSpriteChanger : MonoBehaviour {
   private SpriteRenderer spriteRenderer;
   public Animator animator;
 
-    void Start() {
+  void Start() {
     spriteRenderer = GetComponent<SpriteRenderer>();
     animator = GetComponent<Animator>();
+
     entityToSpriteMap = new Dictionary<EntityType, Sprite> 
     {
       { EntityType.Slime, slimeSprite },
@@ -37,17 +38,23 @@ public class PlayerSpriteChanger : MonoBehaviour {
     }
 
   public void ChangePlayerSprite(EntityType entityType) {
-        animator.SetBool("isBug", false);
-        animator.SetBool("isEye", false);
-        animator.SetBool("isGolem", false);
-        animator.SetBool("isSnake", false);
+      animator.SetBool("isSlime", false);
+      animator.SetBool("isBug", false);
+      animator.SetBool("isEye", false);
+      animator.SetBool("isGolem", false);
+      animator.SetBool("isSnake", false);
 
-        if (entityToSpriteMap.TryGetValue(entityType, out Sprite newSprite) && entityToAnimMap.TryGetValue(entityType, out string newAnim)) {
-          spriteRenderer.sprite = newSprite;
-          animator.SetBool(newAnim, true);
-          spriteRenderer.color = Color.blue;
-        } else {
-          Debug.LogWarning($"No sprite found for entity type {entityType}");
-        }
+      if (entityToSpriteMap.TryGetValue(entityType, out Sprite newSprite) /*&& entityToAnimMap.TryGetValue(entityType, out string newAnim)*/) {
+        // Let's not set animations for player until they're all ready
+        animator.enabled = false;
+
+        spriteRenderer.sprite = newSprite;
+     
+        // animator.SetBool(newAnim, true);
+
+        spriteRenderer.color = Color.blue;
+      } else {
+        Debug.LogWarning($"No sprite found for entity type {entityType}");
       }
+    }
 }
