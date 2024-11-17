@@ -20,6 +20,7 @@ public class PlayerHealth : MonoBehaviour
     public bool heal;
 
     private float currentHealth;
+    private float currentMax;
     public float barWidth = 332.5f;
     private float damagedHealthShrinkTimer;
     private const float DAMAGED_HEALTH_SHRINK_TIMER_MAX = 1f;
@@ -39,6 +40,7 @@ public class PlayerHealth : MonoBehaviour
     {
         playerScript = FindObjectOfType<Player>();
         currentHealth = playerScript.health;
+        currentMax = playerScript.maxHealth;
         damagedBar.fillAmount = healthBar.fillAmount;
         Debug.Log(playerScript.health);
         Debug.Log(playerScript.maxHealth);
@@ -57,11 +59,13 @@ public class PlayerHealth : MonoBehaviour
                 damageTaken = currentHealth - playerScript.health;
                 SetDamage();
                 currentHealth = playerScript.health;
+                healthText.text = $"{playerScript.health}";
             }
             else if (playerScript.health > currentHealth) {
                 healTaken = playerScript.health - currentHealth;
                 SetHeal();
                 currentHealth = playerScript.health;
+                healthText.text = $"{playerScript.health}";
             }
 
             if (takeDamage)
