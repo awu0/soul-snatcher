@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8558654365449734176}
   - component: {fileID: -8074138866372046313}
   - component: {fileID: -5010897655053244395}
+  - component: {fileID: 6603958634956053327}
   m_Layer: 0
   m_Name: Snake
   m_TagString: Obstacle
@@ -114,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab354cdcc984d34f8d3467df939e173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageSFX: {fileID: 0}
 --- !u!82 &-5010897655053244395
 AudioSource:
   m_ObjectHideFlags: 0
@@ -210,3 +212,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &6603958634956053327
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231044995348376588}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b959781163091d94da93595c2bc00879, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
