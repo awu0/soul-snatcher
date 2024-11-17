@@ -1286,6 +1286,7 @@ MonoBehaviour:
   player: {fileID: 2069660942}
   rangeUIPrefab: {fileID: 6109574918228372193, guid: b4415e0b18629e945b0bdad7d4ede865, type: 3}
   manager: {fileID: 1166715720}
+  grid: {fileID: 1432450315}
 --- !u!1 &1166715719
 GameObject:
   m_ObjectHideFlags: 0
