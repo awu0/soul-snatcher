@@ -211,11 +211,12 @@ public class Player : Entity
         this.type = soul.Type;
 
         EntityBaseStats enemyStats = EntityData.EntityBaseStatMap[soul.Type];
-        EntityBaseStats newStats = CalculateNewStats(enemyStats);
+        //EntityBaseStats newStats = CalculateNewStats(enemyStats);
+        EntityBaseStats newStats = enemyStats;
 
         // EntityBaseStats newStats = EntityData.EntityBaseStatMap[soul.Type];
-        //SetStats(maxHealth: newStats.MaxHealth, newStats.Attack, newStats.Range, soul.Type);
-        Heal(maxHealth/5);
+        SetStats(maxHealth: newStats.MaxHealth, newStats.Attack, newStats.Range, soul.Type);
+        //Heal(maxHealth/5);
 
         // Gain ability of enemy
         GainAbility(soul.Type);

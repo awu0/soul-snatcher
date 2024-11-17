@@ -9,7 +9,7 @@ public class Poison : StatusEffect
 
     public override void InitializeSub()
     {
-        damage = Mathf.Max(Mathf.RoundToInt(entity.maxHealth/12), 1);
+        damage = Mathf.Max(Mathf.RoundToInt(entity.maxHealth/6), 1);
         Type = StatusEffectType.Poison;
     }
 
