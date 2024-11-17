@@ -2184,7 +2184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slimeSprite: {fileID: 21300000, guid: 58bc94026e24346c0a72f2b7db273b19, type: 3}
-  giantPillbugSprite: {fileID: 21300000, guid: 409df25a2d636ef47bd25c1c9ab5bb92, type: 3}
+  giantPillbugSprite: {fileID: 21300000, guid: 0ae4425f22a64cc4e9760f60fdb28274, type: 3}
   evilEyeSprite: {fileID: 21300000, guid: 1402978e53f47488e8324364b813d0de, type: 3}
   snakeSprite: {fileID: 21300000, guid: 19df15675bb6e45ac96fce2a64a44b8b, type: 3}
   stoneGolemSprite: {fileID: 21300000, guid: 75432e7f569464869a349d6734092a3d, type: 3}
