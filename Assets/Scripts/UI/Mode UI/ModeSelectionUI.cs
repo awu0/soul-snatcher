@@ -30,7 +30,8 @@ public class ModeSelectionUI : MonoBehaviour
 
         UnityEngine.UI.Image currentSlot = null;
 
-        switch (player.selectedAction) {
+        switch (player.selectedAction)
+        {
             case Player.SELECTED.ATTACK:
                 modeText.text = "Mode: Attack";
                 currentSlot = attackSlot;
@@ -42,15 +43,18 @@ public class ModeSelectionUI : MonoBehaviour
                 break;
         }
 
-        if (currentSlot != selectedSlot) {
+        if (currentSlot != selectedSlot)
+        {
             UpdateSlotColor(selectedSlot, inactiveColor);
             UpdateSlotColor(currentSlot, activeColor);
             selectedSlot = currentSlot;
         }
     }
 
-    void UpdateSlotColor(UnityEngine.UI.Image slot, Color color) {
-        if (slot != null) {
+    void UpdateSlotColor(UnityEngine.UI.Image slot, Color color)
+    {
+        if (slot != null)
+        {
             slot.color = color;
         }
     }

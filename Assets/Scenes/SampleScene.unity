@@ -787,12 +787,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31426074ef271bc468e573c6998ee48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modeText: {fileID: 0}
+  modeText: {fileID: 225654826}
   player: {fileID: 2069660942}
   inactiveColor: {r: 0.24705882, g: 0.10980392, b: 0.10980392, a: 1}
   activeColor: {r: 1, g: 0.68235296, b: 0, a: 1}
-  attackSlot: {fileID: 0}
-  abilitySlotA: {fileID: 0}
+  attackSlot: {fileID: 1852646763}
+  abilitySlotA: {fileID: 1925172212}
 --- !u!1 &769965422
 GameObject:
   m_ObjectHideFlags: 0
