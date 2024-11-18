@@ -55,7 +55,7 @@ public class GiantPillbug : Enemy
         {
             var context = new DirectionalContext {
               Grids = grids,
-              Damage = 3,
+              Damage = attack,
               Direction = direction,
             };
 
