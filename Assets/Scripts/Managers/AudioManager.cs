@@ -8,6 +8,10 @@ public class AudioManager : MonoBehaviour
     public AudioSource bugAbility;
     public AudioSource golemAbility;
     public AudioSource snakeAbility;
+    public AudioSource eyeDeath;
+    public AudioSource bugDeath;
+    public AudioSource golemDeath;
+    public AudioSource snakeDeath;
 
     // Start is called before the first frame update
     void Start()
@@ -26,17 +30,38 @@ public class AudioManager : MonoBehaviour
         eyeAbility.Play();
     }
 
+    public void playEyeDeath()
+    {
+        eyeDeath.Play();
+    }
+
     public void playBugAbility()
     {
         bugAbility.Play();
+    }
+    public void playBugDeath()
+    {
+        bugDeath.Play();
     }
 
     public void playSnakeAbility()
     {
         snakeAbility.Play();
     }
+
+    public void playSnakeDeath()
+    {
+        snakeDeath.Play();
+    }
+
+
     public void playGolemAbility()
     {
         golemAbility.Play();
+    }
+
+    public void playGolemDeath()
+    {
+        golemDeath.Play();
     }
 }

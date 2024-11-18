@@ -16,6 +16,7 @@ public class Guard : Ability
 
         // blocks all damage
         Guarding guarding = gameObject.AddComponent<Guarding>();
+        audioManager.playGolemAbility();
         guarding.Initialize(1, Caster);
         Caster.ReceiveStatusEffect(guarding);
     }

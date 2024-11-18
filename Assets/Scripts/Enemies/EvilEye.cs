@@ -100,4 +100,10 @@ public class EvilEye : RangedEnemyType
             Move();
         }
     }
+ //       public override void Die()
+ //   {
+ //       Debug.Log($"{gameObject.name} has died.");
+ //       audioManager.playEyeDeath();
+ //       Destroy(gameObject);
+ //   }
 }

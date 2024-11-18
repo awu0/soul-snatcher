@@ -25,6 +25,7 @@ public abstract class Entity : MonoBehaviour
     protected Grids grids;
 
     protected StatusEffectManager statusEffectManager;
+    protected AudioManager audioManager;
 
     public void Awake()
     {
@@ -39,6 +40,8 @@ public abstract class Entity : MonoBehaviour
         {
             statusEffectManager = gameObject.AddComponent<StatusEffectManager>();
         }
+
+        audioManager = FindAnyObjectByType<AudioManager>();
     }
 
     public void Start()
