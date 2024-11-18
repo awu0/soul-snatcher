@@ -12,6 +12,7 @@ public class EyeLaser : Ability
 
     protected override void ActivateInternal(AbilityContext context) {
         Debug.Log($"{gameObject} used EyeLaser");
+        audioManager.playEyeAbility();
         var directionalContext = (DirectionalContext)context;
         var (startX, startY) = Caster.GetCurrentPosition();
 

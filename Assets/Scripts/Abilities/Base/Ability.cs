@@ -5,9 +5,15 @@ using UnityEngine;
 public abstract class Ability : MonoBehaviour
 {   
     protected StatusEffectManager statusEffectManager;
+    protected AudioManager audioManager;
     
     protected Entity Caster;
     public int damage;
+
+    void Start()
+    {
+        audioManager = FindAnyObjectByType<AudioManager>();
+    }
 
     public enum AbilityType {
       Targeted,
