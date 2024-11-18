@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Vector2Int stairsPos;
 
     public GameObject PrefabStairs;
+    public GameObject stairs;
 
     private int _playerStartX = 1;
     private int _playerStartY = 1;
@@ -44,6 +45,20 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R)) // Replace 'R' with any key you prefer
+        {
+            ResetGame();
+        }
+        if (Input.GetKeyDown(KeyCode.Q)) // Replace 'R' with any key you prefer
+        {   
+            if (player.actionCount >= 1) {
+                player.actionCount -= 1;
+            }
+        }
+    }
+
     private void StartLevel() 
     {
         int width = grids.columns;
@@ -58,7 +73,7 @@ public class GameManager : MonoBehaviour
 
         //SPAWN STAIRS
         stairsPos = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 5);
-        GameObject stairs = Instantiate(PrefabStairs, new Vector3(grids.leftBottomLocation.x + stairsPos.x * grids.scale, grids.leftBottomLocation.y + stairsPos.y * grids.scale, 0), Quaternion.identity);
+        stairs = Instantiate(PrefabStairs, new Vector3(grids.leftBottomLocation.x + stairsPos.x * grids.scale, grids.leftBottomLocation.y + stairsPos.y * grids.scale, 0), Quaternion.identity);
         stairs.GetComponent<SpriteRenderer>().sortingOrder = 1;
         Debug.Log($"Stairs spawned at: {stairsPos}");
 
@@ -90,7 +105,7 @@ public class GameManager : MonoBehaviour
                 .Invoke(entityManager, new object[] { enemySpawn.x, enemySpawn.y });
         }
     }
-
+    
     private List<Type> GenerateEnemyList()
     {
         List<Type> enemiesToSpawn = new List<Type>
@@ -102,6 +117,18 @@ public class GameManager : MonoBehaviour
         }; 
 
         return enemiesToSpawn;
+    }
+
+    public void ResetGame()
+    {
+        player.Reset();
+        state = STATES.ROUND_START;
+
+        grids.DeleteGridPrefabs();
+        entityManager.DeleteEntityPrefabs();
+        StartLevel();
+        grids.GenerateGrid();
+        Destroy(stairs.gameObject);
     }
 
     private IEnumerator RunTurnManager()
@@ -124,6 +151,11 @@ public class GameManager : MonoBehaviour
                     break;
 
                 case STATES.PLAYER_ROUND:
+                    if (player.locX == stairsPos.x && player.locY == stairsPos.y)
+                    {
+                        ResetGame(); // Call the game reset method
+                        break;
+                    }
                     //go to next round if player can't action anymore
                     if (player != null)
                     {
@@ -167,5 +199,4 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
 }

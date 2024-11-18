@@ -371,4 +371,17 @@ public class Player : Entity
             selectedAction = SELECTED.ABILITY;
         }
     }
+
+    public override void Die()
+    {
+        gameManager.ResetGame();
+    }
+
+    public void Reset()
+    {
+        EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.Slime];
+        SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.Slime);
+        PlayerSpriteChanger playerSpriteChanger = gameObject.GetComponent<PlayerSpriteChanger>();
+        playerSpriteChanger.ChangePlayerSprite(EntityType.Slime);
+    }
 }

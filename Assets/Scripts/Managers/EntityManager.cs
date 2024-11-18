@@ -14,6 +14,9 @@ public class EntityManager : MonoBehaviour
     
     private List<Obstacle> _obstacles = new List<Obstacle>();
     public IReadOnlyList<Obstacle> obstacles => _obstacles.AsReadOnly();
+
+    private List<Wall> _walls = new List<Wall>();
+    public IReadOnlyList<Wall> walls => _walls.AsReadOnly();
     
     public Grids grids;
     
@@ -120,6 +123,7 @@ public class EntityManager : MonoBehaviour
         
         grids.SetCellOccupied(x, y, newWall);
         grids.SetWall(x, y, true);
+        _walls.Add(newWall);
     }
     
     public int GetEnemiesCount()
@@ -135,5 +139,54 @@ public class EntityManager : MonoBehaviour
     public void RemoveDeadObstacles()
     {
         _obstacles.RemoveAll(obs => obs == null);
+    }
+
+    public void DeleteEntityPrefabs()
+    {
+        // Delete all enemy prefabs
+        foreach (var enemy in _enemies)
+        {
+            if (enemy != null)
+            {
+                Destroy(enemy.gameObject); // Destroy the enemy GameObject
+            }
+        }
+        _enemies.Clear(); // Clear the list after deletion
+
+        // Delete all obstacle prefabs
+        foreach (var obstacle in _obstacles)
+        {
+            if (obstacle != null)
+            {
+                Destroy(obstacle.gameObject); // Destroy the obstacle GameObject
+            }
+        }
+        _obstacles.Clear(); // Clear the list after deletion
+
+        // Delete all wall prefabs
+        foreach (var wall in _walls)
+        {
+            if (wall != null)
+            {
+                Destroy(wall.gameObject); // Destroy the wall GameObject
+            }
+        }
+        _obstacles.Clear(); // Clear the list after deletion
+
+        // Optionally, clear entity references in the grid if needed
+        for (int x = 0; x < grids.columns; x++)
+        {
+            for (int y = 0; y < grids.rows; y++)
+            {
+                // Clear the cell in the grid if it holds an entity
+                Entity entity = grids.GetEntityAt(x, y);
+                if (entity != null)
+                {
+                    grids.SetCellOccupied(x, y, null); // Clear the reference from the grid
+                }
+            }
+        }
+
+        Debug.Log("All enemy and obstacle prefabs deleted.");
     }
 }

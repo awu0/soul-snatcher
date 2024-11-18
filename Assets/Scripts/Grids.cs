@@ -44,7 +44,7 @@ public class Grids : MonoBehaviour
     }
 
     //Function for generating the grids, use the columns and rows and generate equal amount of grid prefab 
-    void GenerateGrid() { 
+    public void GenerateGrid() { 
         //columns
         for (int i = 0; i < columns; i++)
         {
@@ -249,5 +249,22 @@ public class Grids : MonoBehaviour
 
         // Return a random distant position, or Vector2Int.zero if none found
         return distantPositions.Count > 0 ? distantPositions[UnityEngine.Random.Range(0, distantPositions.Count)] : Vector2Int.zero;
+    }
+
+    public void DeleteGridPrefabs()
+    {
+        for (int i = 0; i < columns; i++)
+        {
+            for (int j = 0; j < rows; j++)
+            {
+                if (gridArray[i, j] != null)
+                {
+                    Destroy(gridArray[i, j]); // Delete the prefab from the scene
+                    gridArray[i, j] = null; // Clear the reference from the array
+                }
+                entityCells[i, j] = null; // Clear the reference from the array
+                wallCells[i, j] = false;
+            }
+        }
     }
 }
