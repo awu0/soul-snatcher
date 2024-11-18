@@ -126,9 +126,9 @@ public class GameManager : MonoBehaviour
 
         grids.DeleteGridPrefabs();
         entityManager.DeleteEntityPrefabs();
+        Destroy(stairs.gameObject);
         StartLevel();
         grids.GenerateGrid();
-        Destroy(stairs.gameObject);
     }
 
     private IEnumerator RunTurnManager()
@@ -193,6 +193,10 @@ public class GameManager : MonoBehaviour
                     
                     entityManager.RemoveDeadEnemies();
                     entityManager.RemoveDeadObstacles();
+                    if (player.dead)
+                    {
+                        ResetGame();
+                    }
                     
                     state = STATES.ROUND_START;
                     break;
