@@ -371,4 +371,11 @@ public class Player : Entity
             selectedAction = SELECTED.ABILITY;
         }
     }
+    public override void Die()
+    {
+        Debug.Log($"{gameObject.name} has died.");
+
+        SpriteRenderer mySprite = gameObject.GetComponent<SpriteRenderer>();
+        mySprite.enabled = false;
+    }
 }
