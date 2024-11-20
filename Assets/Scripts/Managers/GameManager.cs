@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -48,6 +49,10 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R)) // Replace 'R' with any key you prefer
+        {
+            StartNextLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.T)) // Replace 'R' with any key you prefer
         {
             ResetGame();
         }
@@ -119,7 +124,7 @@ public class GameManager : MonoBehaviour
         return enemiesToSpawn;
     }
 
-    public void ResetGame()
+    public void StartNextLevel()
     {
         player.Reset();
         state = STATES.ROUND_START;
@@ -129,6 +134,12 @@ public class GameManager : MonoBehaviour
         Destroy(stairs.gameObject);
         StartLevel();
         grids.GenerateGrid();
+    }
+
+    public void ResetGame()
+    {
+        Scene currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene.name);
     }
 
     private IEnumerator RunTurnManager()
@@ -153,7 +164,7 @@ public class GameManager : MonoBehaviour
                 case STATES.PLAYER_ROUND:
                     if (player.locX == stairsPos.x && player.locY == stairsPos.y)
                     {
-                        ResetGame(); // Call the game reset method
+                        StartNextLevel(); 
                         break;
                     }
                     //go to next round if player can't action anymore
@@ -193,10 +204,6 @@ public class GameManager : MonoBehaviour
                     
                     entityManager.RemoveDeadEnemies();
                     entityManager.RemoveDeadObstacles();
-                    if (player.dead)
-                    {
-                        ResetGame();
-                    }
                     
                     state = STATES.ROUND_START;
                     break;

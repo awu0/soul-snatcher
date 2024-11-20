@@ -34,7 +34,7 @@ public static class EntityData
       [EntityType.Slime] = new EntityBaseStats(attack: 6, maxHealth: 16, range: 1), //PLAYER
       [EntityType.GiantPillbug] = new EntityBaseStats(attack: 5, maxHealth: 12, range: 1),
       [EntityType.Weakling] = new EntityBaseStats(attack: 1, maxHealth: 1, range: 1),
-      [EntityType.EvilEye] = new EntityBaseStats(attack: 5, maxHealth: 6),
+      [EntityType.EvilEye] = new EntityBaseStats(attack: 4, maxHealth: 6),
       [EntityType.Snake] = new EntityBaseStats(attack: 5, maxHealth: 8, range: 1),
       [EntityType.StoneGolem] = new EntityBaseStats(attack: 7, maxHealth: 15),
   };

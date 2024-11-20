@@ -20,8 +20,6 @@ public class Player : Entity
     
     public AudioSource damageSFX;
 
-    public bool dead = false;
-
     private new void Start()
     {
         base.Start();
@@ -376,7 +374,7 @@ public class Player : Entity
 
     public override void Die()
     {
-        dead = true;
+        gameManager.ResetGame(); //WILL CHANGE TO A DEAD SCREEN LATER
     }
 
     public void Reset()
