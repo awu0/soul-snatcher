@@ -1334,7 +1334,6 @@ MonoBehaviour:
   player: {fileID: 2069660942}
   stairsPos: {x: 0, y: 0}
   PrefabStairs: {fileID: 8572012012790667049, guid: c563dc181a66e694f89b436f2b21ede5, type: 3}
-  stairs: {fileID: 0}
   state: 0
   entityManager: {fileID: 442440895}
   grids: {fileID: 1432450315}
@@ -2904,7 +2903,6 @@ MonoBehaviour:
   selectedAction: 0
   gameManager: {fileID: 1166715720}
   damageSFX: {fileID: 2069660943}
-  dead: 0
 --- !u!82 &2069660943
 AudioSource:
   m_ObjectHideFlags: 0

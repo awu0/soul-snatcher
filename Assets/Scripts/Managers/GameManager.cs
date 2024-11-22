@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public Vector2Int stairsPos;
 
     public GameObject PrefabStairs;
-    public GameObject stairs;
+    private GameObject stairs;
 
     private int _playerStartX = 1;
     private int _playerStartY = 1;
