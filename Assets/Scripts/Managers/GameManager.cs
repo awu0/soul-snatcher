@@ -113,13 +113,24 @@ public class GameManager : MonoBehaviour
     
     private List<Type> GenerateEnemyList()
     {
-        List<Type> enemiesToSpawn = new List<Type>
+        List<Type> allEnemyTypes = new List<Type>
         {
             typeof(EvilEye),
             typeof(GiantPillbug),
             typeof(StoneGolem),
             typeof(Snake)
-        }; 
+        };
+
+        int enemiesAmt = 3;//Mathf.Clamp(player.level * 2, 3, 10);
+
+        List<Type> enemiesToSpawn = new List<Type>();
+
+        // Randomly select enemy types to spawn
+        for (int i = 0; i < enemiesAmt; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, allEnemyTypes.Count);
+            enemiesToSpawn.Add(allEnemyTypes[randomIndex]);
+        }
 
         return enemiesToSpawn;
     }
