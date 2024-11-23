@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject PrefabStairs;
     private GameObject stairs;
+    public int level = 0;
 
     private int _playerStartX = 1;
     private int _playerStartY = 1;
@@ -43,7 +44,6 @@ public class GameManager : MonoBehaviour
     {
         StartLevel();
         StartCoroutine(RunTurnManager());
-
     }
 
     private void Update()
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         player.MoveTo(_playerStartX, _playerStartY);
 
         //SPAWN STAIRS
-        stairsPos = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 5);
+        stairsPos = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 3 + Mathf.FloorToInt(level/3));
         stairs = Instantiate(PrefabStairs, new Vector3(grids.leftBottomLocation.x + stairsPos.x * grids.scale, grids.leftBottomLocation.y + stairsPos.y * grids.scale, 0), Quaternion.identity);
         stairs.GetComponent<SpriteRenderer>().sortingOrder = 1;
         Debug.Log($"Stairs spawned at: {stairsPos}");
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
             typeof(Snake)
         };
 
-        int enemiesAmt = 3;//Mathf.Clamp(player.level * 2, 3, 10);
+        int enemiesAmt = Mathf.FloorToInt(level/3)+2;
 
         List<Type> enemiesToSpawn = new List<Type>();
 
@@ -143,8 +143,15 @@ public class GameManager : MonoBehaviour
         grids.DeleteGridPrefabs();
         entityManager.DeleteEntityPrefabs();
         Destroy(stairs.gameObject);
-        StartLevel();
+
+        level += 1;
+        if (level%2 == 0) {
+            grids.rows += 1;
+            grids.columns += 1;
+        }
+
         grids.GenerateGrid();
+        StartLevel();
     }
 
     public void ResetGame()

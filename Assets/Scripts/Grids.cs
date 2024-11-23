@@ -33,11 +33,11 @@ public class Grids : MonoBehaviour
     {
         // set the start point
         leftBottomLocation = transform.position;
-        gridArray = new GameObject[columns, rows];
+        // gridArray = new GameObject[columns, rows];
         
-        entityCells = new Entity[columns, rows];
-        wallCells = new bool[columns, rows];
-        soulCells = new Soul[columns, rows];
+        // entityCells = new Entity[columns, rows];
+        // wallCells = new bool[columns, rows];
+        // soulCells = new Soul[columns, rows];
         
         // generate initial grids
         GenerateGrid();
@@ -45,6 +45,11 @@ public class Grids : MonoBehaviour
 
     //Function for generating the grids, use the columns and rows and generate equal amount of grid prefab 
     public void GenerateGrid() { 
+        gridArray = new GameObject[columns, rows];
+        
+        entityCells = new Entity[columns, rows];
+        wallCells = new bool[columns, rows];
+        soulCells = new Soul[columns, rows];
         //columns
         for (int i = 0; i < columns; i++)
         {
@@ -248,7 +253,7 @@ public class Grids : MonoBehaviour
         }
 
         // Return a random distant position, or Vector2Int.zero if none found
-        return distantPositions.Count > 0 ? distantPositions[UnityEngine.Random.Range(0, distantPositions.Count)] : Vector2Int.zero;
+        return distantPositions.Count > 0 ? distantPositions[UnityEngine.Random.Range(0, distantPositions.Count)] : validPositions[UnityEngine.Random.Range(0, validPositions.Count)];
     }
 
     public void DeleteGridPrefabs()

@@ -31,11 +31,11 @@ public static class EntityData
   public static readonly Dictionary<EntityType, EntityBaseStats> EntityBaseStatMap = new Dictionary<EntityType, EntityBaseStats>
   {
       [EntityType.Obstacle] = new EntityBaseStats(attack: 0, maxHealth: 50, range: 0),
-      [EntityType.Slime] = new EntityBaseStats(attack: 6, maxHealth: 16, range: 1), //PLAYER
-      [EntityType.GiantPillbug] = new EntityBaseStats(attack: 5, maxHealth: 12, range: 1),
+      [EntityType.Slime] = new EntityBaseStats(attack: 4, maxHealth: 15, range: 1), //PLAYER
+      [EntityType.GiantPillbug] = new EntityBaseStats(attack: 4, maxHealth: 12, range: 1),
       [EntityType.Weakling] = new EntityBaseStats(attack: 1, maxHealth: 1, range: 1),
       [EntityType.EvilEye] = new EntityBaseStats(attack: 4, maxHealth: 6),
-      [EntityType.Snake] = new EntityBaseStats(attack: 5, maxHealth: 8, range: 1),
+      [EntityType.Snake] = new EntityBaseStats(attack: 4, maxHealth: 9, range: 1),
       [EntityType.StoneGolem] = new EntityBaseStats(attack: 7, maxHealth: 15),
   };
 
