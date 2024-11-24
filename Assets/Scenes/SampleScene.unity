@@ -808,7 +808,7 @@ MonoBehaviour:
   meleeSprite: {fileID: 21300000, guid: 067cda0bf2eb8df46a655484b83fe3e3, type: 3}
   snakeSprite: {fileID: 21300000, guid: 748a6c239b049f44fb38672361c468ec, type: 3}
   evilEyeSprite: {fileID: 21300000, guid: 1402978e53f47488e8324364b813d0de, type: 3}
-  pillbugSprite: {fileID: 21300000, guid: 0ae4425f22a64cc4e9760f60fdb28274, type: 3}
+  pillbugSprite: {fileID: 21300000, guid: e498e56d10a3e6445b47dc1e93fac4e6, type: 3}
   inactiveColor: {r: 0.24705882, g: 0.10980392, b: 0.10980392, a: 1}
   activeColor: {r: 1, g: 0.68235296, b: 0, a: 1}
   attackSlot: {fileID: 1852646763}
@@ -1662,7 +1662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9.5, y: 2.6}
+  m_AnchoredPosition: {x: 0.000034332, y: -0.00000071526}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1548997205
