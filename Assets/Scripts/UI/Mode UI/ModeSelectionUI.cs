@@ -10,6 +10,15 @@ public class ModeSelectionUI : MonoBehaviour
     public TextMeshProUGUI modeText;
     public Player player;
 
+    public Image meleeImage;
+    public Image abilityImage;
+
+    public Sprite meleeSprite;
+    public Sprite snakeSprite;
+    public Sprite evilEyeSprite;
+    public Sprite pillbugSprite;
+
+
     public Color inactiveColor = new Color(63f / 255f, 28f / 255f, 28f / 255f, 1f);
     public Color activeColor = new Color(255f / 255f, 174f / 255f, 0f / 255f, 1f);
 
@@ -48,6 +57,26 @@ public class ModeSelectionUI : MonoBehaviour
             UpdateSlotColor(currentSlot, activeColor);
             selectedSlot = currentSlot;
         }
+
+        if (player.GetComponent<SnakeBite>() != null)
+        {
+            ChangeAbilitySprite(snakeSprite);
+            abilityImage.enabled = true;
+        }
+        else if (player.GetComponent<PillbugRoll>() != null)
+        {
+            ChangeAbilitySprite(pillbugSprite);
+            abilityImage.enabled = true;
+        }
+        else if (player.GetComponent<EyeLaser>() != null)
+        {
+            ChangeAbilitySprite(evilEyeSprite);
+            abilityImage.enabled = true;
+        }
+        else {
+            ChangeAbilitySprite(null);
+            abilityImage.enabled = false;
+        }
     }
 
     void UpdateSlotColor(UnityEngine.UI.Image slot, Color color)
@@ -55,6 +84,12 @@ public class ModeSelectionUI : MonoBehaviour
         if (slot != null)
         {
             slot.color = color;
+        }
+    }
+
+    public void ChangeAbilitySprite(Sprite sprite) {
+        if (abilityImage != null) { 
+            abilityImage.sprite = sprite;
         }
     }
 }
