@@ -42,8 +42,8 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = playerScript.health;
         currentMax = playerScript.maxHealth;
         damagedBar.fillAmount = healthBar.fillAmount;
-        Debug.Log(playerScript.health);
-        Debug.Log(playerScript.maxHealth);
+        //Debug.Log(playerScript.health);
+        //Debug.Log(playerScript.maxHealth);
     }
 
     private void Update()
@@ -100,7 +100,7 @@ public class PlayerHealth : MonoBehaviour
         cutBar.GetComponent<RectTransform>().anchoredPosition = new Vector2(healthBar.fillAmount * barWidth + barWidth/2 + cutBarOffset,
             cutBar.GetComponent<RectTransform>().anchoredPosition.y);
         cutBar.GetComponent<Image>().fillAmount = beforeDamagedFillAmount - healthBar.fillAmount;
-        Debug.Log(cutBar.GetComponent<Image>().fillAmount);
+        //Debug.Log(cutBar.GetComponent<Image>().fillAmount);
         cutBar.gameObject.AddComponent<HealthBarCutFallDown>();
 
         if (HitTextPrefab != null) {
