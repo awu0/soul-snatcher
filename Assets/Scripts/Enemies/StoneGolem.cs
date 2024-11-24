@@ -10,8 +10,11 @@ public class StoneGolem : ChargingEnemyType
 {
     private bool _guardedLastTurn = true;
     
+    private int turnCount = 0;
+    private int enrTurnCount = 15;
+    
     public new void Start()
-    {
+    {   
         base.Start();
 
         // set the base stats
@@ -59,22 +62,24 @@ public class StoneGolem : ChargingEnemyType
 
     public override void DetermineNextMove()
     {
-        if (AbilityConditionsMet())
+        if (turnCount == enrTurnCount) 
+        {
+            //Becomes enraged
+            maxActionCount = 2;
+        }
+        if (BasicAttackConditionMet())
+        {
+            BasicAttack();
+            _guardedLastTurn = false;
+        }
+        else if (AbilityConditionsMet())
         {
             UseAbility();
         }
-        else
-        {
+        else {
+            Move();
             _guardedLastTurn = false;
-
-            if (BasicAttackConditionMet())
-            {
-                BasicAttack();
-            }
-            else
-            {
-                Move();   
-            }
         }
+        turnCount += 1;
     }
 }

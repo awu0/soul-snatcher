@@ -383,5 +383,6 @@ public class Player : Entity
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.Slime);
         PlayerSpriteChanger playerSpriteChanger = gameObject.GetComponent<PlayerSpriteChanger>();
         playerSpriteChanger.ChangePlayerSprite(EntityType.Slime);
+        ability = null;
     }
 }
