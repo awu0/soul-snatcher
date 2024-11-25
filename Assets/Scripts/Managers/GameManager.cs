@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
         int width = grids.columns;
         int height = grids.rows;
         bool[] map = GenerateMap.Generate(width, height); //GENERATE MAP
+        level = 0;
 
         //SPAWN PLAYER
         Vector2Int playerSpawn = grids.RandomValidSpawnPosition(map, width, height);
