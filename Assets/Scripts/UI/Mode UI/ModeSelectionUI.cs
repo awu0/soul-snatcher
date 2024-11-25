@@ -51,6 +51,7 @@ public class ModeSelectionUI : MonoBehaviour
                 break;
         }
 
+
         if (currentSlot != selectedSlot)
         {
             UpdateSlotColor(selectedSlot, inactiveColor);
@@ -61,17 +62,17 @@ public class ModeSelectionUI : MonoBehaviour
             ChangeAbilitySprite(null);
             abilityImage.enabled = false;
         }
-        else if (player.GetComponent<SnakeBite>() != null)
+        else if (player.abilities.Peek().GetType().Name == "SnakeBite")
         {
             ChangeAbilitySprite(snakeSprite);
             abilityImage.enabled = true;
         }
-        else if (player.GetComponent<PillbugRoll>() != null)
+        else if (player.abilities.Peek().GetType().Name == "PillbugRoll")
         {
             ChangeAbilitySprite(pillbugSprite);
             abilityImage.enabled = true;
         }
-        else if (player.GetComponent<EyeLaser>() != null)
+        else if (player.abilities.Peek().GetType().Name == "EyeLaser")
         {
             ChangeAbilitySprite(evilEyeSprite);
             abilityImage.enabled = true;

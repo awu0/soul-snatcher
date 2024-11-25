@@ -16,7 +16,7 @@ public class Player : Entity
     public GameManager gameManager;
 
     public Queue<Ability> abilities = new Queue<Ability>();
-    private Ability selectedAbility;
+    public Ability selectedAbility;
     
     public AudioSource damageSFX;
 
@@ -385,5 +385,12 @@ public class Player : Entity
         playerSpriteChanger.ChangePlayerSprite(EntityType.Slime);
         ability = null;
         abilities.Clear();
+    }
+
+    public string GetAbilityName() {
+        if (ability != null) {
+            return (ability.GetType().Name);
+        }
+        return null;
     }
 }
