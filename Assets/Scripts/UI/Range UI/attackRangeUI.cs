@@ -36,7 +36,7 @@ public class attackRangeIO : MonoBehaviour
                     }
                 }
                 else if (player.selectedAction == Player.SELECTED.ABILITY) {
-                    if (check) {
+                    if (check && player.GetComponent<SnakeBite>() == null) {
                         ShowAbilityRange();
                         WallIndicatorClear();
                         check = false;
