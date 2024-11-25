@@ -57,8 +57,11 @@ public class ModeSelectionUI : MonoBehaviour
             UpdateSlotColor(currentSlot, activeColor);
             selectedSlot = currentSlot;
         }
-
-        if (player.GetComponent<SnakeBite>() != null)
+        if (player.abilities.ToArray().Length < 1) {
+            ChangeAbilitySprite(null);
+            abilityImage.enabled = false;
+        }
+        else if (player.GetComponent<SnakeBite>() != null)
         {
             ChangeAbilitySprite(snakeSprite);
             abilityImage.enabled = true;
@@ -72,10 +75,6 @@ public class ModeSelectionUI : MonoBehaviour
         {
             ChangeAbilitySprite(evilEyeSprite);
             abilityImage.enabled = true;
-        }
-        else {
-            ChangeAbilitySprite(null);
-            abilityImage.enabled = false;
         }
     }
 
