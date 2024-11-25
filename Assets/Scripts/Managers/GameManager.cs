@@ -113,27 +113,53 @@ public class GameManager : MonoBehaviour
     
     private List<Type> GenerateEnemyList()
     {
-        List<Type> allEnemyTypes = new List<Type>
+        // Define initial spawn rates for each enemy type
+        Dictionary<Type, float> enemySpawnRates = new Dictionary<Type, float>
         {
-            typeof(EvilEye),
-            typeof(GiantPillbug),
-            typeof(StoneGolem),
-            typeof(Snake)
+            { typeof(EvilEye), 0.25f },
+            { typeof(GiantPillbug), 0.25f },
+            { typeof(StoneGolem), 0.25f },
+            { typeof(Snake), 0.25f }
         };
 
-        int enemiesAmt = Mathf.FloorToInt(level/3)+2;
+        float totalWeight = 0;
+        foreach (var weight in enemySpawnRates.Values)
+        {
+            totalWeight += weight;
+        }
 
+        int enemiesAmt = Mathf.FloorToInt(level / 3) + 2;
         List<Type> enemiesToSpawn = new List<Type>();
 
-        // Randomly select enemy types to spawn
         for (int i = 0; i < enemiesAmt; i++)
         {
-            int randomIndex = UnityEngine.Random.Range(0, allEnemyTypes.Count);
-            enemiesToSpawn.Add(allEnemyTypes[randomIndex]);
+            float randomValue = UnityEngine.Random.Range(0f, totalWeight);
+            float currWeight = 0;
+
+            foreach (var enemyType in enemySpawnRates)
+            {
+                currWeight += enemyType.Value;
+                if (randomValue <= currWeight)
+                {
+                    enemiesToSpawn.Add(enemyType.Key);
+
+                    // Reduce the spawn weight of the selected enemy type
+                    enemySpawnRates[enemyType.Key] *= 0.5f;
+                    
+                    // Recalculate the total weight after reducing
+                    totalWeight = 0;
+                    foreach (var weight in enemySpawnRates.Values)
+                    {
+                        totalWeight += weight;
+                    }
+                    break;
+                }
+            }
         }
 
         return enemiesToSpawn;
     }
+
 
     public void StartNextLevel()
     {
