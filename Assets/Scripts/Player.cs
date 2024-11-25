@@ -384,10 +384,6 @@ public class Player : Entity
         PlayerSpriteChanger playerSpriteChanger = gameObject.GetComponent<PlayerSpriteChanger>();
         playerSpriteChanger.ChangePlayerSprite(EntityType.Slime);
         ability = null;
-        foreach (var arrAbility in abilities) 
-        {
-            arrAbility = null;
-        }
         abilities.Clear();
     }
 }
