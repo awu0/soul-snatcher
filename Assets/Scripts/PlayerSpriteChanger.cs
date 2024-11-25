@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerSpriteChanger : MonoBehaviour {
@@ -35,26 +36,24 @@ public class PlayerSpriteChanger : MonoBehaviour {
       { EntityType.Snake, "isSnake" },
       { EntityType.StoneGolem, "isGolem" }
     };
-    }
+  }
 
   public void ChangePlayerSprite(EntityType entityType) {
-      animator.SetBool("isSlime", false);
-      animator.SetBool("isBug", false);
-      animator.SetBool("isEye", false);
-      animator.SetBool("isGolem", false);
-      animator.SetBool("isSnake", false);
+    animator.SetBool("isSlime", false);
+    animator.SetBool("isBug", false);
+    animator.SetBool("isEye", false);
+    animator.SetBool("isGolem", false);
+    animator.SetBool("isSnake", false);
 
-      if (entityToSpriteMap.TryGetValue(entityType, out Sprite newSprite) /*&& entityToAnimMap.TryGetValue(entityType, out string newAnim)*/) {
-        // Let's not set animations for player until they're all ready
-        animator.enabled = false;
+    if (entityToSpriteMap.TryGetValue(entityType, out Sprite newSprite) /*&& entityToAnimMap.TryGetValue(entityType, out string newAnim)*/) {
+      // Let's not set animations for player until they're all ready
+      animator.enabled = false;
 
-        spriteRenderer.sprite = newSprite;
-     
-        // animator.SetBool(newAnim, true);
-
-        spriteRenderer.color = Color.blue;
-      } else {
-        Debug.LogWarning($"No sprite found for entity type {entityType}");
-      }
+      spriteRenderer.sprite = newSprite;
+    
+      // animator.SetBool(newAnim, true);
+    } else {
+      Debug.LogWarning($"No sprite found for entity type {entityType}");
     }
+  }
 }

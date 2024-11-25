@@ -26,6 +26,7 @@ public abstract class Entity : MonoBehaviour
 
     protected StatusEffectManager statusEffectManager;
     protected AudioManager audioManager;
+    protected SpriteFlasher spriteFlasher;
 
     public void Awake()
     {
@@ -42,6 +43,11 @@ public abstract class Entity : MonoBehaviour
         }
 
         audioManager = FindAnyObjectByType<AudioManager>();
+
+        spriteFlasher = gameObject.GetComponent<SpriteFlasher>();
+        if (spriteFlasher == null) {
+          spriteFlasher = gameObject.AddComponent<SpriteFlasher>();
+        }
     }
 
     public void Start()
@@ -107,6 +113,7 @@ public abstract class Entity : MonoBehaviour
             Die();
         }
 
+        spriteFlasher.CallDamageSpriteFlasher();
         return amount;
     }
 

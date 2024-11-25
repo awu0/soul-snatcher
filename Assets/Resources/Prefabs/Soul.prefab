@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b82a51f6c527463bb7d3c726513a147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: 2c3d4f8368b794585a1fbcba50bc7e85, type: 2}
 --- !u!95 &-53783970136331035
 Animator:
   serializedVersion: 5

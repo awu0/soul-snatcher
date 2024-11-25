@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 8558654365449734176}
   - component: {fileID: -8074138866372046313}
   - component: {fileID: -5010897655053244395}
+  - component: {fileID: 1183059615554736733}
   - component: {fileID: 6603958634956053327}
   - component: {fileID: 8282417728587402412}
   m_Layer: 0
@@ -236,7 +237,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 249d2355cb9e74f85afe44864cc7f98f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -392,6 +393,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1183059615554736733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4231044995348376588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdff51a26dc54da4a114389b6c544b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformFlashColor: {r: 1, g: 1, b: 1, a: 1}
+  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  flashTime: 0.2
+  numFlashes: 2
 --- !u!95 &6603958634956053327
 Animator:
   serializedVersion: 5

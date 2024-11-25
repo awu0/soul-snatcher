@@ -2999,6 +2999,7 @@ GameObject:
   - component: {fileID: 2069660942}
   - component: {fileID: 2069660943}
   - component: {fileID: 2069660944}
+  - component: {fileID: 2069660947}
   - component: {fileID: 2069660946}
   m_Layer: 0
   m_Name: Player
@@ -3027,7 +3028,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 249d2355cb9e74f85afe44864cc7f98f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3199,10 +3200,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slimeSprite: {fileID: 21300000, guid: 58bc94026e24346c0a72f2b7db273b19, type: 3}
-  giantPillbugSprite: {fileID: 21300000, guid: 0ae4425f22a64cc4e9760f60fdb28274, type: 3}
-  evilEyeSprite: {fileID: 21300000, guid: 1402978e53f47488e8324364b813d0de, type: 3}
-  snakeSprite: {fileID: 21300000, guid: 19df15675bb6e45ac96fce2a64a44b8b, type: 3}
-  stoneGolemSprite: {fileID: 21300000, guid: 75432e7f569464869a349d6734092a3d, type: 3}
+  giantPillbugSprite: {fileID: 21300000, guid: 415d331c451214f699785e6eb020a142, type: 3}
+  evilEyeSprite: {fileID: 21300000, guid: 70080a3606e954e4f865b56374765f92, type: 3}
+  snakeSprite: {fileID: 21300000, guid: fff8b8d56d7b543ae8ac780d4d09a7b7, type: 3}
+  stoneGolemSprite: {fileID: 21300000, guid: b2f93fe918de14372b8ba1f2e93d54c7, type: 3}
   animator: {fileID: 0}
 --- !u!95 &2069660946
 Animator:
@@ -3225,6 +3226,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2069660947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069660939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdff51a26dc54da4a114389b6c544b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashTime: 0.25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

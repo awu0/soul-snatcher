@@ -8,12 +8,16 @@ public class Soul : MonoBehaviour
   public EntityType Type { get; private set; }
 
   private Transform playerTransform;
-  private float moveSpeed = 5f;
+  private SpriteRenderer playerSpriteRenderer;
+    private SpriteFlasher spriteFlasher;
+  private float moveSpeed = 6f;
+
 
   public void Initialize(EntityType type) 
   {
     Type = type;
     playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    spriteFlasher = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteFlasher>();
   }
 
   private void Start() {
@@ -28,6 +32,7 @@ public class Soul : MonoBehaviour
     }
 
     AbsorbSoul();
+    spriteFlasher.CallTransformSpriteFlasher();
   }
 
   private void AbsorbSoul() {
