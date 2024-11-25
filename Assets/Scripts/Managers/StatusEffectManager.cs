@@ -11,8 +11,22 @@ public class StatusEffectManager : MonoBehaviour
 {
     private List<StatusEffect> activeEffects = new List<StatusEffect>();
 
+    // we use the sprite flasher to handle certain effect colors on sprites
+    protected SpriteFlasher spriteFlasher;
+
+    public void Awake() {
+      spriteFlasher = gameObject.GetComponent<SpriteFlasher>();
+      if (spriteFlasher == null) {
+        spriteFlasher = gameObject.AddComponent<SpriteFlasher>();
+      }
+    }
+
     public void AddStatusEffect(StatusEffect effect)
     {
+        if (effect.Type == StatusEffectType.Guarding) {
+          spriteFlasher.CallGuardSpriteTint(true);
+        }
+
         activeEffects.Add(effect);
     }
 
@@ -29,6 +43,10 @@ public class StatusEffectManager : MonoBehaviour
         {
             if (effect.Duration <= 0)
             {
+                if (effect.Type == StatusEffectType.Guarding) {
+                  spriteFlasher.CallGuardSpriteTint(false);
+                }
+                
                 effect.Removed();
                 return true;
             }

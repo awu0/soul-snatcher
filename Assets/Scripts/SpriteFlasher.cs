@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpriteFlasher : MonoBehaviour {
-  [SerializeField] private Color transformFlashColor = Color.white;
-  [SerializeField] private Color damageFlashColor = Color.red;
-  [SerializeField] private float flashTime = 0.2f;
-  [SerializeField] private int numFlashes = 2;
-
   private SpriteRenderer spriteRenderer;
   private Material material;
 
@@ -19,14 +14,27 @@ public class SpriteFlasher : MonoBehaviour {
   }
 
   public void CallTransformSpriteFlasher() {
-    spriteFlasherCoroutine = StartCoroutine(SpriteFlasherCoroutine(transformFlashColor));
+    spriteFlasherCoroutine = StartCoroutine(SpriteFlasherCoroutine(Color.white, 3, .25f));
   }
 
   public void CallDamageSpriteFlasher() {
-    spriteFlasherCoroutine = StartCoroutine(SpriteFlasherCoroutine(damageFlashColor));
+    spriteFlasherCoroutine = StartCoroutine(SpriteFlasherCoroutine(Color.red, 2, .2f));
   }
 
-  private IEnumerator SpriteFlasherCoroutine(Color flashColor) {
+  public void CallGuardSpriteTint(bool isGuarding) {
+    if (isGuarding) {
+      material.SetColor("_FlashColor", Color.blue);
+      material.SetFloat("_FlashAmount", 0.75f);
+    } else {
+      material.SetFloat("_FlashAmount", 0f);
+    }
+  }
+
+  public void CallRemoveSpriteTint() {
+    material.SetFloat("_FlashAmount", 0f);
+  }
+
+  private IEnumerator SpriteFlasherCoroutine(Color flashColor, int numFlashes, float flashTime) {
     // set color
     material.SetColor("_FlashColor", flashColor);
 

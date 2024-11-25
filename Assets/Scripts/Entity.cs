@@ -54,7 +54,6 @@ public abstract class Entity : MonoBehaviour
     {
         actionCount = maxActionCount;
     }
-
     protected void SetStats(int maxHealth, int attack, int range, EntityType type)
     {
         this.maxHealth = maxHealth;
@@ -104,7 +103,7 @@ public abstract class Entity : MonoBehaviour
     {
         if (statusEffectManager.HasStatusEffect<Guarding>())
         {
-            amount = 0;
+            return 0;
         }
 
         health -= amount;

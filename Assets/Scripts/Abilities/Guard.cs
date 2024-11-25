@@ -9,6 +9,14 @@ using UnityEngine;
 public class Guard : Ability
 {
     public override AbilityType Type => AbilityType.Buff;
+    protected SpriteFlasher spriteFlasher;
+
+    private void Awake() {
+      spriteFlasher = gameObject.GetComponent<SpriteFlasher>();
+      if (spriteFlasher == null) {
+        spriteFlasher = gameObject.AddComponent<SpriteFlasher>();
+      }
+    }
 
     protected override void ActivateInternal(AbilityContext context)
     {
@@ -19,5 +27,7 @@ public class Guard : Ability
         audioManager.playGolemAbility();
         guarding.Initialize(1, Caster);
         Caster.ReceiveStatusEffect(guarding);
+
+        spriteFlasher.CallGuardSpriteTint(true);
     }
 }
