@@ -12,7 +12,7 @@ public class StoneGolem : ChargingEnemyType
     
     private int turnCount = 0;
     private int enrTurnCount = 15;
-    
+
     public new void Start()
     {   
         base.Start();
@@ -63,11 +63,6 @@ public class StoneGolem : ChargingEnemyType
 
     public override void DetermineNextMove()
     {
-        if (turnCount == enrTurnCount) 
-        {
-            //Becomes enraged
-            maxActionCount = 2;
-        }
         while (actionCount > 0)
         {
             if (BasicAttackConditionMet())
@@ -92,5 +87,17 @@ public class StoneGolem : ChargingEnemyType
             actionCount--;
         }
         turnCount += 1;
+        CheckEnrage();
+    }
+
+    private void CheckEnrage()
+    {   
+        int enrageCount = enrTurnCount + GameManager.level;
+        if (turnCount == enrageCount) 
+        {
+            //Becomes enraged
+            maxActionCount = 2;
+            spriteFlasher.CallEnrageSpriteTint(true);
+        }
     }
 }

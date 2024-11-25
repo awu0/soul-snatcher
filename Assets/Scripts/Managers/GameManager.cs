@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject PrefabStairs;
     private GameObject stairs;
-    public int level = 0;
+    public static int level = 0;
 
     private int _playerStartX = 1;
     private int _playerStartY = 1;
