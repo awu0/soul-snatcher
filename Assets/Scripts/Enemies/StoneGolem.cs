@@ -57,6 +57,7 @@ public class StoneGolem : ChargingEnemyType
         int deltaY = Mathf.Abs(playerY - enemyY);
         
         // check if the player is exactly 1 space away on either the x or y-axis, not diagonally
+        Debug.Log($"player pos: {playerX}, {playerY}, my pos: {enemyX}, {enemyY}");
         return (deltaX == 1 && deltaY == 0) || (deltaX == 0 && deltaY == 1);
     }
 
@@ -67,18 +68,28 @@ public class StoneGolem : ChargingEnemyType
             //Becomes enraged
             maxActionCount = 2;
         }
-        if (BasicAttackConditionMet())
+        while (actionCount > 0)
         {
-            BasicAttack();
-            _guardedLastTurn = false;
-        }
-        else if (AbilityConditionsMet())
-        {
-            UseAbility();
-        }
-        else {
-            Move();
-            _guardedLastTurn = false;
+            if (BasicAttackConditionMet())
+            {
+                BasicAttack();
+                _guardedLastTurn = false;
+            }
+            else if (actionCount > 1)
+            {
+                Move();
+                _guardedLastTurn = false;
+            }
+            else if (AbilityConditionsMet())
+            {
+                Debug.Log($"Golem is blocking {BasicAttackConditionMet()}");
+                UseAbility();
+            }
+            else {
+                Move();
+                _guardedLastTurn = false;
+            }
+            actionCount--;
         }
         turnCount += 1;
     }

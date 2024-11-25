@@ -178,6 +178,9 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     
+                    // reduce buffs/debuffs/status effects duration by 1 turn
+                    player.TickDownStatusEffectsAndBuffs();
+                    
                     state = STATES.PLAYER_ROUND;
                     
                     Debug.Log("PLAYER ROUND");
@@ -191,7 +194,7 @@ public class GameManager : MonoBehaviour
                     }
                     //go to next round if player can't action anymore
                     if (player != null)
-                    {   
+                    {
                         if (player.actionCount <= 0)
                         {
                             state = STATES.ENEMY_ROUND;
@@ -205,8 +208,6 @@ public class GameManager : MonoBehaviour
 
                 case STATES.ENEMY_ROUND:
                     Debug.Log("ENEMY ROUND");
-                    // reduce buffs/debuffs/status effects duration by 1 turn
-                    player.TickDownStatusEffectsAndBuffs();
 
                     foreach (var enemy in entityManager.enemies)
                     {
@@ -214,13 +215,9 @@ public class GameManager : MonoBehaviour
                         {
                             // reduce buffs/debuffs/status effects duration by 1 turn
                             enemy.TickDownStatusEffectsAndBuffs(); 
-                            
-                            while (enemy.actionCount > 0)
-                            {
-                                enemy.DetermineNextMove();
-                                enemy.actionCount--; // Decrement actionCount after each move
-                                yield return new WaitForSeconds(pauseDuration); // Pause between actions
-                            }  
+
+                            enemy.DetermineNextMove();
+                            yield return new WaitForSeconds(pauseDuration); // Pause between actions
                         }
                     }
                     
