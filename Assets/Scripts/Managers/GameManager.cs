@@ -69,7 +69,6 @@ public class GameManager : MonoBehaviour
         int width = grids.columns;
         int height = grids.rows;
         bool[] map = GenerateMap.Generate(width, height); //GENERATE MAP
-        level = 0;
 
         //SPAWN PLAYER
         Vector2Int playerSpawn = grids.RandomValidSpawnPosition(map, width, height);
@@ -156,7 +155,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void ResetGame()
-    {
+    {   
+        level = 0;
         Scene currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
         UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene.name);
     }
