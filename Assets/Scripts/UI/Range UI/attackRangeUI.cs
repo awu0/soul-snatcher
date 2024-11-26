@@ -36,12 +36,17 @@ public class attackRangeIO : MonoBehaviour
                     }
                 }
                 else if (player.selectedAction == Player.SELECTED.ABILITY) {
-                    if (check && player.GetComponent<SnakeBite>() == null) {
+                    if (check) {
                         ShowAbilityRange();
                         WallIndicatorClear();
                         check = false;
                     }
-                    if (player.GetComponent<SnakeBite>() != null) {
+                    if (player.abilities.Peek().GetType().Name == "SnakeBite" && rangeIndicators.Count != 4) {
+                        ShowAttackRange();
+                    }
+                    if (player.abilities.Peek().GetType().Name == "PillbugRoll" ||
+                        player.abilities.Peek().GetType().Name == "EyeLaser") {
+                        /**
                         if (rangeIndicators.Count == 0 || rangeIndicators.Count > 4) { 
                             ShowAbilityRange();
                             //Debug.Log("Left: " + leftCloseWall);
@@ -59,7 +64,12 @@ public class attackRangeIO : MonoBehaviour
                             //Debug.Log("UP: " + upCloseWall);
                             //Debug.Log("Down: " + downCloseWall);
                             WallIndicatorClear();
-                        }    
+                        }
+                        **/
+                        if (rangeIndicators.Count <= 4) {
+                            ShowAbilityRange();
+                            WallIndicatorClear();
+                        }
                     }
                 }
             }
