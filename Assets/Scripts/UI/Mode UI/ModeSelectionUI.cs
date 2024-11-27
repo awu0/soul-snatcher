@@ -17,6 +17,7 @@ public class ModeSelectionUI : MonoBehaviour
     public Sprite snakeSprite;
     public Sprite evilEyeSprite;
     public Sprite pillbugSprite;
+    public Sprite stoneGolemSprite;
 
 
     public Color inactiveColor = new Color(63f / 255f, 28f / 255f, 28f / 255f, 1f);
@@ -77,6 +78,11 @@ public class ModeSelectionUI : MonoBehaviour
             ChangeAbilitySprite(evilEyeSprite);
             abilityImage.enabled = true;
         }
+        else if (player.abilities.Peek().GetType().Name == "Guard")
+        {
+            ChangeAbilitySprite(stoneGolemSprite);
+            abilityImage.enabled = true;
+        }
     }
 
     void UpdateSlotColor(UnityEngine.UI.Image slot, Color color)
@@ -88,6 +94,10 @@ public class ModeSelectionUI : MonoBehaviour
     }
 
     public void ChangeAbilitySprite(Sprite sprite) {
+        if (sprite == null) {
+          abilityImage.sprite = null;
+        }
+
         if (abilityImage != null) { 
             abilityImage.sprite = sprite;
         }

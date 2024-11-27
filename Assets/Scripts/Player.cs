@@ -17,6 +17,8 @@ public class Player : Entity
 
     public Queue<Ability> abilities = new Queue<Ability>();
     public Ability selectedAbility;
+
+    private EntityType? previousEntityType;
     
     public AudioSource damageSFX;
 
@@ -25,6 +27,7 @@ public class Player : Entity
         base.Start();
 
         actionCount = maxActionCount;
+        previousEntityType = null;
 
         EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.Slime];
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.Slime);
@@ -36,8 +39,9 @@ public class Player : Entity
         {
             if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
             {   
-              DetectForAbilitySelection();
-              DetectForMovement();
+              DetectForAbilitySelectionInput();
+              DetectForMovementInput();
+              DetectForRecentEnemyTransformInput();
               
               if (selectedAbility != null) {
                 HandleAbilityInput();
@@ -49,7 +53,7 @@ public class Player : Entity
         }
     }
 
-    private void DetectForMovement()
+    private void DetectForMovementInput()
     {
         // move up
         if (Input.GetKeyDown(KeyCode.W))
@@ -77,7 +81,7 @@ public class Player : Entity
         }
     }
 
-    private void DetectForAbilitySelection()
+    private void DetectForAbilitySelectionInput()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -92,6 +96,12 @@ public class Player : Entity
 
         // if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(1);
         // if (Input.GetKeyDown(KeyCode.Alpha4)) SelectAbility(2);
+    }
+
+    private void DetectForRecentEnemyTransformInput() {
+      if (Input.GetKeyDown(KeyCode.Alpha3)) {
+        TransformToMostRecentEnemy();
+      }
     }
 
     /// <summary>
@@ -207,6 +217,9 @@ public class Player : Entity
 
     public void AbsorbSoul(Soul soul)
     {
+        Debug.Log($"Storing recent entity type: {this.type}");
+        this.previousEntityType = this.type;
+
         Debug.Log($"Absorbed new soul type: {soul.Type}");
         this.type = soul.Type;
 
@@ -230,6 +243,31 @@ public class Player : Entity
         LogCurrentAbilities();
     }
 
+    private void TransformToMostRecentEnemy() {
+        Debug.Log("Transforming to most recent enemy");
+
+        if (this.previousEntityType == null) {
+          Debug.Log("No recent enemy to turn into!");
+          return;
+        }
+
+        // already asserted that previousEntityType is not null
+        EntityType typeToTransformInto = (EntityType)this.previousEntityType;
+        this.previousEntityType = null;
+
+        EntityBaseStats newEntityStats = EntityData.EntityBaseStatMap[typeToTransformInto];
+        SetStats(maxHealth: newEntityStats.MaxHealth, newEntityStats.Attack, newEntityStats.Range, typeToTransformInto);
+
+        GainAbility(typeToTransformInto);
+
+        PlayerSpriteChanger playerSpriteChanger = gameObject.GetComponent<PlayerSpriteChanger>();
+        playerSpriteChanger.ChangePlayerSprite(typeToTransformInto);
+        this.spriteFlasher.CallTransformSpriteFlasher();
+
+        Debug.Log($"Player is now of type: {this.type}");
+        LogCurrentAbilities();
+    }
+
     public EntityBaseStats CalculateNewStats(EntityBaseStats enemyStats)
     {
         EntityBaseStats oriStats = EntityData.EntityBaseStatMap[EntityType.Slime];
@@ -245,22 +283,14 @@ public class Player : Entity
 
     public void GainAbility(EntityType type)
     {
+        // always clear old abilities first
+        abilities.Clear();
+
         // Handle enemies without an ability
         if (!EntityData.EntityAbilityMap.TryGetValue(type, out Type abilityType) || abilityType == null)
         {
             Debug.Log("No ability found for enemy type: " + type);
             return;
-        }
-
-        // Remove old ability if we have too many
-        if (abilities.Count >= 1)
-        {
-            Ability oldAbility = abilities.Dequeue();
-            if (oldAbility != null)
-            {
-                Destroy(oldAbility);
-                Debug.LogWarning("Removed ability: " + oldAbility);
-            }
         }
 
         // Add ability
@@ -379,12 +409,15 @@ public class Player : Entity
 
     public void Reset()
     {
-        EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.Slime];
-        SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.Slime);
-        PlayerSpriteChanger playerSpriteChanger = gameObject.GetComponent<PlayerSpriteChanger>();
-        playerSpriteChanger.ChangePlayerSprite(EntityType.Slime);
-        ability = null;
-        abilities.Clear();
+        // reset health
+        EntityBaseStats stats = EntityData.EntityBaseStatMap[this.type];
+        SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, this.type);
+
+        // This is commented out since we're keeping enemy type on level swap
+        // PlayerSpriteChanger playerSpriteChanger = gameObject.GetComponent<PlayerSpriteChanger>();
+        // playerSpriteChanger.ChangePlayerSprite(EntityType.Slime);
+        // ability = null;
+        // abilities.Clear();
     }
 
     public string GetAbilityName() {
