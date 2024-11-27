@@ -251,9 +251,16 @@ public class Player : Entity
           return;
         }
 
-        // already asserted that previousEntityType is not null
+        this.selectedAbility = null;
+        
+        // we already asserted that previousEntityType is not null, so safe to cast here
         EntityType typeToTransformInto = (EntityType)this.previousEntityType;
         this.previousEntityType = null;
+
+        // let's auto-select the attack if the new type has no ability
+        if (EntityData.EntityAbilityMap[typeToTransformInto] == null) {
+          this.selectedAction = SELECTED.ATTACK;
+        }
 
         EntityBaseStats newEntityStats = EntityData.EntityBaseStatMap[typeToTransformInto];
         SetStats(maxHealth: newEntityStats.MaxHealth, newEntityStats.Attack, newEntityStats.Range, typeToTransformInto);
