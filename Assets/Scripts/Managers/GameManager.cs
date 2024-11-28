@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     private int _playerStartX = 1;
     private int _playerStartY = 1;
     
+    private List<Type> enemiesToSpawn;
+    public int enemiesAmt = 0;
+    
     public STATES state = STATES.ROUND_START;
     [NonSerialized] public float pauseDuration = 0.25f;
 
@@ -42,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        enemiesToSpawn = new List<Type>();
+        GenerateEnemyList();
         StartLevel();
         StartCoroutine(RunTurnManager());
     }
@@ -94,10 +99,9 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        
-        //SPAWN ENEMIES
-        List<Type> enemiesToSpawn = GenerateEnemyList();
 
+
+        //SPAWN ENEMIES
         for (int i = 0; i < enemiesToSpawn.Count; i++)
         {
             Type enemyType = enemiesToSpawn[i];
@@ -109,11 +113,15 @@ public class GameManager : MonoBehaviour
                 .MakeGenericMethod(enemyType)
                 .Invoke(entityManager, new object[] { enemySpawn.x, enemySpawn.y });
         }
+        
+        //CREATE ENEMY LIST FOR NEXT LEVEL
+        GenerateEnemyList();
     }
     
-    private List<Type> GenerateEnemyList()
+    private void GenerateEnemyList()
     {
         // Define initial spawn rates for each enemy type
+        enemiesToSpawn = new List<Type>();
         Dictionary<Type, float> enemySpawnRates = new Dictionary<Type, float>
         {
             { typeof(EvilEye), 0.25f },
@@ -128,8 +136,10 @@ public class GameManager : MonoBehaviour
             totalWeight += weight;
         }
 
-        int enemiesAmt = Mathf.FloorToInt(level / 3) + 2;
-        List<Type> enemiesToSpawn = new List<Type>();
+        if (level%2 == 0) 
+        {
+            enemiesAmt += 1;
+        }
 
         for (int i = 0; i < enemiesAmt; i++)
         {
@@ -156,8 +166,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-        return enemiesToSpawn;
     }
 
 

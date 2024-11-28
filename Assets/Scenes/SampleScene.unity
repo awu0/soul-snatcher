@@ -809,6 +809,7 @@ MonoBehaviour:
   snakeSprite: {fileID: 21300000, guid: 748a6c239b049f44fb38672361c468ec, type: 3}
   evilEyeSprite: {fileID: 21300000, guid: 1402978e53f47488e8324364b813d0de, type: 3}
   pillbugSprite: {fileID: 21300000, guid: e498e56d10a3e6445b47dc1e93fac4e6, type: 3}
+  stoneGolemSprite: {fileID: 0}
   inactiveColor: {r: 0.24705882, g: 0.10980392, b: 0.10980392, a: 1}
   activeColor: {r: 1, g: 0.68235296, b: 0, a: 1}
   attackSlot: {fileID: 1852646763}
@@ -1340,7 +1341,6 @@ MonoBehaviour:
   player: {fileID: 2069660942}
   stairsPos: {x: 0, y: 0}
   PrefabStairs: {fileID: 8572012012790667049, guid: c563dc181a66e694f89b436f2b21ede5, type: 3}
-  level: 0
   state: 0
   entityManager: {fileID: 442440895}
   grids: {fileID: 1432450315}
@@ -1531,8 +1531,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3e9d74eb9a9024d92f75533d4584f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows: 12
-  columns: 12
+  rows: 10
+  columns: 10
   scale: 1
   PrefabGrid: {fileID: 4399044442434539005, guid: 904d3bbd89b52724b97983e2b0a21c0e, type: 3}
   PrefabGrid2: {fileID: 4399044442434539005, guid: 1961706bc9da092408e030aa1a808e94, type: 3}
@@ -3090,6 +3090,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedAction: 0
   gameManager: {fileID: 1166715720}
+  selectedAbility: {fileID: 0}
   damageSFX: {fileID: 2069660943}
 --- !u!82 &2069660943
 AudioSource:
@@ -3238,8 +3239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdff51a26dc54da4a114389b6c544b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  flashTime: 0.25
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
