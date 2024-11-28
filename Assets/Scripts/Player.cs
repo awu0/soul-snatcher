@@ -413,6 +413,7 @@ public class Player : Entity
         EntityBaseStats stats = EntityData.EntityBaseStatMap[this.type];
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, this.type);
 
+        selectedAction = SELECTED.ATTACK;
         // This is commented out since we're keeping enemy type on level swap
         // PlayerSpriteChanger playerSpriteChanger = gameObject.GetComponent<PlayerSpriteChanger>();
         // playerSpriteChanger.ChangePlayerSprite(EntityType.Slime);

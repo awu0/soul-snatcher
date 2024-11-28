@@ -178,7 +178,7 @@ public class attackRangeIO : MonoBehaviour
         {
             Vector3 position = indicator.transform.position;
 
-            Debug.Log($"Indicator Position: {position}, Left: {leftCloseWall}, Right: {rightCloseWall}, Up: {upCloseWall}, Down: {downCloseWall}");
+            //Debug.Log($"Indicator Position: {position}, Left: {leftCloseWall}, Right: {rightCloseWall}, Up: {upCloseWall}, Down: {downCloseWall}");
 
             if (position.x < leftCloseWall - tolerance ||
                 position.x > rightCloseWall + tolerance ||
@@ -187,7 +187,7 @@ public class attackRangeIO : MonoBehaviour
             {
                 if (indicator != null)
                 {
-                    Debug.Log($"Deactivating Indicator at {position}");
+                    //Debug.Log($"Deactivating Indicator at {position}");
                     Destroy(indicator);
                 }
             }
