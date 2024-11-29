@@ -15,6 +15,8 @@ public class TurnStatus : MonoBehaviour
         if (manager != null) {
             playerTurn = manager.GetComponent<GameManager>().state == GameManager.STATES.PLAYER_ROUND;
 
+
+
             if (statusText != null) {
                 if (playerTurn)
                 {
