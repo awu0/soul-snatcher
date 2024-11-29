@@ -967,8 +967,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 573239100}
   m_CullTransparentMesh: 1
-<<<<<<< HEAD
-=======
 --- !u!1 &768680892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,7 +1027,6 @@ MonoBehaviour:
   activeColor: {r: 1, g: 0.68235296, b: 0, a: 1}
   attackSlot: {fileID: 1852646763}
   abilitySlotA: {fileID: 1925172212}
->>>>>>> c1ead0f (fix recent transformation bugs)
 --- !u!1 &769965422
 GameObject:
   m_ObjectHideFlags: 0
