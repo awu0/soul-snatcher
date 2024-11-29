@@ -20,6 +20,7 @@ public class Player : Entity
     public Ability selectedAbility;
 
     public EntityType? previousEntityType;
+    private bool isPreviousEntitySelected = false;
     
     public AudioSource damageSFX;
 
@@ -40,15 +41,18 @@ public class Player : Entity
         {
             if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
             {   
-              DetectForAbilitySelectionInput();
+              DetectForModeSelectionInput();
               DetectForMovementInput();
-              DetectForRecentEnemyTransformInput();
-              
+
               if (selectedAbility != null) {
                 HandleAbilityInput();
                 updateSelectedAction();
               } else {
                 HandleLeftClickAction();
+              }
+
+              if (isPreviousEntitySelected) {
+                HandleRecentTransformInput();
               }
             }
         }
@@ -82,16 +86,18 @@ public class Player : Entity
         }
     }
 
-    private void DetectForAbilitySelectionInput()
+    private void DetectForModeSelectionInput()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log("Selected Basic Attack");
             selectedAbility = null;
+            isPreviousEntitySelected = false;
             selectedAction = SELECTED.ATTACK;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2)) {
+          isPreviousEntitySelected = false;
           SelectAbility(0);
         }
 
@@ -99,18 +105,13 @@ public class Player : Entity
           selectedAbility = null;
 
           if(previousEntityType != null) {
+            isPreviousEntitySelected = true;
             selectedAction = SELECTED.RECENT_TRANSFORM;
           }
         }
 
         // if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(1);
         // if (Input.GetKeyDown(KeyCode.Alpha4)) SelectAbility(2);
-    }
-
-    private void DetectForRecentEnemyTransformInput() {
-      if (Input.GetKeyDown(KeyCode.Alpha3)) {
-        TransformToMostRecentEnemy();
-      }
     }
 
     /// <summary>
@@ -129,7 +130,7 @@ public class Player : Entity
 
     private void HandleLeftClickAction()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (selectedAction == SELECTED.ATTACK && Input.GetMouseButtonDown(0))
         {
             Entity entity = GetEntityAtMouse();
             if (entity && entity != this)
@@ -212,8 +213,11 @@ public class Player : Entity
                 break;
             // Buff Abilities activate automatically
             case Ability.AbilityType.Buff:
+              if(Input.GetMouseButtonDown(0)) {
                 UseAbility();
-                break;
+              }
+                
+              break;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -222,6 +226,12 @@ public class Player : Entity
             selectedAbility = null;
             return;
         }
+    }
+
+    private void HandleRecentTransformInput() {
+      if (Input.GetMouseButtonDown(0)) {
+        TransformToMostRecentEnemy();
+      }
     }
 
     public void AbsorbSoul(Soul soul)

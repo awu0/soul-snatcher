@@ -71,6 +71,12 @@ public class attackRangeIO : MonoBehaviour
                             WallIndicatorClear();
                         }
                     }
+                    if (player.abilities.Peek().GetType().Name == "Guard") {
+                      SetRangeIndicatorActivate(false);
+                    }
+                }
+                else if (player.selectedAction == Player.SELECTED.RECENT_TRANSFORM) {
+                  SetRangeIndicatorActivate(false);
                 }
             }
             else {
