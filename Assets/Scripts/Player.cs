@@ -20,7 +20,6 @@ public class Player : Entity
     public Ability selectedAbility;
 
     public EntityType? previousEntityType;
-    private bool isPreviousEntitySelected = false;
     
     public AudioSource damageSFX;
 
@@ -51,7 +50,7 @@ public class Player : Entity
                 HandleLeftClickAction();
               }
 
-              if (isPreviousEntitySelected) {
+              if (selectedAction == SELECTED.RECENT_TRANSFORM) {
                 HandleRecentTransformInput();
               }
             }
@@ -92,12 +91,10 @@ public class Player : Entity
         {
             Debug.Log("Selected Basic Attack");
             selectedAbility = null;
-            isPreviousEntitySelected = false;
             selectedAction = SELECTED.ATTACK;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2)) {
-          isPreviousEntitySelected = false;
           SelectAbility(0);
         }
 
@@ -105,7 +102,6 @@ public class Player : Entity
           selectedAbility = null;
 
           if(previousEntityType != null) {
-            isPreviousEntitySelected = true;
             selectedAction = SELECTED.RECENT_TRANSFORM;
           }
         }
@@ -276,10 +272,8 @@ public class Player : Entity
         EntityType typeToTransformInto = (EntityType)this.previousEntityType;
         this.previousEntityType = null;
 
-        // let's auto-select the attack if the new type has no ability
-        if (EntityData.EntityAbilityMap[typeToTransformInto] == null) {
-          this.selectedAction = SELECTED.ATTACK;
-        }
+        // let's always select the attack after this occurs
+        this.selectedAction = SELECTED.ATTACK;
 
         EntityBaseStats newEntityStats = EntityData.EntityBaseStatMap[typeToTransformInto];
         SetStats(maxHealth: newEntityStats.MaxHealth, newEntityStats.Attack, newEntityStats.Range, typeToTransformInto);
