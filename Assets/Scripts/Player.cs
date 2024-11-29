@@ -9,6 +9,7 @@ public class Player : Entity
     {
         ATTACK,
         ABILITY, //Ability1, Ability2, ... 
+        RECENT_TRANSFORM,
     }
 
     public SELECTED selectedAction = SELECTED.ATTACK;
@@ -18,7 +19,7 @@ public class Player : Entity
     public Queue<Ability> abilities = new Queue<Ability>();
     public Ability selectedAbility;
 
-    private EntityType? previousEntityType;
+    public EntityType? previousEntityType;
     
     public AudioSource damageSFX;
 
@@ -92,6 +93,14 @@ public class Player : Entity
 
         if (Input.GetKeyDown(KeyCode.Alpha2)) {
           SelectAbility(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3)) {
+          selectedAbility = null;
+
+          if(previousEntityType != null) {
+            selectedAction = SELECTED.RECENT_TRANSFORM;
+          }
         }
 
         // if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(1);
