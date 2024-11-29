@@ -16,11 +16,11 @@ public class Frame : MonoBehaviour
             playerTurn = manager.GetComponent<GameManager>().state == GameManager.STATES.PLAYER_ROUND;
             if (playerTurn)
             {
-                frame.enabled = true;
+                frame.color = Color.yellow;
             }
             else
             {
-                frame.enabled = false;
+                frame.color = Color.white;
             }
         }
     }
