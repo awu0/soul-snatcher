@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     private int _playerStartX = 1;
     private int _playerStartY = 1;
     
-    private List<Type> enemiesToSpawn;
+    public List<Type> enemiesToSpawn;
     public int enemiesAmt = 0;
     
     public STATES state = STATES.ROUND_START;
@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     public EntityManager entityManager;
 
     public Grids grids;
+
+    public EnemyDisplay enemyDisplay;
 
     public void Awake()
     {
@@ -116,6 +118,7 @@ public class GameManager : MonoBehaviour
         
         //CREATE ENEMY LIST FOR NEXT LEVEL
         GenerateEnemyList();
+        enemyDisplay.DisplayEnemies();
     }
     
     private void GenerateEnemyList()
