@@ -12,12 +12,21 @@ public class ModeSelectionUI : MonoBehaviour
 
     public Image meleeImage;
     public Image abilityImage;
+    public Image transformImage;
 
+    // ability sprites
     public Sprite meleeSprite;
     public Sprite snakeSprite;
     public Sprite evilEyeSprite;
     public Sprite pillbugSprite;
     public Sprite stoneGolemSprite;
+
+    // recent enemy transform sprites
+    public Sprite slimeSprite;
+    public Sprite slimeSnakeSprite;
+    public Sprite slimeGolemSprite;
+    public Sprite slimePillbugSprite;
+    public Sprite slimeEyeSprite;
 
 
     public Color inactiveColor = new Color(63f / 255f, 28f / 255f, 28f / 255f, 1f);
@@ -25,6 +34,7 @@ public class ModeSelectionUI : MonoBehaviour
 
     public UnityEngine.UI.Image attackSlot;
     public UnityEngine.UI.Image abilitySlotA;
+    public UnityEngine.UI.Image previousTransformSlot;
 
     private UnityEngine.UI.Image selectedSlot;
     private void Start()
@@ -50,6 +60,11 @@ public class ModeSelectionUI : MonoBehaviour
                 modeText.text = "Mode: Ability";
                 currentSlot = abilitySlotA;
                 break;
+
+            case Player.SELECTED.RECENT_TRANSFORM:
+                modeText.text = "Mode: Transform";
+                currentSlot = previousTransformSlot;
+                break;
         }
 
 
@@ -59,6 +74,8 @@ public class ModeSelectionUI : MonoBehaviour
             UpdateSlotColor(currentSlot, activeColor);
             selectedSlot = currentSlot;
         }
+
+        // set ability image
         if (player.abilities.ToArray().Length < 1) {
             ChangeAbilitySprite(null);
             abilityImage.enabled = false;
@@ -83,6 +100,36 @@ public class ModeSelectionUI : MonoBehaviour
             ChangeAbilitySprite(stoneGolemSprite);
             abilityImage.enabled = true;
         }
+
+        // set recent transform image
+        if (player.previousEntityType == null) {
+            ChangePreviousTransformSprite(null);
+            transformImage.enabled = false;
+        }
+        else if (player.previousEntityType == EntityType.Slime) {
+            ChangePreviousTransformSprite(slimeSprite);
+            transformImage.enabled = true;
+        }
+        else if (player.previousEntityType == EntityType.Snake)
+        {
+            ChangePreviousTransformSprite(slimeSnakeSprite);
+            transformImage.enabled = true;
+        }
+        else if (player.previousEntityType == EntityType.GiantPillbug)
+        {
+            ChangePreviousTransformSprite(slimePillbugSprite);
+            transformImage.enabled = true;
+        }
+        else if (player.previousEntityType == EntityType.EvilEye)
+        {
+            ChangePreviousTransformSprite(slimeEyeSprite);
+            transformImage.enabled = true;
+        }
+        else if (player.previousEntityType == EntityType.StoneGolem)
+        {
+            ChangePreviousTransformSprite(slimeGolemSprite);
+            transformImage.enabled = true;
+        }
     }
 
     void UpdateSlotColor(UnityEngine.UI.Image slot, Color color)
@@ -101,5 +148,15 @@ public class ModeSelectionUI : MonoBehaviour
         if (abilityImage != null) { 
             abilityImage.sprite = sprite;
         }
+    }
+
+    public void ChangePreviousTransformSprite(Sprite sprite) {
+      if (sprite == null) {
+        transformImage.sprite = null;
+      }
+
+      if (transformImage != null) {
+        transformImage.sprite = sprite;
+      }
     }
 }

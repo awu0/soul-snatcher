@@ -9,6 +9,7 @@ public class Player : Entity
     {
         ATTACK,
         ABILITY, //Ability1, Ability2, ... 
+        RECENT_TRANSFORM,
     }
 
     public SELECTED selectedAction = SELECTED.ATTACK;
@@ -18,7 +19,7 @@ public class Player : Entity
     public Queue<Ability> abilities = new Queue<Ability>();
     public Ability selectedAbility;
 
-    private EntityType? previousEntityType;
+    public EntityType? previousEntityType;
     
     public AudioSource damageSFX;
 
@@ -39,15 +40,18 @@ public class Player : Entity
         {
             if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
             {   
-              DetectForAbilitySelectionInput();
+              DetectForModeSelectionInput();
               DetectForMovementInput();
-              DetectForRecentEnemyTransformInput();
-              
+
               if (selectedAbility != null) {
                 HandleAbilityInput();
                 updateSelectedAction();
               } else {
                 HandleLeftClickAction();
+              }
+
+              if (selectedAction == SELECTED.RECENT_TRANSFORM) {
+                HandleRecentTransformInput();
               }
             }
         }
@@ -81,7 +85,7 @@ public class Player : Entity
         }
     }
 
-    private void DetectForAbilitySelectionInput()
+    private void DetectForModeSelectionInput()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -94,14 +98,16 @@ public class Player : Entity
           SelectAbility(0);
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha3)) {
+          selectedAbility = null;
+
+          if(previousEntityType != null) {
+            selectedAction = SELECTED.RECENT_TRANSFORM;
+          }
+        }
+
         // if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(1);
         // if (Input.GetKeyDown(KeyCode.Alpha4)) SelectAbility(2);
-    }
-
-    private void DetectForRecentEnemyTransformInput() {
-      if (Input.GetKeyDown(KeyCode.Alpha3)) {
-        TransformToMostRecentEnemy();
-      }
     }
 
     /// <summary>
@@ -120,7 +126,7 @@ public class Player : Entity
 
     private void HandleLeftClickAction()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (selectedAction == SELECTED.ATTACK && Input.GetMouseButtonDown(0))
         {
             Entity entity = GetEntityAtMouse();
             if (entity && entity != this)
@@ -203,8 +209,11 @@ public class Player : Entity
                 break;
             // Buff Abilities activate automatically
             case Ability.AbilityType.Buff:
+              if(Input.GetMouseButtonDown(0)) {
                 UseAbility();
-                break;
+              }
+                
+              break;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -213,6 +222,12 @@ public class Player : Entity
             selectedAbility = null;
             return;
         }
+    }
+
+    private void HandleRecentTransformInput() {
+      if (Input.GetMouseButtonDown(0)) {
+        TransformToMostRecentEnemy();
+      }
     }
 
     public void AbsorbSoul(Soul soul)
@@ -251,9 +266,14 @@ public class Player : Entity
           return;
         }
 
-        // already asserted that previousEntityType is not null
+        this.selectedAbility = null;
+        
+        // we already asserted that previousEntityType is not null, so safe to cast here
         EntityType typeToTransformInto = (EntityType)this.previousEntityType;
         this.previousEntityType = null;
+
+        // let's always select the attack after this occurs
+        this.selectedAction = SELECTED.ATTACK;
 
         EntityBaseStats newEntityStats = EntityData.EntityBaseStatMap[typeToTransformInto];
         SetStats(maxHealth: newEntityStats.MaxHealth, newEntityStats.Attack, newEntityStats.Range, typeToTransformInto);
