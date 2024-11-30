@@ -127,10 +127,11 @@ public class GameManager : MonoBehaviour
         enemiesToSpawn = new List<Type>();
         Dictionary<Type, float> enemySpawnRates = new Dictionary<Type, float>
         {
-            { typeof(EvilEye), 0.25f },
-            { typeof(GiantPillbug), 0.25f },
-            { typeof(StoneGolem), 0.25f },
-            { typeof(Snake), 0.25f }
+            { typeof(EvilEye), 0.2f },
+            { typeof(GiantPillbug), 0.2f },
+            { typeof(StoneGolem), 0.2f },
+            { typeof(Snake), 0.2f },
+            { typeof(Hooker), 0.2f }
         };
 
         float totalWeight = 0;

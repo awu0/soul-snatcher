@@ -64,4 +64,9 @@ public class AudioManager : MonoBehaviour
     {
         golemDeath.Play();
     }
+
+    public void playHookAbility()
+    {
+        // hook sfx
+    }
 }

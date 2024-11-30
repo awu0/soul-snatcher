@@ -10,6 +10,7 @@ public enum EntityType
     EvilEye,
     Snake,
     StoneGolem,
+    Hooker,
 }
 
 public class EntityBaseStats
@@ -37,6 +38,7 @@ public static class EntityData
       [EntityType.EvilEye] = new EntityBaseStats(attack: 4, maxHealth: 6),
       [EntityType.Snake] = new EntityBaseStats(attack: 4, maxHealth: 9, range: 1),
       [EntityType.StoneGolem] = new EntityBaseStats(attack: 7, maxHealth: 15),
+      [EntityType.Hooker] = new EntityBaseStats(attack: 2, maxHealth: 10),
   };
 
   public static readonly Dictionary<EntityType, Type> EntityAbilityMap = new Dictionary<EntityType, Type>
@@ -48,5 +50,6 @@ public static class EntityData
       [EntityType.EvilEye] = typeof(EyeLaser),
       [EntityType.Snake] = typeof(SnakeBite),
       [EntityType.StoneGolem] = typeof(Guard),
+      [EntityType.Hooker] = typeof(Hook),
   };
 }

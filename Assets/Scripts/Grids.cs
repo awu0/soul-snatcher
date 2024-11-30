@@ -98,6 +98,8 @@ public class Grids : MonoBehaviour
 
     public Entity GetEntityAt(int x, int y)
     {
+        if (!IsPositionWithinBounds(x, y)) return null;
+        
         return entityCells[x, y];
     }
     
