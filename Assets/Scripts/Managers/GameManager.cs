@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     
     public List<Type> enemiesToSpawn;
     public int enemiesAmt = 0;
+    private int enemiesLimit = 6;
     
     public STATES state = STATES.ROUND_START;
     [NonSerialized] public float pauseDuration = 0.25f;
@@ -43,6 +44,14 @@ public class GameManager : MonoBehaviour
         {
             grids = gridObject.GetComponent<Grids>();
         } 
+        if (enemyDisplay == null)
+        {
+            enemyDisplay = FindObjectOfType<EnemyDisplay>();
+            if (enemyDisplay == null)
+            {
+                Debug.LogError("EnemyDisplay not found in the scene!");
+            }
+        }
     }
 
     private void Start()
@@ -140,7 +149,7 @@ public class GameManager : MonoBehaviour
             totalWeight += weight;
         }
 
-        if (level%2 == 0) 
+        if (level%2 == 0 && enemiesAmt < enemiesLimit) 
         {
             enemiesAmt += 1;
         }

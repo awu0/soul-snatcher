@@ -36,9 +36,9 @@ public static class EntityData
       [EntityType.GiantPillbug] = new EntityBaseStats(attack: 4, maxHealth: 12, range: 1),
       [EntityType.Weakling] = new EntityBaseStats(attack: 1, maxHealth: 1, range: 1),
       [EntityType.EvilEye] = new EntityBaseStats(attack: 4, maxHealth: 6),
-      [EntityType.Snake] = new EntityBaseStats(attack: 4, maxHealth: 9, range: 1),
+      [EntityType.Snake] = new EntityBaseStats(attack: 4, maxHealth: 8, range: 1),
       [EntityType.StoneGolem] = new EntityBaseStats(attack: 7, maxHealth: 15),
-      [EntityType.Hooker] = new EntityBaseStats(attack: 2, maxHealth: 10),
+      [EntityType.Hooker] = new EntityBaseStats(attack: 3, maxHealth: 11),
   };
 
   public static readonly Dictionary<EntityType, Type> EntityAbilityMap = new Dictionary<EntityType, Type>
