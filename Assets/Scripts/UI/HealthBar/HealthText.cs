@@ -15,7 +15,6 @@ public class HealthText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     // Show health text when the mouse is over the child object
     public void OnPointerEnter(PointerEventData eventData)
     {
-        
         if (healthTextDisplay != null)
         {
             healthTextDisplay.text = $"{playerScript.health} / {playerScript.maxHealth}";
