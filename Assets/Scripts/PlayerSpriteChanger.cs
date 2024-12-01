@@ -8,6 +8,7 @@ public class PlayerSpriteChanger : MonoBehaviour {
   public Sprite evilEyeSprite;
   public Sprite snakeSprite;
   public Sprite stoneGolemSprite;
+  public Sprite hookerSprite;
 
 
   private Dictionary<EntityType, Sprite> entityToSpriteMap;
@@ -26,7 +27,7 @@ public class PlayerSpriteChanger : MonoBehaviour {
       { EntityType.EvilEye, evilEyeSprite },
       { EntityType.Snake, snakeSprite },
       { EntityType.StoneGolem, stoneGolemSprite },
-      // hooker
+      { EntityType.Hooker, hookerSprite }
     };
 
     entityToAnimMap = new Dictionary<EntityType, string>
@@ -46,7 +47,6 @@ public class PlayerSpriteChanger : MonoBehaviour {
     animator.SetBool("isEye", false);
     animator.SetBool("isGolem", false);
     animator.SetBool("isSnake", false);
-    // hooker
 
     if (entityToSpriteMap.TryGetValue(entityType, out Sprite newSprite) /*&& entityToAnimMap.TryGetValue(entityType, out string newAnim)*/) {
       // Let's not set animations for player until they're all ready

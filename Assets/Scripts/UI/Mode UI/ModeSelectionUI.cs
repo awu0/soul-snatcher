@@ -23,6 +23,7 @@ public class ModeSelectionUI : MonoBehaviour
     public Sprite evilEyeSprite;
     public Sprite pillbugSprite;
     public Sprite stoneGolemSprite;
+    public Sprite hookerSprite;
 
     // recent enemy transform sprites
     public Sprite slimeSprite;
@@ -30,6 +31,7 @@ public class ModeSelectionUI : MonoBehaviour
     public Sprite slimeGolemSprite;
     public Sprite slimePillbugSprite;
     public Sprite slimeEyeSprite;
+    public Sprite slimeHookerSprite;
 
 
     public Color inactiveColor = new Color(63f / 255f, 28f / 255f, 28f / 255f, 1f);

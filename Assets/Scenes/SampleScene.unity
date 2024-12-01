@@ -386,7 +386,7 @@ MonoBehaviour:
   gameManager: {fileID: 1166715720}
   enemyPreviewParent: {fileID: 1000013154}
   toggleVisibilityButton: {fileID: 401324691}
-  hookerSprite: {fileID: 21300000, guid: 0680b67f0b9db4610a5e189e46c121c7, type: 3}
+  hookerSprite: {fileID: 21300000, guid: 157b08547ab5f4d8597361011512d29b, type: 3}
   snakeSprite: {fileID: 21300000, guid: 19df15675bb6e45ac96fce2a64a44b8b, type: 3}
   evilEyeSprite: {fileID: 21300000, guid: 1402978e53f47488e8324364b813d0de, type: 3}
   giantPillbugSprite: {fileID: 21300000, guid: 0ae4425f22a64cc4e9760f60fdb28274, type: 3}
@@ -533,11 +533,13 @@ MonoBehaviour:
   evilEyeSprite: {fileID: 21300000, guid: 1402978e53f47488e8324364b813d0de, type: 3}
   pillbugSprite: {fileID: 21300000, guid: e498e56d10a3e6445b47dc1e93fac4e6, type: 3}
   stoneGolemSprite: {fileID: 21300000, guid: 75432e7f569464869a349d6734092a3d, type: 3}
+  hookerSprite: {fileID: 0}
   slimeSprite: {fileID: 21300000, guid: 58bc94026e24346c0a72f2b7db273b19, type: 3}
   slimeSnakeSprite: {fileID: 21300000, guid: fff8b8d56d7b543ae8ac780d4d09a7b7, type: 3}
   slimeGolemSprite: {fileID: 21300000, guid: b2f93fe918de14372b8ba1f2e93d54c7, type: 3}
   slimePillbugSprite: {fileID: 21300000, guid: 415d331c451214f699785e6eb020a142, type: 3}
   slimeEyeSprite: {fileID: 21300000, guid: 70080a3606e954e4f865b56374765f92, type: 3}
+  slimeHookerSprite: {fileID: 21300000, guid: b45377473b835475895b1c91c63dfbf9, type: 3}
   inactiveColor: {r: 0.24705882, g: 0.10980392, b: 0.10980392, a: 1}
   activeColor: {r: 1, g: 0.68235296, b: 0, a: 1}
   attackSlot: {fileID: 1852646763}
@@ -4569,6 +4571,7 @@ MonoBehaviour:
   evilEyeSprite: {fileID: 21300000, guid: 70080a3606e954e4f865b56374765f92, type: 3}
   snakeSprite: {fileID: 21300000, guid: fff8b8d56d7b543ae8ac780d4d09a7b7, type: 3}
   stoneGolemSprite: {fileID: 21300000, guid: b2f93fe918de14372b8ba1f2e93d54c7, type: 3}
+  hookerSprite: {fileID: 21300000, guid: b45377473b835475895b1c91c63dfbf9, type: 3}
   animator: {fileID: 0}
 --- !u!95 &2069660946
 Animator:
