@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class ModeSelectionUI : MonoBehaviour
 {
     public TextMeshProUGUI modeText;
+    public TextMeshProUGUI meleeKey;
+    public TextMeshProUGUI abilityKey;
+    public TextMeshProUGUI saveSoulKey;
     public Player player;
 
     public Image meleeImage;
@@ -37,10 +40,13 @@ public class ModeSelectionUI : MonoBehaviour
     public UnityEngine.UI.Image previousTransformSlot;
 
     private UnityEngine.UI.Image selectedSlot;
+    private TextMeshProUGUI selectedKeyBind;
     private void Start()
     {
         selectedSlot = attackSlot;
+        selectedKeyBind = meleeKey;
         UpdateSlotColor(selectedSlot, activeColor);
+        UpdateKeyBindColor(meleeKey, activeColor);
     }
 
     private void Update()
@@ -48,22 +54,26 @@ public class ModeSelectionUI : MonoBehaviour
         if (player == null || modeText == null) return;
 
         UnityEngine.UI.Image currentSlot = null;
+        TextMeshProUGUI currentKey = null;
 
         switch (player.selectedAction)
         {
             case Player.SELECTED.ATTACK:
                 modeText.text = "Mode: Attack";
                 currentSlot = attackSlot;
+                currentKey = meleeKey;
                 break;
 
             case Player.SELECTED.ABILITY:
                 modeText.text = "Mode: Ability";
                 currentSlot = abilitySlotA;
+                currentKey = abilityKey;
                 break;
 
             case Player.SELECTED.RECENT_TRANSFORM:
                 modeText.text = "Mode: Transform";
                 currentSlot = previousTransformSlot;
+                currentKey = saveSoulKey;
                 break;
         }
 
@@ -72,6 +82,8 @@ public class ModeSelectionUI : MonoBehaviour
         {
             UpdateSlotColor(selectedSlot, inactiveColor);
             UpdateSlotColor(currentSlot, activeColor);
+            UpdateKeyBindColor(selectedKeyBind, inactiveColor);
+            UpdateKeyBindColor(currentKey, activeColor);
             selectedSlot = currentSlot;
         }
 
@@ -137,6 +149,12 @@ public class ModeSelectionUI : MonoBehaviour
         if (slot != null)
         {
             slot.color = color;
+        }
+    }
+
+    void UpdateKeyBindColor(TextMeshProUGUI text, Color color) {
+        if (text != null) { 
+            text.color = color;
         }
     }
 
