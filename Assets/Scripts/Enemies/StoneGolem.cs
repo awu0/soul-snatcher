@@ -27,6 +27,7 @@ public class StoneGolem : ChargingEnemyType
 
     protected override void UseAbility()
     {
+        animator.SetBool("isDefending", true);
         var context = new BuffContext {
           Grids = grids,
         };
@@ -81,6 +82,7 @@ public class StoneGolem : ChargingEnemyType
                 UseAbility();
             }
             else {
+                animator.SetBool("isDefending", false);
                 Move();
                 _guardedLastTurn = false;
             }
