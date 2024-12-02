@@ -90,7 +90,8 @@ public class ModeSelectionUI : MonoBehaviour
         }
 
         // set ability image
-        if (player.abilities.ToArray().Length < 1) {
+        if (player.abilities.ToArray().Length < 1)
+        {
             ChangeAbilitySprite(null);
             abilityImage.enabled = false;
         }
@@ -112,6 +113,10 @@ public class ModeSelectionUI : MonoBehaviour
         else if (player.abilities.Peek().GetType().Name == "Guard")
         {
             ChangeAbilitySprite(stoneGolemSprite);
+            abilityImage.enabled = true;
+        }
+        else if (player.abilities.Peek().GetType().Name == "Hook") {
+            ChangeAbilitySprite(hookerSprite);
             abilityImage.enabled = true;
         }
 

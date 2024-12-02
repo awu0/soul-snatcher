@@ -505,7 +505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -175.5, y: 109.6}
+  m_AnchoredPosition: {x: -175.5, y: 109.599976}
   m_SizeDelta: {x: 334.5465, y: 194.6182}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &139988181
@@ -533,7 +533,7 @@ MonoBehaviour:
   evilEyeSprite: {fileID: 21300000, guid: 1402978e53f47488e8324364b813d0de, type: 3}
   pillbugSprite: {fileID: 21300000, guid: e498e56d10a3e6445b47dc1e93fac4e6, type: 3}
   stoneGolemSprite: {fileID: 21300000, guid: 75432e7f569464869a349d6734092a3d, type: 3}
-  hookerSprite: {fileID: 0}
+  hookerSprite: {fileID: 21300000, guid: 157b08547ab5f4d8597361011512d29b, type: 3}
   slimeSprite: {fileID: 21300000, guid: 58bc94026e24346c0a72f2b7db273b19, type: 3}
   slimeSnakeSprite: {fileID: 21300000, guid: fff8b8d56d7b543ae8ac780d4d09a7b7, type: 3}
   slimeGolemSprite: {fileID: 21300000, guid: b2f93fe918de14372b8ba1f2e93d54c7, type: 3}
@@ -1538,7 +1538,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -64, y: -99.6}
+  m_AnchoredPosition: {x: -64, y: -99.599976}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &794855377
@@ -1759,7 +1759,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1770,7 +1770,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!224 &872281916
 RectTransform:
