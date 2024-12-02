@@ -222,6 +222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageSFX: {fileID: 0}
+  animator: {fileID: 0}
+  laserPrefab: {fileID: 7511529007030853493, guid: 7d337119d2dc4134d83afce83f54d353, type: 3}
 --- !u!95 &3717179024501195995
 Animator:
   serializedVersion: 5
@@ -351,10 +353,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdff51a26dc54da4a114389b6c544b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transformFlashColor: {r: 1, g: 1, b: 1, a: 1}
-  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
-  flashTime: 0.2
-  numFlashes: 2
 --- !u!114 &2184455032116039081
 MonoBehaviour:
   m_ObjectHideFlags: 0
