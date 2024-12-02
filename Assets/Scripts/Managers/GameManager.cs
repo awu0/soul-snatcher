@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
     public Grids grids;
 
     public EnemyDisplay enemyDisplay;
+
+    public TextMeshProUGUI levelText;
 
     public void Awake()
     {
@@ -136,11 +139,11 @@ public class GameManager : MonoBehaviour
         enemiesToSpawn = new List<Type>();
         Dictionary<Type, float> enemySpawnRates = new Dictionary<Type, float>
         {
-            { typeof(EvilEye), 0.2f },
-            { typeof(GiantPillbug), 0.2f },
-            { typeof(StoneGolem), 0.2f },
-            { typeof(Snake), 0.2f },
-            { typeof(Hooker), 0.2f }
+            { typeof(EvilEye), 1.0f },
+            { typeof(GiantPillbug), 1.0f },
+            { typeof(StoneGolem), 0.6f },
+            { typeof(Snake), 1.0f },
+            { typeof(Hooker), 1.0f }
         };
 
         float totalWeight = 0;
@@ -192,6 +195,7 @@ public class GameManager : MonoBehaviour
         Destroy(stairs.gameObject);
 
         level += 1;
+        levelText.text = "Floor " + level.ToString();
         if (level%2 == 0) {
             grids.rows += 1;
             grids.columns += 1;
@@ -204,6 +208,7 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {   
         level = 0;
+        levelText.text = "Floor " + level.ToString();
         Scene currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
         UnityEngine.SceneManagement.SceneManager.LoadScene(currentScene.name);
     }
