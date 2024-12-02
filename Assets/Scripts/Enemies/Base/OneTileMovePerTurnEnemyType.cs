@@ -117,7 +117,7 @@ public abstract class OneTileMovePerTurnEnemyType : Enemy
         return path;
     }
 
-    private bool IsPositionValid(Vector2Int position)
+    protected bool IsPositionValid(Vector2Int position)
     {
         return grids.IsPositionWithinBounds(position.x, position.y) && 
                !grids.IsCellOccupied(position.x, position.y);
