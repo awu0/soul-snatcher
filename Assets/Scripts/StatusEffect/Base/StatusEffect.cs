@@ -7,6 +7,7 @@ public enum StatusEffectType
 {
     Poison,
     Guarding,
+    Stun
 }
 
 public abstract class StatusEffect : MonoBehaviour
