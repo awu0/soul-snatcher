@@ -104,7 +104,7 @@ public class GiantPillbug : OneTileMovePerTurnEnemyType
         return false; 
     }
 
-    public override void DetermineNextMove()
+    protected override void DetermineNextMove()
     {
         // distance grid for regular movement
         var currentPosition = new Vector2Int(GetCurrentPosition().x, GetCurrentPosition().y);

@@ -34,8 +34,8 @@ public class WeaklingEnemy : ChargingEnemyType
         // check if the player is exactly 1 space away on either the x or y-axis, not diagonally
         return (deltaX == 1 && deltaY == 0) || (deltaX == 0 && deltaY == 1);
     }
-    
-    public override void DetermineNextMove()
+
+    protected override void DetermineNextMove()
     {
         if (AbilityConditionsMet())
         {

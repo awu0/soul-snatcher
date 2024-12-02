@@ -89,7 +89,7 @@ public class EvilEye : RangedEnemyType
         return true;
     }
 
-    public override void DetermineNextMove()
+    protected override void DetermineNextMove()
     {
         if (AbilityConditionsMet())
         {

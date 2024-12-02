@@ -62,32 +62,29 @@ public class StoneGolem : ChargingEnemyType
         return (deltaX == 1 && deltaY == 0) || (deltaX == 0 && deltaY == 1);
     }
 
-    public override void DetermineNextMove()
+    protected override void DetermineNextMove()
     {
-        while (actionCount > 0)
+        if (BasicAttackConditionMet())
         {
-            if (BasicAttackConditionMet())
-            {
-                BasicAttack();
-                _guardedLastTurn = false;
-            }
-            else if (actionCount > 1)
-            {
-                Move();
-                _guardedLastTurn = false;
-            }
-            else if (AbilityConditionsMet())
-            {
-                Debug.Log($"Golem is blocking {BasicAttackConditionMet()}");
-                UseAbility();
-            }
-            else {
-                animator.SetBool("isDefending", false);
-                Move();
-                _guardedLastTurn = false;
-            }
-            actionCount--;
+            BasicAttack();
+            _guardedLastTurn = false;
         }
+        else if (actionCount > 1)
+        {
+            Move();
+            _guardedLastTurn = false;
+        }
+        else if (AbilityConditionsMet())
+        {
+            Debug.Log($"Golem is blocking {BasicAttackConditionMet()}");
+            UseAbility();
+        }
+        else {
+            animator.SetBool("isDefending", false);
+            Move();
+            _guardedLastTurn = false;
+        }
+         
         turnCount += 1;
         CheckEnrage();
     }
@@ -97,7 +94,7 @@ public class StoneGolem : ChargingEnemyType
         int enrageCount = enrTurnCount + GameManager.level;
         if (turnCount == enrageCount) 
         {
-            //Becomes enraged
+            // Becomes enraged
             maxActionCount = 2;
             spriteFlasher.CallEnrageSpriteTint(true);
         }

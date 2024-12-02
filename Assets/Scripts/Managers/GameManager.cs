@@ -269,7 +269,7 @@ public class GameManager : MonoBehaviour
                             // reduce buffs/debuffs/status effects duration by 1 turn
                             enemy.TickDownStatusEffectsAndBuffs(); 
 
-                            enemy.DetermineNextMove();
+                            enemy.TakeTurn();
                             yield return new WaitForSeconds(pauseDuration); // Pause between actions
                         }
                     }

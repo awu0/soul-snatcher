@@ -89,7 +89,7 @@ public class Hooker : RangedEnemyType
         return true;
     }
 
-    public override void DetermineNextMove()
+    protected override void DetermineNextMove()
     {
         if (AbilityConditionsMet())
         {
