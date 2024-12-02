@@ -32,6 +32,15 @@ public abstract class Enemy : Entity
         }
     }
 
+    public void TakeTurn()
+    {
+        while (actionCount > 0)
+        {
+            DetermineNextMove();
+            actionCount--;
+        }
+    }
+
     /**
      * This function will be exposed to determine the behavior of the enemy.
      *
@@ -39,7 +48,7 @@ public abstract class Enemy : Entity
      * - When they will attack
      * - Will they run away, charge the player, etc...
      */
-    public abstract void DetermineNextMove();
+    protected abstract void DetermineNextMove();
 
     /**
      * Handles enemy movement, should only be called within DetermineNextMove

@@ -23,11 +23,19 @@ public class PillbugRoll : Ability
             current += directionalContext.Direction;
         }
 
-        // check if the immediate next tile is an Entity, if it is do damage to it
+        // check if the immediate next tile is an Entity, if so do damage to it
         if (grids.IsPositionWithinBounds(current.x, current.y) && grids.IsCellOccupied(current.x, current.y))
         {
             Entity target = grids.GetEntityAt(current.x, current.y);
             target.TakeDamage(directionalContext.Damage);
+        }
+        else
+        {
+            // entity is stunned for 1 turn otherwise
+            Stun stunEffect = gameObject.AddComponent<Stun>();
+            stunEffect.Initialize(1, Caster);
+            
+            Caster.ReceiveStatusEffect(stunEffect);
         }
     }
 
