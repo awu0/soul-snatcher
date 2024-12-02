@@ -149,6 +149,11 @@ public class ModeSelectionUI : MonoBehaviour
             ChangePreviousTransformSprite(slimeGolemSprite);
             transformImage.enabled = true;
         }
+        else if (player.previousEntityType == EntityType.Hooker)
+        {
+            ChangePreviousTransformSprite(slimeHookerSprite);
+            transformImage.enabled = true;
+        }
     }
 
     void UpdateSlotColor(UnityEngine.UI.Image slot, Color color)
