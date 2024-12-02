@@ -13,6 +13,7 @@ public abstract class Enemy : Entity
     public AudioSource damageSFX;
 
     private GameObject enemyHitPrefab;
+    public Animator animator;
 
     public new void Start()
     {
@@ -22,6 +23,7 @@ public abstract class Enemy : Entity
         
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         player = playerObject.GetComponent<Player>();
+        animator = gameObject.GetComponent<Animator>();
 
         enemyHitPrefab = Resources.Load<GameObject>("Prefabs/UI/EnemyHitText");
         if (enemyHitPrefab == null)

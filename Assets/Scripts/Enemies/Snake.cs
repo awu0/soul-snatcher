@@ -24,6 +24,7 @@ public class Snake : ChargingEnemyType
             Target = player,
         };
 
+        animator.SetTrigger("Attacking");
         ((SnakeBite)ability).ActivateAbility(context);
         Debug.Log($"{gameObject.name} used ability.");
     }
