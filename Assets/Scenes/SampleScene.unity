@@ -2298,6 +2298,7 @@ MonoBehaviour:
   grids: {fileID: 1432450315}
   enemyDisplay: {fileID: 81994810}
   levelText: {fileID: 556233267}
+  isTutorial: 1
 --- !u!4 &1166715721
 Transform:
   m_ObjectHideFlags: 0
