@@ -10,9 +10,19 @@ public class EyeLaser : Ability
 {
     public override AbilityType Type => AbilityType.Directional;
     public GameObject laserPrefab;
+    public AnimationPlayer animationPlayer;
 
     protected override void ActivateInternal(AbilityContext context) {
         Debug.Log($"{gameObject} used EyeLaser");
+        if (animationPlayer == null)
+        {
+            animationPlayer = FindObjectOfType<AnimationPlayer>();
+            if (animationPlayer == null)
+            {
+                Debug.LogError("AnimationPlayer not found in the scene!");
+                return;
+            }
+        }
         audioManager.playEyeAbility();
         var directionalContext = (DirectionalContext)context;
         var (startX, startY) = Caster.GetCurrentPosition();
@@ -29,6 +39,7 @@ public class EyeLaser : Ability
             Debug.Log("laserPrefab is assigned.");
         }
 
+        int length = 0;
         while (grids.IsPositionWithinBounds(current.x, current.y))
         {
             Entity entity = grids.GetEntityAt(current.x, current.y);
@@ -43,6 +54,9 @@ public class EyeLaser : Ability
                 //Instantiate(laserPrefab, spawnPosition, Quaternion.identity);
             }
             current += directionalContext.Direction;
+            length += 1;
         }
+
+        animationPlayer.ShootLaser(startX, startY, directionalContext.Direction, length);
     }
 }
