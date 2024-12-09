@@ -24,11 +24,15 @@ public class AnimationPlayer : MonoBehaviour
         }
 
         Vector3 currentPosition = new Vector3(startX, startY, 0f);
+        Quaternion rotation = (direction.y != 0) // Vertical shot
+            ? Quaternion.Euler(0, 0, 90)
+            : Quaternion.identity; // Horizontal or default
 
         for (int i = 0; i < length; i++)
         {
-            Instantiate(laserPrefab, currentPosition, Quaternion.identity);
-            currentPosition += new Vector3(direction.x, direction.y, 0f);
+            Instantiate(laserPrefab, currentPosition, rotation);
+            currentPosition += new Vector3(direction.x, direction.y, -1f);
+            Debug.Log($"laserPrefab created at {currentPosition}");
         }
     }
 }
