@@ -125,7 +125,12 @@ public class GiantPillbug : OneTileMovePerTurnEnemyType
                 bestAbilityDirection = direction;
             }
         }
-        
+
+        if (!gameObject.GetComponent<Stun>())
+        {
+            animator.SetBool("stunned", false);
+        }
+
         if (AbilityConditionsMet())
         {
             UseAbility(); 
@@ -135,11 +140,21 @@ public class GiantPillbug : OneTileMovePerTurnEnemyType
             // use the ability
             Debug.Log($"Using ability to roll towards player. Direction: {bestAbilityDirection}");
             UseAbilityWithDirection(bestAbilityDirection);
+            if (gameObject.GetComponent<Stun>())
+            {
+                Debug.Log("fuck me");
+                animator.SetBool("stunned", true);
+            }
         }
         else
         {
             // use normal movement
+            if (gameObject.GetComponent<Stun>())
+            {
+                animator.SetBool("stunned", false);
+            }
             Debug.Log("Using normal movement to approach player.");
+
             Move();
         }
     }
