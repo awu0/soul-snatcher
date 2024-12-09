@@ -82,17 +82,18 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R)) // Replace 'R' with any key you prefer
         {
-            StartNextLevel();
+          isTutorial = false;
+          StartNextLevel();
         }
         if (Input.GetKeyDown(KeyCode.T)) // Replace 'R' with any key you prefer
         {
-            ResetGame();
+          ResetGame();
         }
         if (Input.GetKeyDown(KeyCode.Q)) // Replace 'R' with any key you prefer
         {   
-            if (player.actionCount >= 1) {
-                player.actionCount -= 1;
-            }
+          if (player.actionCount >= 1) {
+              player.actionCount -= 1;
+          }
         }
 
         // for tutorial
