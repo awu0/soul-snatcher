@@ -41,7 +41,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI levelText;
 
     public bool isTutorial = false;
-    public int tutorialLevel = 1;
+    public int tutorialLevel = 2;
+    public int tutorialStep = 0;
+    private int tutorialActionCount = 0;
+    public TextMeshProUGUI tutorialStepText;
+    public GameObject tutorialUI;
 
     public void Awake()
     {
@@ -57,6 +61,12 @@ public class GameManager : MonoBehaviour
             {
                 Debug.LogError("EnemyDisplay not found in the scene!");
             }
+        }
+
+        if (isTutorial) {
+          tutorialUI.SetActive(true);
+        } else {
+          tutorialUI.SetActive(false);
         }
     }
 
@@ -83,6 +93,47 @@ public class GameManager : MonoBehaviour
             if (player.actionCount >= 1) {
                 player.actionCount -= 1;
             }
+        }
+
+        // for tutorial
+        if (isTutorial) {
+          tutorialStepText.text = TutorialData.TutorialStepText[tutorialStep];
+
+          if (tutorialStep == 0 && Math.Abs(player.locX - stairsPos.x) < 5 && Math.Abs(player.locY - stairsPos.y) < 5) {
+            tutorialStep = 1;
+          }
+
+          if (tutorialStep == 1 && tutorialLevel == 1) {
+            tutorialStep = 2;
+          }
+
+          if (tutorialStep == 2 && tutorialActionCount == 2) {
+            tutorialStep = 3;
+            tutorialActionCount = 0;
+          }
+
+          // tutorial step 3 handled in Player.cs
+
+          // tutorial step 4 handled in Player.cs
+
+          if (tutorialStep == 5 && tutorialActionCount == 3) {
+            tutorialStep = 6;
+            tutorialActionCount = 0;
+          }
+
+          // tutorial step 6 handled in Player.cs
+
+          // tutorial step 7 handled in StartNextTutorialLevel()
+
+          // tutorial step 8 and 9 handled in Player.cs
+
+          if (tutorialStep == 10 && tutorialActionCount == 3) {
+            tutorialStep = 11;
+          }
+
+          if (tutorialStep == 11 && tutorialActionCount == 6) {
+            tutorialStep = 12;
+          }
         }
     }
 
@@ -133,6 +184,7 @@ public class GameManager : MonoBehaviour
               Vector2Int enemySpawn = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 4);
               //grids.RandomValidSpawnPosition(map, width, height);
 
+              Debug.Log(enemyType);
               // Use reflection to call SpawnEnemy<T>
               typeof(EntityManager).GetMethod("SpawnEnemy")
                   .MakeGenericMethod(enemyType)
@@ -143,6 +195,7 @@ public class GameManager : MonoBehaviour
           GenerateEnemyList();
           enemyDisplay.DisplayEnemies();
         } else {
+          levelText.text = "Floor " + tutorialLevel.ToString();
           BuildTutorialLevel();
         }
     }
@@ -220,7 +273,13 @@ public class GameManager : MonoBehaviour
     }
 
     public void StartNextTutorialLevel() {
-      Debug.Log("Completed Tutorial Level!");
+      // if tutorial is complete, just move into standard gameplay
+      if (tutorialLevel == 2) {
+        isTutorial = false;
+        tutorialUI.SetActive(false);
+      } else if (tutorialLevel == 1) {
+        tutorialStep = 8;
+      }
 
       player.Reset();
       state = STATES.ROUND_START;
@@ -230,6 +289,7 @@ public class GameManager : MonoBehaviour
       Destroy(stairs.gameObject);
 
       tutorialLevel += 1;
+      levelText.text = "Floor " + tutorialLevel.ToString();
 
       grids.GenerateGrid();
       StartLevel();
@@ -286,6 +346,16 @@ public class GameManager : MonoBehaviour
                         if (player.actionCount <= 0)
                         {
                             state = STATES.ENEMY_ROUND;
+
+                            if (isTutorial) {
+                              if (tutorialLevel == 1 || tutorialLevel == 2) {
+                                tutorialActionCount++;
+                              }
+
+                              if (tutorialStep == 4 || tutorialStep == 8 || tutorialStep == 9) {
+                                tutorialActionCount = 0;
+                              }
+                            }
                         }
                     }
                     else {
@@ -325,9 +395,17 @@ public class GameManager : MonoBehaviour
     }
 
     public void BuildTutorialLevel() {
-      int[,] tutorialLevelData = TutorialLevels.TutorialLevelOneData;
+      int[,] tutorialLevelData = new int[TutorialData.tutorialRows, TutorialData.tutorialColumns];
 
-      // the default size grid gets created at runtime.
+      if (tutorialLevel == 0) {
+        tutorialLevelData = TutorialData.TutorialLevelOneData;
+      } else if (tutorialLevel == 1) {
+        tutorialLevelData = TutorialData.TutorialLevelTwoData;
+      } else if (tutorialLevel == 2) {
+        tutorialLevelData = TutorialData.TutorialLevelThreeData;
+      }
+      
+      // The default size grid gets set at runtime.
       // Let's delete this default grid in the case of the tutorial
       grids.DeleteGridPrefabs();
 
@@ -349,6 +427,14 @@ public class GameManager : MonoBehaviour
             stairsPos.y = j;
             stairs = Instantiate(PrefabStairs, new Vector3(i, j, 0), Quaternion.identity);
             stairs.GetComponent<SpriteRenderer>().sortingOrder = 1;
+          } else if (tutorialLevelData[i,j] == 4) {
+            typeof(EntityManager).GetMethod("SpawnEnemy")
+              .MakeGenericMethod(typeof(GiantPillbug))
+              .Invoke(entityManager, new object[] { i, j });
+          } else if (tutorialLevelData[i,j] == 5) {
+            typeof(EntityManager).GetMethod("SpawnEnemy")
+              .MakeGenericMethod(typeof(EvilEye))
+              .Invoke(entityManager, new object[] { i, j });
           }
         }
       }

@@ -148,6 +148,10 @@ public class Player : Entity
     {
         Debug.Log($"Attacked: {entity}");
         entity.TakeDamage(attack);
+
+        if (gameManager.isTutorial && gameManager.tutorialStep == 3) {
+          gameManager.tutorialStep = 4;
+        }
     }
 
     private void SelectAbility(int index)
@@ -256,6 +260,13 @@ public class Player : Entity
         Debug.Log($"Player is now of type: {this.type}");
         Debug.Log($"Player maxHealth: {this.maxHealth}");
         LogCurrentAbilities();
+
+        if (gameManager.isTutorial && gameManager.tutorialStep == 4) {
+          gameManager.tutorialStep = 5;
+        } else if (gameManager.isTutorial && (gameManager.tutorialStep == 8 || gameManager.tutorialStep == 9)) {
+          gameManager.tutorialStep = 10;
+        }
+        
     }
 
     private void TransformToMostRecentEnemy() {
@@ -388,6 +399,10 @@ public class Player : Entity
 
         selectedAbility = null;
         actionCount -= 1;
+
+        if (gameManager.isTutorial && gameManager.tutorialStep == 6) {
+          gameManager.tutorialStep = 7;
+        }
     }
 
     public bool InRange(int range, Entity entity)
@@ -409,6 +424,10 @@ public class Player : Entity
         damageSFX.volume = 0.5f;
         damageSFX.Play();
         
+        if (gameManager.isTutorial && gameManager.tutorialStep == 8) {
+          gameManager.tutorialStep = 9;
+        }
+
         return base.TakeDamage(amount);
     }
 
