@@ -22,7 +22,7 @@ public class EyeLaser : Ability
 
         if (laserPrefab == null)
         {
-            Debug.LogError("laserPrefab is not assigned in the Inspector!");
+            Debug.LogWarning("laserPrefab is not assigned in the Inspector!");
         }
         else
         {
