@@ -61,7 +61,7 @@ public static class TutorialData {
     "Let's try out the pillbug's roll. Select your ability with [2], and use it by clicking in any direction.", // 6 
     "Nice! This will be useful for dealing with any more threats.", // 7
     "A new enemy! Let's try and use our roll ability and basic attack to take it out.", // 8
-    "In a pinch, you can revert to the entity you were previously, taking their abilities and restoring some lost health.", // 9
+    "In a pinch, you can revert to the entity you were previously, taking their abilities and restoring some lost health. Select transform mode by pressing [3], and click anywhere to activate it.", // 9
     "Nice job! It looks like you've absorbed the eye's soul and gained its ability and stats.", // 10
     "Different enemies have different abilities and stats, so some are better equipped to take out a certain threat than others.", // 11
     "Let's keep exploring the forest!" // 12
