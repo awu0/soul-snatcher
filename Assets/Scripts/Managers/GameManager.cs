@@ -40,6 +40,13 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI levelText;
 
+    public bool isTutorial = false;
+    public int tutorialLevel = 2;
+    public int tutorialStep = 0;
+    private int tutorialActionCount = 0;
+    public TextMeshProUGUI tutorialStepText;
+    public GameObject tutorialUI;
+
     public void Awake()
     {
         var gridObject = GameObject.FindGameObjectWithTag("Game Board");
@@ -54,6 +61,12 @@ public class GameManager : MonoBehaviour
             {
                 Debug.LogError("EnemyDisplay not found in the scene!");
             }
+        }
+
+        if (isTutorial) {
+          tutorialUI.SetActive(true);
+        } else {
+          tutorialUI.SetActive(false);
         }
     }
 
@@ -81,56 +94,110 @@ public class GameManager : MonoBehaviour
                 player.actionCount -= 1;
             }
         }
+
+        // for tutorial
+        if (isTutorial) {
+          tutorialStepText.text = TutorialData.TutorialStepText[tutorialStep];
+
+          if (tutorialStep == 0 && Math.Abs(player.locX - stairsPos.x) < 5 && Math.Abs(player.locY - stairsPos.y) < 5) {
+            tutorialStep = 1;
+          }
+
+          if (tutorialStep == 1 && tutorialLevel == 1) {
+            tutorialStep = 2;
+          }
+
+          if (tutorialStep == 2 && tutorialActionCount == 2) {
+            tutorialStep = 3;
+            tutorialActionCount = 0;
+          }
+
+          // tutorial step 3 handled in Player.cs
+
+          // tutorial step 4 handled in Player.cs
+
+          if (tutorialStep == 5 && tutorialActionCount == 3) {
+            tutorialStep = 6;
+            tutorialActionCount = 0;
+          }
+
+          // tutorial step 6 handled in Player.cs
+
+          // tutorial step 7 handled in StartNextTutorialLevel()
+
+          // tutorial step 8 and 9 handled in Player.cs
+
+          if (tutorialStep == 10 && tutorialActionCount == 3) {
+            tutorialStep = 11;
+          }
+
+          if (tutorialStep == 11 && tutorialActionCount == 6) {
+            tutorialStep = 12;
+          }
+        }
     }
 
     private void StartLevel() 
     {
         int width = grids.columns;
         int height = grids.rows;
-        bool[] map = GenerateMap.Generate(width, height); //GENERATE MAP
 
-        //SPAWN PLAYER
-        Vector2Int playerSpawn = grids.RandomValidSpawnPosition(map, width, height);
-        _playerStartX = playerSpawn.x;
-        _playerStartY = playerSpawn.y;
-        player.MoveTo(_playerStartX, _playerStartY);
+        // if not in tutorial (standard gameplay)
+        //  1. generate random map
+        //  2. spawn player randomly
+        //  3. spawn stairs far away from player
+        //  4. connect closed areas
+        //  5. spawn enemies
+        if (!isTutorial) {
+          bool[] map = GenerateMap.Generate(width, height); //GENERATE MAP
 
-        //SPAWN STAIRS
-        stairsPos = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 3 + Mathf.FloorToInt(level/3));
-        stairs = Instantiate(PrefabStairs, new Vector3(grids.leftBottomLocation.x + stairsPos.x * grids.scale, grids.leftBottomLocation.y + stairsPos.y * grids.scale, 0), Quaternion.identity);
-        stairs.GetComponent<SpriteRenderer>().sortingOrder = 1;
-        Debug.Log($"Stairs spawned at: {stairsPos}");
+          //SPAWN PLAYER
+          Vector2Int playerSpawn = grids.RandomValidSpawnPosition(map, width, height);
+          _playerStartX = playerSpawn.x;
+          _playerStartY = playerSpawn.y;
+          player.MoveTo(_playerStartX, _playerStartY);
 
-        //CONNECT CLOSED AREAS
-        GenerateMap.ConnectOpenSpaces(map, width, height, playerSpawn);
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                if (map[x + y * width])
-                {
-                    entityManager.SpawnWall(x, y); 
-                }
-            }
+          //SPAWN STAIRS
+          stairsPos = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 3 + Mathf.FloorToInt(level/3));
+          stairs = Instantiate(PrefabStairs, new Vector3(grids.leftBottomLocation.x + stairsPos.x * grids.scale, grids.leftBottomLocation.y + stairsPos.y * grids.scale, 0), Quaternion.identity);
+          stairs.GetComponent<SpriteRenderer>().sortingOrder = 1;
+          Debug.Log($"Stairs spawned at: {stairsPos}");
+
+          //CONNECT CLOSED AREAS
+          GenerateMap.ConnectOpenSpaces(map, width, height, playerSpawn);
+          for (int y = 0; y < height; y++)
+          {
+              for (int x = 0; x < width; x++)
+              {
+                  if (map[x + y * width])
+                  {
+                      entityManager.SpawnWall(x, y); 
+                  }
+              }
+          }
+
+
+          //SPAWN ENEMIES
+          for (int i = 0; i < enemiesToSpawn.Count; i++)
+          {
+              Type enemyType = enemiesToSpawn[i];
+              Vector2Int enemySpawn = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 4);
+              //grids.RandomValidSpawnPosition(map, width, height);
+
+              Debug.Log(enemyType);
+              // Use reflection to call SpawnEnemy<T>
+              typeof(EntityManager).GetMethod("SpawnEnemy")
+                  .MakeGenericMethod(enemyType)
+                  .Invoke(entityManager, new object[] { enemySpawn.x, enemySpawn.y });
+          }
+          
+          //CREATE ENEMY LIST FOR NEXT LEVEL
+          GenerateEnemyList();
+          enemyDisplay.DisplayEnemies();
+        } else {
+          levelText.text = "Floor " + tutorialLevel.ToString();
+          BuildTutorialLevel();
         }
-
-
-        //SPAWN ENEMIES
-        for (int i = 0; i < enemiesToSpawn.Count; i++)
-        {
-            Type enemyType = enemiesToSpawn[i];
-            Vector2Int enemySpawn = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 4);
-            //grids.RandomValidSpawnPosition(map, width, height);
-
-            // Use reflection to call SpawnEnemy<T>
-            typeof(EntityManager).GetMethod("SpawnEnemy")
-                .MakeGenericMethod(enemyType)
-                .Invoke(entityManager, new object[] { enemySpawn.x, enemySpawn.y });
-        }
-        
-        //CREATE ENEMY LIST FOR NEXT LEVEL
-        GenerateEnemyList();
-        enemyDisplay.DisplayEnemies();
     }
     
     private void GenerateEnemyList()
@@ -205,6 +272,29 @@ public class GameManager : MonoBehaviour
         StartLevel();
     }
 
+    public void StartNextTutorialLevel() {
+      // if tutorial is complete, just move into standard gameplay
+      if (tutorialLevel == 2) {
+        isTutorial = false;
+        tutorialUI.SetActive(false);
+      } else if (tutorialLevel == 1) {
+        tutorialStep = 8;
+      }
+
+      player.Reset();
+      state = STATES.ROUND_START;
+
+      grids.DeleteGridPrefabs();
+      entityManager.DeleteEntityPrefabs();
+      Destroy(stairs.gameObject);
+
+      tutorialLevel += 1;
+      levelText.text = "Floor " + tutorialLevel.ToString();
+
+      grids.GenerateGrid();
+      StartLevel();
+    }
+
     public void ResetGame()
     {   
         level = 0;
@@ -242,7 +332,12 @@ public class GameManager : MonoBehaviour
                 case STATES.PLAYER_ROUND:
                     if (player.locX == stairsPos.x && player.locY == stairsPos.y)
                     {
-                        StartNextLevel(); 
+                        if (isTutorial) {
+                          StartNextTutorialLevel();
+                        } else {
+                          StartNextLevel(); 
+                        }
+                        
                         break;
                     }
                     //go to next round if player can't action anymore
@@ -251,6 +346,16 @@ public class GameManager : MonoBehaviour
                         if (player.actionCount <= 0)
                         {
                             state = STATES.ENEMY_ROUND;
+
+                            if (isTutorial) {
+                              if (tutorialLevel == 1 || tutorialLevel == 2) {
+                                tutorialActionCount++;
+                              }
+
+                              if (tutorialStep == 4 || tutorialStep == 8 || tutorialStep == 9) {
+                                tutorialActionCount = 0;
+                              }
+                            }
                         }
                     }
                     else {
@@ -287,5 +392,51 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void BuildTutorialLevel() {
+      int[,] tutorialLevelData = new int[TutorialData.tutorialRows, TutorialData.tutorialColumns];
+
+      if (tutorialLevel == 0) {
+        tutorialLevelData = TutorialData.TutorialLevelOneData;
+      } else if (tutorialLevel == 1) {
+        tutorialLevelData = TutorialData.TutorialLevelTwoData;
+      } else if (tutorialLevel == 2) {
+        tutorialLevelData = TutorialData.TutorialLevelThreeData;
+      }
+      
+      // The default size grid gets set at runtime.
+      // Let's delete this default grid in the case of the tutorial
+      grids.DeleteGridPrefabs();
+
+      grids.columns = tutorialLevelData.GetLength(0);
+      grids.rows = tutorialLevelData.GetLength(1);
+      grids.GenerateGrid();
+
+      for (int i = 0; i < tutorialLevelData.GetLength(0); i++) {
+        for (int j = 0; j < tutorialLevelData.GetLength(1); j++) {
+          if (tutorialLevelData[i, j] == 0) {
+            continue;
+          } else if (tutorialLevelData[i, j] == 1) {
+            grids.SetWall(i, j, true);
+            entityManager.SpawnWall(i, j); 
+          } else if (tutorialLevelData[i, j] == 2) {
+              player.MoveTo(i, j);
+          } else if (tutorialLevelData[i, j] == 3) {
+            stairsPos.x = i;
+            stairsPos.y = j;
+            stairs = Instantiate(PrefabStairs, new Vector3(i, j, 0), Quaternion.identity);
+            stairs.GetComponent<SpriteRenderer>().sortingOrder = 1;
+          } else if (tutorialLevelData[i,j] == 4) {
+            typeof(EntityManager).GetMethod("SpawnEnemy")
+              .MakeGenericMethod(typeof(GiantPillbug))
+              .Invoke(entityManager, new object[] { i, j });
+          } else if (tutorialLevelData[i,j] == 5) {
+            typeof(EntityManager).GetMethod("SpawnEnemy")
+              .MakeGenericMethod(typeof(EvilEye))
+              .Invoke(entityManager, new object[] { i, j });
+          }
+        }
+      }
     }
 }
