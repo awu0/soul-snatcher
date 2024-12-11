@@ -24,9 +24,10 @@ public class PlayerHealth : MonoBehaviour
     private float currentMax;
     public float barWidth = 332.5f;
     private float damagedHealthShrinkTimer;
-    private const float DAMAGED_HEALTH_SHRINK_TIMER_MAX = 1f;
+    private const float DAMAGED_HEALTH_SHRINK_TIMER_MAX = 0.1f;
     private float damageTaken = 0;
     private float healTaken = 0;
+    private float shrinkSpeed = 1.0f;
 
     private void Awake()
     {
@@ -84,7 +85,6 @@ public class PlayerHealth : MonoBehaviour
         damagedHealthShrinkTimer -= Time.deltaTime;
         if (damagedHealthShrinkTimer < 0) {
             if (healthBar.fillAmount < damagedBar.fillAmount) {
-                float shrinkSpeed = .1f;
                 damagedBar.fillAmount -= shrinkSpeed * Time.deltaTime;
             }  
         }
