@@ -112,13 +112,14 @@ public class EntityManager : MonoBehaviour
             return;
         }
         
-        string[] wallTypes = { "Wall", "Wall1" };
+        string[] wallTypes = { "Wall", "Wall1", "Wall1", "Wall1" };
         string selectedWallType = wallTypes[UnityEngine.Random.Range(0, wallTypes.Length)];
         GameObject prefab = Resources.Load<GameObject>("Prefabs/" + selectedWallType);
 
         Vector3 position = new Vector3(x, y, 0);
-        Quaternion rotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 4) * 90);
-        GameObject newWallObject = Instantiate(prefab, position, rotation);
+        //Quaternion rotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 4) * 90);
+        //GameObject newWallObject = Instantiate(prefab, position, rotation);
+        GameObject newWallObject = Instantiate(prefab, position, Quaternion.identity);
         Wall newWall = newWallObject.GetComponent<Wall>();
 
         newWall.locX = x;
