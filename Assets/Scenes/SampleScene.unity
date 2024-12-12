@@ -2344,7 +2344,7 @@ MonoBehaviour:
   grids: {fileID: 1432450315}
   enemyDisplay: {fileID: 81994810}
   levelText: {fileID: 556233267}
-  isTutorial: 1
+  isTutorial: 0
   tutorialLevel: 0
   tutorialStep: 0
   tutorialStepText: {fileID: 1672054722}

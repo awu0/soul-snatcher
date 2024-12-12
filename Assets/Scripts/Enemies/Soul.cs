@@ -9,7 +9,7 @@ public class Soul : MonoBehaviour
 
   private Transform playerTransform;
   private SpriteRenderer playerSpriteRenderer;
-    private SpriteFlasher spriteFlasher;
+  private SpriteFlasher spriteFlasher;
   private float moveSpeed = 6f;
 
 

@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     private int enemiesLimit = 6;
     
     public STATES state = STATES.ROUND_START;
-    [NonSerialized] public float pauseDuration = 0.25f;
+    [NonSerialized] public float pauseDuration = 0.4f;
 
     public EntityManager entityManager;
 
@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
           Vector2Int playerSpawn = grids.RandomValidSpawnPosition(map, width, height);
           _playerStartX = playerSpawn.x;
           _playerStartY = playerSpawn.y;
-          player.MoveTo(_playerStartX, _playerStartY);
+          player.PlaceEntity(_playerStartX, _playerStartY);
 
           //SPAWN STAIRS
           stairsPos = grids.FindRandomDistantPosition(map, width, height, playerSpawn, 3 + Mathf.FloorToInt(level/3));
@@ -360,9 +360,9 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     else {
-                        state = STATES.ENEMY_ROUND;
+                      state = STATES.ENEMY_ROUND;
                     }
-                    yield return new WaitForSeconds(pauseDuration);
+                    yield return StartCoroutine(WaitForPlayerTurn(player));
                     break;
 
                 case STATES.ENEMY_ROUND:
@@ -375,8 +375,7 @@ public class GameManager : MonoBehaviour
                             // reduce buffs/debuffs/status effects duration by 1 turn
                             enemy.TickDownStatusEffectsAndBuffs(); 
 
-                            enemy.TakeTurn();
-                            yield return new WaitForSeconds(pauseDuration); // Pause between actions
+                            yield return StartCoroutine(WaitForEnemyTurn(enemy));
                         }
                     }
                     
@@ -393,6 +392,24 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private IEnumerator WaitForEnemyTurn(Enemy enemy) {
+      enemy.TakeTurn();
+
+      yield return new WaitForSeconds(pauseDuration);
+
+      while (enemy.isMoving) {
+        yield return null;
+      }
+    }
+
+    private IEnumerator WaitForPlayerTurn(Player player) {
+      yield return new WaitForSeconds(pauseDuration);
+
+      while (player.isMoving) {
+        yield return null;
+      }
     }
 
     public void BuildTutorialLevel() {
@@ -422,7 +439,7 @@ public class GameManager : MonoBehaviour
             grids.SetWall(i, j, true);
             entityManager.SpawnWall(i, j); 
           } else if (tutorialLevelData[i, j] == 2) {
-              player.MoveTo(i, j);
+              player.PlaceEntity(i, j);
           } else if (tutorialLevelData[i, j] == 3) {
             stairsPos.x = i;
             stairsPos.y = j;

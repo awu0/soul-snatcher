@@ -14,19 +14,21 @@ public class PillbugRoll : Ability
         var directionalContext = (DirectionalContext)context;
         var (startX, startY) = Caster.GetCurrentPosition();
 
-        Vector2Int current = new Vector2Int(startX, startY) + directionalContext.Direction;
+        Vector2Int currentPosition = new Vector2Int(startX, startY);
         Grids grids = directionalContext.Grids;
 
-        while (!grids.IsCellOccupied(current.x, current.y) && grids.IsPositionWithinBounds(current.x, current.y))
+        Vector2Int nextPosition = currentPosition + directionalContext.Direction;
+        while (!grids.IsCellOccupied(nextPosition.x, nextPosition.y) && grids.IsPositionWithinBounds(nextPosition.x, nextPosition.y))
         {
-            Caster.MoveTo(current.x, current.y);
-            current += directionalContext.Direction;
+            currentPosition = nextPosition;
+            nextPosition += directionalContext.Direction;
         }
+        Caster.MoveTo(currentPosition.x, currentPosition.y);
 
         // check if the immediate next tile is an Entity, if so do damage to it
-        if (grids.IsPositionWithinBounds(current.x, current.y) && grids.IsCellOccupied(current.x, current.y))
+        if (grids.IsPositionWithinBounds(nextPosition.x, nextPosition.y) && grids.IsCellOccupied(nextPosition.x, nextPosition.y))
         {
-            Entity target = grids.GetEntityAt(current.x, current.y);
+            Entity target = grids.GetEntityAt(nextPosition.x, nextPosition.y);
             target.TakeDamage(directionalContext.Damage);
         }
         else
