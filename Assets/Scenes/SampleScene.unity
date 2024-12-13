@@ -875,7 +875,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &232042814
 RectTransform:
   m_ObjectHideFlags: 0
@@ -922,6 +922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startButton: {fileID: 1747303359}
   menuButton: {fileID: 1081269475}
+  gameManager: {fileID: 1166715720}
 --- !u!1 &296054179
 GameObject:
   m_ObjectHideFlags: 0
@@ -3071,6 +3072,7 @@ MonoBehaviour:
   tutorialStep: 0
   tutorialStepText: {fileID: 1672054722}
   tutorialUI: {fileID: 1899634522}
+  deathScreen: {fileID: 232042813}
 --- !u!4 &1166715721
 Transform:
   m_ObjectHideFlags: 0

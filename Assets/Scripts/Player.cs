@@ -443,7 +443,7 @@ public class Player : Entity
 
     public override void Die()
     {
-        gameManager.ResetGame(); //WILL CHANGE TO A DEAD SCREEN LATER
+        gameManager.ToggleDeathScreen(true); 
     }
 
     public void Reset()
