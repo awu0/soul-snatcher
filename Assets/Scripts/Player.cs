@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class Player : Entity
 {
@@ -23,6 +24,7 @@ public class Player : Entity
     public EntityType? previousEntityType;
 
     public AudioSource damageSFX;
+    public AudioSource transformSFX;
 
     private new void Start()
     {
@@ -282,6 +284,13 @@ public class Player : Entity
     {
         Debug.Log($"Storing recent entity type: {this.type}");
         this.previousEntityType = this.type;
+
+        transformSFX.volume = 0.5f;
+        transformSFX.Play();
+
+        SoulSnatchedUIController soulSnatchedUIController = gameObject.GetComponent<SoulSnatchedUIController>();
+        soulSnatchedUIController.UpdateSoulSnatchedUIText(this.type, soul.Type);
+        soulSnatchedUIController.DisplayAndFadeText();
 
         Debug.Log($"Absorbed new soul type: {soul.Type}");
         this.type = soul.Type;

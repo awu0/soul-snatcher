@@ -73,7 +73,7 @@ public class ModeSelectionUI : MonoBehaviour
                 break;
 
             case Player.SELECTED.RECENT_TRANSFORM:
-                modeText.text = "Mode: Transform";
+                modeText.text = "Mode: Revert";
                 currentSlot = previousTransformSlot;
                 currentKey = saveSoulKey;
                 break;

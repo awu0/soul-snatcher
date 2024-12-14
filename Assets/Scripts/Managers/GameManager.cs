@@ -302,11 +302,11 @@ public class GameManager : MonoBehaviour
 
   public void StartNextTutorialLevel()
   {
-    // if tutorial is complete, just move into standard gameplay
+    // if tutorial is complete, go back to start screen
     if (tutorialLevel == 2)
     {
       SceneData.isTutorial = false;
-      tutorialUI.SetActive(false);
+      SceneManager.LoadScene("StartScreen");
     }
     else if (tutorialLevel == 1)
     {
