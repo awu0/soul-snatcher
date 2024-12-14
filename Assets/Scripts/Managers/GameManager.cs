@@ -344,6 +344,7 @@ public class GameManager : MonoBehaviour
       {
         case STATES.ROUND_START:
           Debug.Log("ROUND START");
+          lastEnemyTurn = null;
           // refill action count
           player.actionCount = player.maxActionCount;
           for (int i = entityManager.enemies.Count - 1; i >= 0; i--)

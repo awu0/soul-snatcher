@@ -46,6 +46,9 @@ public class Death : MonoBehaviour
             enemyTips.TryGetValue(lastEnemyType, out string tip);
             tipText.text = tip;
         }
+        else {
+            tipText.text = "Died to: Poison\nCareful, you take damage every turn when poisoned by the Snake!";
+        }
     }
 
     void StartGame()
