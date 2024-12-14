@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -19,6 +21,8 @@ public abstract class Entity : MonoBehaviour
     [NonSerialized] public int maxHealth;
     [NonSerialized] public int range;
     [NonSerialized] public EntityType type;
+    [NonSerialized] public float moveSpeed = 5f;
+    [NonSerialized] public bool isMoving = false;
 
     protected Ability ability;
 
@@ -27,6 +31,7 @@ public abstract class Entity : MonoBehaviour
     protected StatusEffectManager statusEffectManager;
     protected AudioManager audioManager;
     protected SpriteFlasher spriteFlasher;
+    protected Player player;
 
     public void Awake()
     {
@@ -48,6 +53,12 @@ public abstract class Entity : MonoBehaviour
         if (spriteFlasher == null) {
           spriteFlasher = gameObject.AddComponent<SpriteFlasher>();
         }
+
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null) 
+        {
+            player = playerObject.GetComponent<Player>();
+        }
     }
 
     public void Start()
@@ -63,18 +74,59 @@ public abstract class Entity : MonoBehaviour
         this.type = type;
     }
 
+    public void PlaceEntity(int x, int y) {
+      if (!grids.IsPositionWithinBounds(x, y))
+        {
+            Debug.LogWarning($"{gameObject}.PlaceEntity({x}, {y}) is out of range!");
+            return;
+        }
+
+        if (grids.IsCellOccupied(x, y))
+        {
+            Debug.LogWarning($"{gameObject}.PlaceEntity({x}, {y}), but there is already something there!");
+            return;
+        }
+
+        var (oldX, oldY) = GetCurrentPosition();
+        grids.SetCellOccupied(oldX, oldY, null);
+
+        transform.position = new Vector3(x, y, transform.position.z);
+        
+        locX = x;
+        locY = y;
+
+        grids.SetCellOccupied(locX, locY, this);
+    }
+
     /// <summary>
     /// Moves this entity to another point.
     /// Updates occupiedCells accordingly.
     /// </summary>
     /// <param name="newX">the x-coord to go to</param>
     /// <param name="newY">the y-coord to go to</param>
-    public void MoveTo(int newX, int newY)
-    {
+    
+    public void MoveTo(int newX, int newY) {
+      StartCoroutine(MoveToCoroutine(newX, newY));
+    }
+
+    public IEnumerator MoveToCoroutine(int newX, int newY) {
+      isMoving = true;
+      Debug.Log(this.type + " started moviing " + transform.position);
+
+      var moveTask = MoveEntity(newX, newY);
+      while (!moveTask.IsCompleted) {
+        yield return null;
+      }
+
+      isMoving = false;
+      Debug.Log(this.type + " finished moviing " + transform.position);
+    }
+    
+    public async Task MoveEntity(int newX, int newY) {
         if (!grids.IsPositionWithinBounds(newX, newY))
         {
-            Debug.LogWarning($"{gameObject}.MoveTo({newX}, {newY}) is out of range!");
-            return;
+          Debug.LogWarning($"{gameObject}.MoveTo({newX}, {newY}) is out of range!");
+          return;
         }
 
         if (grids.IsCellOccupied(newX, newY))
@@ -83,15 +135,36 @@ public abstract class Entity : MonoBehaviour
             return;
         }
 
-        var (x, y) = GetCurrentPosition();
-        grids.SetCellOccupied(x, y, null);
+        var (oldX, oldY) = GetCurrentPosition();
+        grids.SetCellOccupied(oldX, oldY, null);
 
-        transform.position = new Vector3(newX, newY, transform.position.z);
+        Vector3 newPosition = new Vector3(newX, newY, transform.position.z);        
 
-        grids.SetCellOccupied(newX, newY, this);
-
+        await MoveEntityAsync(newPosition);
+        
         locX = newX;
         locY = newY;
+
+        grids.SetCellOccupied(locX, locY, this);
+    }
+
+    private async Task MoveEntityAsync(Vector3 newPosition) {
+      Vector3 startPosition = transform.position;
+      float journeyLength = Vector3.Distance(startPosition, newPosition);
+      float startTime = Time.time;
+
+      float moveTime = journeyLength / moveSpeed;
+      float elapsedTime = 0;
+
+      while (elapsedTime < moveTime) {
+        elapsedTime += Time.deltaTime;
+        float journeyFraction = elapsedTime / moveTime;
+        
+        transform.position = Vector3.Lerp(startPosition, newPosition, journeyFraction);
+        await Task.Yield();
+      }
+
+      transform.position = newPosition;
     }
 
     /// <summary>

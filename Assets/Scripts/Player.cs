@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class Player : Entity
 {
@@ -20,8 +22,9 @@ public class Player : Entity
     public Ability selectedAbility;
 
     public EntityType? previousEntityType;
-    
+
     public AudioSource damageSFX;
+    public AudioSource transformSFX;
 
     private new void Start()
     {
@@ -36,24 +39,27 @@ public class Player : Entity
 
     private void Update()
     {
-        if (gameManager != null)
+        if (!gameManager)
+            return;
+
+        if (gameManager.state != GameManager.STATES.PLAYER_ROUND || actionCount <= 0)
+            return;
+        
+        DetectForModeSelectionInput();
+
+        if (selectedAbility)
         {
-            if (gameManager.state == GameManager.STATES.PLAYER_ROUND && actionCount > 0)
-            {   
-              DetectForModeSelectionInput();
-              DetectForMovementInput();
-
-              if (selectedAbility != null) {
-                HandleAbilityInput();
-                updateSelectedAction();
-              } else {
-                HandleLeftClickAction();
-              }
-
-              if (selectedAction == SELECTED.RECENT_TRANSFORM) {
-                HandleRecentTransformInput();
-              }
-            }
+            HandleAbilityInput();
+            updateSelectedAction();
+        }
+        else if (selectedAction == SELECTED.RECENT_TRANSFORM)
+        {
+            HandleRecentTransformInput();
+        }
+        else
+        {
+            DetectForMovementInput();
+            HandleLeftClickAction();
         }
     }
 
@@ -94,16 +100,19 @@ public class Player : Entity
             selectedAction = SELECTED.ATTACK;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2)) {
-          SelectAbility(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SelectAbility(0);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3)) {
-          selectedAbility = null;
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            selectedAbility = null;
 
-          if(previousEntityType != null) {
-            selectedAction = SELECTED.RECENT_TRANSFORM;
-          }
+            if (previousEntityType != null)
+            {
+                selectedAction = SELECTED.RECENT_TRANSFORM;
+            }
         }
 
         // if (Input.GetKeyDown(KeyCode.Alpha3)) SelectAbility(1);
@@ -121,6 +130,13 @@ public class Player : Entity
         int newX = playerX + x;
         int newY = playerY + y;
 
+        // if the player tries to move to a spot that has an entity, attack it instead
+        Entity possibleEntity = grids.GetEntityAt(newX, newY);
+        if (possibleEntity != null)
+        {
+            BasicAttack(possibleEntity);
+        }
+
         MoveTo(newX, newY);
     }
 
@@ -130,11 +146,12 @@ public class Player : Entity
         {
             Entity entity = GetEntityAtMouse();
             if (entity && entity != this)
-            {   
-              if (InRange(range, entity)) {
-                BasicAttack(entity);
-                actionCount -= 1;
-              }
+            {
+                if (InRange(range, entity))
+                {
+                    BasicAttack(entity);
+                    actionCount -= 1;
+                }
             }
         }
     }
@@ -149,7 +166,7 @@ public class Player : Entity
         Debug.Log($"Attacked: {entity}");
         entity.TakeDamage(attack);
 
-        if (gameManager.isTutorial && gameManager.tutorialStep == 3) {
+        if (SceneData.isTutorial && gameManager.tutorialStep == 3) {
           gameManager.tutorialStep = 4;
         }
     }
@@ -163,46 +180,65 @@ public class Player : Entity
             return;
         }
 
-      // if (selectedAbility == abilitiesArray[index]) {
-      //   selectedAbility = null;
-      //   Debug.Log($"Deselected {abilitiesArray[index].GetType().Name}");
-      //   return;
-      // }
+        // if (selectedAbility == abilitiesArray[index]) {
+        //   selectedAbility = null;
+        //   Debug.Log($"Deselected {abilitiesArray[index].GetType().Name}");
+        //   return;
+        // }
 
-      Ability ability = abilitiesArray[index];
-      Debug.Log($"Selecting ability: {ability.GetType().Name}");
-      selectedAbility = ability;
+        Ability ability = abilitiesArray[index];
+        Debug.Log($"Selecting ability: {ability.GetType().Name}");
+        selectedAbility = ability;
     }
 
     private void HandleAbilityInput()
     {
+        // used for handling WASD input for ability use
+        Vector2Int direction = Vector2Int.zero;
+        if (Input.GetKeyDown(KeyCode.W)) direction = Vector2Int.up;
+        else if (Input.GetKeyDown(KeyCode.S)) direction = Vector2Int.down;
+        else if (Input.GetKeyDown(KeyCode.A)) direction = Vector2Int.left;
+        else if (Input.GetKeyDown(KeyCode.D)) direction = Vector2Int.right;
+        
         switch (selectedAbility.Type)
         {
             // Directional Abilities use directional mouse input
-            case Ability.AbilityType.Directional: 
-                Vector2Int direction = Vector2Int.zero;
+            case Ability.AbilityType.Directional:
                 (int x, int y) playerGridPosition = GetCurrentPosition();
-                
-                if (Input.GetMouseButtonDown(0)) {
-                  direction = grids.GetDirectionFromMouse(
-                    playerPos: new Vector2Int(playerGridPosition.x, playerGridPosition.y),
-                    mousePos: Input.mousePosition
-                  );
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    direction = grids.GetDirectionFromMouse(
+                        playerPos: new Vector2Int(playerGridPosition.x, playerGridPosition.y),
+                        mousePos: Input.mousePosition
+                    );
                 }
 
-                if (direction != Vector2Int.zero) {
+                if (direction != Vector2Int.zero)
+                {
                     UseAbility(direction: direction);
                 }
+
                 break;
             // Targeted Abilities use mouse input
             case Ability.AbilityType.Targeted:
                 Entity target = null;
 
-                if (Input.GetMouseButtonDown(0)) {
-                  target = GetEntityAtMouse();
-                  if (!InRange(range, target)) {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    target = GetEntityAtMouse();
+                }
+
+                if (direction != Vector2Int.zero)
+                {
+                    (int x, int y) playerPos = GetCurrentPosition();
+                    
+                    target = grids.GetEntityAt(playerPos.x + direction.x, playerPos.y + direction.y);
+                }
+                
+                if (!InRange(range, target))
+                {
                     target = null;
-                  }
                 }
 
                 if (target != null)
@@ -213,11 +249,17 @@ public class Player : Entity
                 break;
             // Buff Abilities activate automatically
             case Ability.AbilityType.Buff:
-              if(Input.GetMouseButtonDown(0)) {
-                UseAbility();
-              }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    UseAbility();
+                }
                 
-              break;
+                if (direction != Vector2Int.zero)
+                {
+                    UseAbility();
+                }
+
+                break;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -228,16 +270,27 @@ public class Player : Entity
         }
     }
 
-    private void HandleRecentTransformInput() {
-      if (Input.GetMouseButtonDown(0)) {
-        TransformToMostRecentEnemy();
-      }
+    private void HandleRecentTransformInput()
+    {
+        KeyCode[] keys = { KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D };
+
+        if (Input.GetMouseButtonDown(0) || keys.Any(Input.GetKeyDown))
+        {
+            TransformToMostRecentEnemy();
+        }
     }
 
     public void AbsorbSoul(Soul soul)
     {
         Debug.Log($"Storing recent entity type: {this.type}");
         this.previousEntityType = this.type;
+
+        transformSFX.volume = 0.5f;
+        transformSFX.Play();
+
+        SoulSnatchedUIController soulSnatchedUIController = gameObject.GetComponent<SoulSnatchedUIController>();
+        soulSnatchedUIController.UpdateSoulSnatchedUIText(this.type, soul.Type);
+        soulSnatchedUIController.DisplayAndFadeText();
 
         Debug.Log($"Absorbed new soul type: {soul.Type}");
         this.type = soul.Type;
@@ -261,24 +314,26 @@ public class Player : Entity
         Debug.Log($"Player maxHealth: {this.maxHealth}");
         LogCurrentAbilities();
 
-        if (gameManager.isTutorial && gameManager.tutorialStep == 4) {
+        if (SceneData.isTutorial && gameManager.tutorialStep == 4) {
           gameManager.tutorialStep = 5;
-        } else if (gameManager.isTutorial && (gameManager.tutorialStep == 8 || gameManager.tutorialStep == 9)) {
+        } 
+        else if (SceneData.isTutorial && (gameManager.tutorialStep == 8 || gameManager.tutorialStep == 9)) {
           gameManager.tutorialStep = 10;
         }
-        
     }
 
-    private void TransformToMostRecentEnemy() {
+    private void TransformToMostRecentEnemy()
+    {
         Debug.Log("Transforming to most recent enemy");
 
-        if (this.previousEntityType == null) {
-          Debug.Log("No recent enemy to turn into!");
-          return;
+        if (this.previousEntityType == null)
+        {
+            Debug.Log("No recent enemy to turn into!");
+            return;
         }
 
         this.selectedAbility = null;
-        
+
         // we already asserted that previousEntityType is not null, so safe to cast here
         EntityType typeToTransformInto = (EntityType)this.previousEntityType;
         this.previousEntityType = null;
@@ -400,23 +455,24 @@ public class Player : Entity
         selectedAbility = null;
         actionCount -= 1;
 
-        if (gameManager.isTutorial && gameManager.tutorialStep == 6) {
+        if (SceneData.isTutorial && gameManager.tutorialStep == 6) 
+        {
           gameManager.tutorialStep = 7;
         }
     }
 
     public bool InRange(int range, Entity entity)
     {
-      if (entity != null)
-      {
-        int distanceX = Mathf.Abs(entity.locX - this.locX);
-        int distanceY = Mathf.Abs(entity.locY - this.locY);
+        if (entity != null)
+        {
+            int distanceX = Mathf.Abs(entity.locX - this.locX);
+            int distanceY = Mathf.Abs(entity.locY - this.locY);
 
-        int totalDistance = distanceX + distanceY;
-        return totalDistance <= range;
-      }
+            int totalDistance = distanceX + distanceY;
+            return totalDistance <= range;
+        }
 
-      return false;
+        return false;
     }
 
     public override int TakeDamage(int amount)
@@ -424,26 +480,30 @@ public class Player : Entity
         damageSFX.volume = 0.5f;
         damageSFX.Play();
         
-        if (gameManager.isTutorial && gameManager.tutorialStep == 8) {
+        if (SceneData.isTutorial && gameManager.tutorialStep == 8) 
+        {
           gameManager.tutorialStep = 9;
         }
 
         return base.TakeDamage(amount);
     }
 
-    public void updateSelectedAction() {
+    public void updateSelectedAction()
+    {
         if (selectedAbility == null)
         {
             selectedAction = SELECTED.ATTACK;
         }
-        else {
+        else
+        {
             selectedAction = SELECTED.ABILITY;
         }
     }
 
     public override void Die()
     {
-        gameManager.ResetGame(); //WILL CHANGE TO A DEAD SCREEN LATER
+        gameManager.ToggleDeathScreen(true);
+        gameManager.StopAllCoroutines();
     }
 
     public void Reset()
@@ -460,10 +520,13 @@ public class Player : Entity
         // abilities.Clear();
     }
 
-    public string GetAbilityName() {
-        if (ability != null) {
+    public string GetAbilityName()
+    {
+        if (ability != null)
+        {
             return (ability.GetType().Name);
         }
+
         return null;
     }
 }
