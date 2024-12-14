@@ -2925,8 +2925,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 12.55, y: -114.92}
-  m_SizeDelta: {x: 438.1, y: 192.3}
+  m_AnchoredPosition: {x: 20, y: -114.92}
+  m_SizeDelta: {x: 524.09, y: 192.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &925865260
 MonoBehaviour:
@@ -3605,7 +3605,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: None -> Snake Bite
+  m_text: Poison Bite -> Poison Bite
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c9f377849d4272946bc2eb08909e117f, type: 2}
   m_sharedMaterial: {fileID: -1572739658108482491, guid: c9f377849d4272946bc2eb08909e117f, type: 2}
@@ -5156,7 +5156,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 14.7, y: -61.4}
-  m_SizeDelta: {x: 427.6, y: 50}
+  m_SizeDelta: {x: 459.63, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1587795011
 MonoBehaviour:
@@ -5178,7 +5178,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Slime -> Giant Pillbug
+  m_text: Giant PillBug -> Giant Pillbug
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c9f377849d4272946bc2eb08909e117f, type: 2}
   m_sharedMaterial: {fileID: -1572739658108482491, guid: c9f377849d4272946bc2eb08909e117f, type: 2}
@@ -6428,7 +6428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1750102654
 RectTransform:
   m_ObjectHideFlags: 0
