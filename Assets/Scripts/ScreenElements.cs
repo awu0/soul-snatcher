@@ -36,11 +36,13 @@ public class ScreenElements : MonoBehaviour
 
     void StartGame()
     {
+        SceneData.isTutorial = false;
         SceneManager.LoadScene("SampleScene");
     }
 
     void StartTutorial()
-    {
+    {   
+        SceneData.isTutorial = true;
         SceneManager.LoadScene("SampleScene");
     }
 }

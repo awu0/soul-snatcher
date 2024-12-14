@@ -149,7 +149,7 @@ public class Player : Entity
         Debug.Log($"Attacked: {entity}");
         entity.TakeDamage(attack);
 
-        if (gameManager.isTutorial && gameManager.tutorialStep == 3) {
+        if (SceneData.isTutorial && gameManager.tutorialStep == 3) {
           gameManager.tutorialStep = 4;
         }
     }
@@ -261,9 +261,9 @@ public class Player : Entity
         Debug.Log($"Player maxHealth: {this.maxHealth}");
         LogCurrentAbilities();
 
-        if (gameManager.isTutorial && gameManager.tutorialStep == 4) {
+        if (SceneData.isTutorial && gameManager.tutorialStep == 4) {
           gameManager.tutorialStep = 5;
-        } else if (gameManager.isTutorial && (gameManager.tutorialStep == 8 || gameManager.tutorialStep == 9)) {
+        } else if (SceneData.isTutorial && (gameManager.tutorialStep == 8 || gameManager.tutorialStep == 9)) {
           gameManager.tutorialStep = 10;
         }
         
@@ -400,7 +400,7 @@ public class Player : Entity
         selectedAbility = null;
         actionCount -= 1;
 
-        if (gameManager.isTutorial && gameManager.tutorialStep == 6) {
+        if (SceneData.isTutorial && gameManager.tutorialStep == 6) {
           gameManager.tutorialStep = 7;
         }
     }
@@ -424,7 +424,7 @@ public class Player : Entity
         damageSFX.volume = 0.5f;
         damageSFX.Play();
         
-        if (gameManager.isTutorial && gameManager.tutorialStep == 8) {
+        if (SceneData.isTutorial && gameManager.tutorialStep == 8) {
           gameManager.tutorialStep = 9;
         }
 

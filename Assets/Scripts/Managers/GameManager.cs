@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
   public TextMeshProUGUI levelText;
 
-  public bool isTutorial = false;
   public int tutorialLevel = 2;
   public int tutorialStep = 0;
   private int tutorialActionCount = 0;
@@ -65,7 +64,7 @@ public class GameManager : MonoBehaviour
       }
     }
 
-    if (isTutorial)
+    if (SceneData.isTutorial)
     {
       tutorialUI.SetActive(true);
     }
@@ -86,7 +85,7 @@ public class GameManager : MonoBehaviour
   {
     if (Input.GetKeyDown(KeyCode.R)) // Replace 'R' with any key you prefer
     {
-      isTutorial = false;
+      SceneData.isTutorial = false;
       StartNextLevel();
     }
     if (Input.GetKeyDown(KeyCode.T)) // Replace 'R' with any key you prefer
@@ -102,7 +101,7 @@ public class GameManager : MonoBehaviour
     }
 
     // for tutorial
-    if (isTutorial)
+    if (SceneData.isTutorial)
     {
       tutorialStepText.text = TutorialData.TutorialStepText[tutorialStep];
 
@@ -161,7 +160,7 @@ public class GameManager : MonoBehaviour
     //  3. spawn stairs far away from player
     //  4. connect closed areas
     //  5. spawn enemies
-    if (!isTutorial)
+    if (!SceneData.isTutorial)
     {
       bool[] map = GenerateMap.Generate(width, height); //GENERATE MAP
 
@@ -306,7 +305,7 @@ public class GameManager : MonoBehaviour
     // if tutorial is complete, just move into standard gameplay
     if (tutorialLevel == 2)
     {
-      isTutorial = false;
+      SceneData.isTutorial = false;
       tutorialUI.SetActive(false);
     }
     else if (tutorialLevel == 1)
@@ -373,7 +372,7 @@ public class GameManager : MonoBehaviour
         case STATES.PLAYER_ROUND:
           if (player.locX == stairsPos.x && player.locY == stairsPos.y)
           {
-            if (isTutorial)
+            if (SceneData.isTutorial)
             {
               StartNextTutorialLevel();
             }
@@ -391,7 +390,7 @@ public class GameManager : MonoBehaviour
             {
               state = STATES.ENEMY_ROUND;
 
-              if (isTutorial)
+              if (SceneData.isTutorial)
               {
                 if (tutorialLevel == 1 || tutorialLevel == 2)
                 {
