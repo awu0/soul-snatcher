@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
   public List<Type> enemiesToSpawn;
   public int enemiesAmt = 0;
   private int enemiesLimit = 6;
+  public Enemy lastEnemyTurn;
 
   public STATES state = STATES.ROUND_START;
   [NonSerialized] public float pauseDuration = 0.4f;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
   public TextMeshProUGUI tutorialStepText;
   public GameObject tutorialUI;
   public GameObject deathScreen;
-
+  public Coroutine turnManagerCoroutine;
   public void Awake()
   {
     var gridObject = GameObject.FindGameObjectWithTag("Game Board");
@@ -79,7 +80,6 @@ public class GameManager : MonoBehaviour
     enemiesToSpawn = new List<Type>();
     GenerateEnemyList();
     StartLevel();
-    StartCoroutine(RunTurnManager());
   }
 
   private void Update()
@@ -214,6 +214,13 @@ public class GameManager : MonoBehaviour
       levelText.text = "Floor " + tutorialLevel.ToString();
       BuildTutorialLevel();
     }
+    
+    StopAllCoroutines();
+    // if (turnManagerCoroutine != null)
+    // {
+    //   StopCoroutine(RunTurnManager());
+    // }
+    turnManagerCoroutine = StartCoroutine(RunTurnManager());
   }
 
   private void GenerateEnemyList()
@@ -339,13 +346,20 @@ public class GameManager : MonoBehaviour
           Debug.Log("ROUND START");
           // refill action count
           player.actionCount = player.maxActionCount;
-          foreach (var enemy in entityManager.enemies)
+          for (int i = entityManager.enemies.Count - 1; i >= 0; i--)
           {
-            if (enemy != null)
+            if (entityManager.enemies[i] != null)
             {
-              enemy.actionCount = enemy.maxActionCount;
+              entityManager.enemies[i].actionCount = entityManager.enemies[i].maxActionCount;
             }
           }
+          // foreach (var enemy in entityManager.enemies)
+          // {
+          //   if (enemy != null)
+          //   {
+          //     enemy.actionCount = enemy.maxActionCount;
+          //   }
+          // }
 
           // reduce buffs/debuffs/status effects duration by 1 turn
           player.TickDownStatusEffectsAndBuffs();
@@ -400,16 +414,29 @@ public class GameManager : MonoBehaviour
         case STATES.ENEMY_ROUND:
           Debug.Log("ENEMY ROUND");
 
-          foreach (var enemy in entityManager.enemies)
+          for (int i = entityManager.enemies.Count - 1; i >= 0; i--)
           {
-            if (enemy != null)
+            if (entityManager.enemies[i] != null)
             {
+              lastEnemyTurn = entityManager.enemies[i];
               // reduce buffs/debuffs/status effects duration by 1 turn
-              enemy.TickDownStatusEffectsAndBuffs();
+              entityManager.enemies[i].TickDownStatusEffectsAndBuffs();
 
-              yield return StartCoroutine(WaitForEnemyTurn(enemy));
+              yield return StartCoroutine(WaitForEnemyTurn(entityManager.enemies[i]));
             }
           }
+          
+          // foreach (var enemy in entityManager.enemies)
+          // {
+          //   if (enemy != null)
+          //   {
+          //     lastEnemyTurn = enemy;
+          //     // reduce buffs/debuffs/status effects duration by 1 turn
+          //     enemy.TickDownStatusEffectsAndBuffs();
+
+          //     yield return StartCoroutine(WaitForEnemyTurn(enemy));
+          //   }
+          // }
 
           state = STATES.ROUND_END;
           break;
@@ -428,6 +455,9 @@ public class GameManager : MonoBehaviour
 
   private IEnumerator WaitForEnemyTurn(Enemy enemy)
   {
+    if (enemy == null) {
+      yield break;
+    }
     enemy.TakeTurn();
 
     yield return new WaitForSeconds(pauseDuration);

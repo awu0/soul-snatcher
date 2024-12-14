@@ -8,8 +8,6 @@ public abstract class Enemy : Entity
 {
     protected readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
     
-    protected Player player;
-    
     public AudioSource damageSFX;
 
     private GameObject enemyHitPrefab;
@@ -21,8 +19,6 @@ public abstract class Enemy : Entity
         
         gameObject.tag = "Enemy";
         
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        player = playerObject.GetComponent<Player>();
         animator = gameObject.GetComponent<Animator>();
 
         enemyHitPrefab = Resources.Load<GameObject>("Prefabs/UI/EnemyHitText");

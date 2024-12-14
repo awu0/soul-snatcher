@@ -444,6 +444,7 @@ public class Player : Entity
     public override void Die()
     {
         gameManager.ToggleDeathScreen(true); 
+        gameManager.StopAllCoroutines();
     }
 
     public void Reset()
