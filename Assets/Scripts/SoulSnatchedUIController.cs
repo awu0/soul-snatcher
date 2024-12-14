@@ -16,7 +16,7 @@ public class SoulSnatchedUIController : MonoBehaviour
   public TextMeshProUGUI soulSnatchAttackTitle;
   public TextMeshProUGUI soulSnatchAttackValue;
 
-  private float displayDuration = 3f;
+  private float displayDuration = 4f;
   private float fadeDuration = 1f;
 
   private float flashFrequency = 0.5f;
@@ -45,7 +45,21 @@ public class SoulSnatchedUIController : MonoBehaviour
     if (flashCoroutine != null)
         StopCoroutine(flashCoroutine);
 
+    // reset colors
     soulSnatchedUIParent.SetActive(true);
+    Color textColor = Color.white;
+    textColor.a = 1;
+
+    soulSnatchTitleText.color = textColor;
+
+    soulSnatchEntityValue.color = textColor;
+    soulSnatchAbilityValue.color = textColor;
+    soulSnatchMaxHealthValue.color = textColor;
+    soulSnatchAttackValue.color = textColor;
+
+    soulSnatchAbilityTitle.color = textColor;
+    soulSnatchMaxHealthTitle.color = textColor;
+    soulSnatchAttackTitle.color = textColor;
 
     fadeCoroutine = StartCoroutine(FadeSoulSnatchedText());
     flashCoroutine = StartCoroutine(FlashSoulSnatchedText());
