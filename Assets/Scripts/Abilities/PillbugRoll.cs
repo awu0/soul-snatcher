@@ -29,7 +29,8 @@ public class PillbugRoll : Ability
         if (grids.IsPositionWithinBounds(nextPosition.x, nextPosition.y) && grids.IsCellOccupied(nextPosition.x, nextPosition.y))
         {
             Entity target = grids.GetEntityAt(nextPosition.x, nextPosition.y);
-            target.TakeDamage(directionalContext.Damage);
+            StartCoroutine(DealDamageWhenDoneMoving(Caster, directionalContext, target));
+            // target.TakeDamage(directionalContext.Damage);
         }
         else
         {
@@ -39,6 +40,13 @@ public class PillbugRoll : Ability
             
             Caster.ReceiveStatusEffect(stunEffect);
         }
+    }
+
+    private IEnumerator DealDamageWhenDoneMoving(Entity caster, DirectionalContext directionalContext, Entity target) {
+        yield return new WaitUntil(() => caster.isMoving == false);
+
+        // Move is complete, now deal damage
+        target.TakeDamage(directionalContext.Damage);
     }
 
     /// <summary>
