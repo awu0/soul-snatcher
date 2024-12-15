@@ -176,6 +176,7 @@ public class Player : Entity
 
         if (SceneData.isTutorial && gameManager.tutorialStep == 3) {
           gameManager.tutorialStep = 4;
+          StartCoroutine(gameManager.ChangeTutorialStepEffect());
         }
     }
 
@@ -326,9 +327,11 @@ public class Player : Entity
 
         if (SceneData.isTutorial && gameManager.tutorialStep == 4) {
           gameManager.tutorialStep = 5;
+          StartCoroutine(gameManager.ChangeTutorialStepEffect());
         } 
         else if (SceneData.isTutorial && (gameManager.tutorialStep == 8 || gameManager.tutorialStep == 9)) {
           gameManager.tutorialStep = 10;
+          StartCoroutine(gameManager.ChangeTutorialStepEffect());
         }
     }
 
@@ -369,6 +372,11 @@ public class Player : Entity
         LogCurrentAbilities();
 
         soulsSnatched--;
+
+        if (SceneData.isTutorial && gameManager.tutorialStep == 11) {
+          gameManager.tutorialStep = 12;
+          StartCoroutine(gameManager.ChangeTutorialStepEffect());
+        } 
     }
 
     public EntityBaseStats CalculateNewStats(EntityBaseStats enemyStats)
@@ -475,6 +483,7 @@ public class Player : Entity
         if (SceneData.isTutorial && gameManager.tutorialStep == 6) 
         {
           gameManager.tutorialStep = 7;
+          StartCoroutine(gameManager.ChangeTutorialStepEffect());
         }
     }
 
@@ -496,11 +505,6 @@ public class Player : Entity
     {
         damageSFX.volume = 0.5f;
         damageSFX.Play();
-        
-        if (SceneData.isTutorial && gameManager.tutorialStep == 8) 
-        {
-          gameManager.tutorialStep = 9;
-        }
 
         return base.TakeDamage(amount);
     }

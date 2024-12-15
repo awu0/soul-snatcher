@@ -45,9 +45,11 @@ public class GameManager : MonoBehaviour
   public int tutorialStep = 0;
   private int tutorialActionCount = 0;
   public TextMeshProUGUI tutorialStepText;
+  public TextMeshProUGUI tutorialStepTitle;
   public GameObject tutorialUI;
   public GameObject deathScreen;
   public Coroutine turnManagerCoroutine;
+  public AudioSource tutorialStepChangeSFX;
   public void Awake()
   {
     var gridObject = GameObject.FindGameObjectWithTag("Game Board");
@@ -67,6 +69,7 @@ public class GameManager : MonoBehaviour
     if (SceneData.isTutorial)
     {
       tutorialUI.SetActive(true);
+      tutorialStepChangeSFX.Play();
     }
     else
     {
@@ -108,17 +111,20 @@ public class GameManager : MonoBehaviour
       if (tutorialStep == 0 && Math.Abs(player.locX - stairsPos.x) < 5 && Math.Abs(player.locY - stairsPos.y) < 5)
       {
         tutorialStep = 1;
+        StartCoroutine(ChangeTutorialStepEffect());
       }
 
       if (tutorialStep == 1 && tutorialLevel == 1)
       {
         tutorialStep = 2;
+        StartCoroutine(ChangeTutorialStepEffect());
       }
 
       if (tutorialStep == 2 && tutorialActionCount == 2)
       {
         tutorialStep = 3;
         tutorialActionCount = 0;
+        StartCoroutine(ChangeTutorialStepEffect());
       }
 
       // tutorial step 3 handled in Player.cs
@@ -129,6 +135,7 @@ public class GameManager : MonoBehaviour
       {
         tutorialStep = 6;
         tutorialActionCount = 0;
+        StartCoroutine(ChangeTutorialStepEffect());
       }
 
       // tutorial step 6 handled in Player.cs
@@ -137,14 +144,10 @@ public class GameManager : MonoBehaviour
 
       // tutorial step 8 and 9 handled in Player.cs
 
-      if (tutorialStep == 10 && tutorialActionCount == 3)
+      if (tutorialStep == 10 && tutorialActionCount == 5)
       {
         tutorialStep = 11;
-      }
-
-      if (tutorialStep == 11 && tutorialActionCount == 6)
-      {
-        tutorialStep = 12;
+        StartCoroutine(ChangeTutorialStepEffect());
       }
     }
   }
@@ -311,6 +314,7 @@ public class GameManager : MonoBehaviour
     else if (tutorialLevel == 1)
     {
       tutorialStep = 8;
+      StartCoroutine(ChangeTutorialStepEffect());
     }
 
     player.Reset();
@@ -423,6 +427,7 @@ public class GameManager : MonoBehaviour
               entityManager.enemies[i].TickDownStatusEffectsAndBuffs();
 
               yield return StartCoroutine(WaitForEnemyTurn(entityManager.enemies[i]));
+              yield return StartCoroutine(WaitForPlayerToStopMoving(player));
             }
           }
           
@@ -472,6 +477,13 @@ public class GameManager : MonoBehaviour
   {
     yield return new WaitForSeconds(pauseDuration);
 
+    while (player.isMoving)
+    {
+      yield return null;
+    }
+  }
+
+  private IEnumerator WaitForPlayerToStopMoving(Player player) {
     while (player.isMoving)
     {
       yield return null;
@@ -541,5 +553,24 @@ public class GameManager : MonoBehaviour
         }
       }
     }
+  }
+
+
+  public IEnumerator ChangeTutorialStepEffect() {
+    tutorialStepChangeSFX.volume = 0.5f;
+    tutorialStepChangeSFX.Play();
+
+    bool isFirstColor = false;
+    float elapsedTime = 0f;
+    while (elapsedTime < 1f) {
+      tutorialStepTitle.color = isFirstColor ? Color.white : Color.green;
+
+      yield return new WaitForSeconds(0.25f);
+
+      isFirstColor = !isFirstColor;
+      elapsedTime += 0.25f;
+    }
+
+    tutorialStepTitle.color = Color.white;
   }
 }
