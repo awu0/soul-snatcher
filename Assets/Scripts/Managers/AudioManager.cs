@@ -12,6 +12,8 @@ public class AudioManager : MonoBehaviour
     public AudioSource bugDeath;
     public AudioSource golemDeath;
     public AudioSource snakeDeath;
+    public AudioSource death;
+    public AudioSource mainTheme;
 
     // Start is called before the first frame update
     void Start()
@@ -68,5 +70,15 @@ public class AudioManager : MonoBehaviour
     public void playHookAbility()
     {
         // hook sfx
+    }
+
+    public void playDead()
+    {
+        death.Play();
+    }
+
+    public void PauseMainTheme()
+    {
+        mainTheme.Stop();
     }
 }

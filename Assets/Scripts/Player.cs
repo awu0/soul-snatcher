@@ -521,6 +521,8 @@ public class Player : Entity
     {
         animator.SetTrigger("death");
         gameManager.ToggleDeathScreen(true);
+        audioManager.playDead();
+        audioManager.PauseMainTheme();
         gameManager.StopAllCoroutines();
     }
 
