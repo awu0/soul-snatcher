@@ -10,6 +10,8 @@ public class Tooltip : MonoBehaviour
     private Dictionary<EntityType, string> enemyTooltips;
     private Grids grids;
     public TextMeshProUGUI tooltipText;
+    public Image healthIcon;
+    public Image attackIcon;
     public Image backdrop;
     public Vector3 offset;
 
@@ -22,8 +24,7 @@ public class Tooltip : MonoBehaviour
             EntityType type = entity.Key;
             EntityBaseStats stats = entity.Value;
 
-            string tooltip = $"Atk: {stats.Attack}\n" +
-                            $"Abi: {stats.Ability}";
+            string tooltip = $"{stats.Attack}\n";
 
             enemyTooltips[type] = tooltip;
         }
@@ -42,7 +43,9 @@ public class Tooltip : MonoBehaviour
         {
             tooltipText.gameObject.SetActive(true);
             backdrop.gameObject.SetActive(true);
-            tooltipText.text = $"Hp: {enemy.health}/{enemy.maxHealth}\n";
+            healthIcon.gameObject.SetActive(true);
+            attackIcon.gameObject.SetActive(true);
+            tooltipText.text = $"{enemy.health}\n\n";
             tooltipText.text += GetTooltip(enemy.type);
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(enemy.transform.position);
             transform.position = screenPosition + offset;
@@ -50,6 +53,8 @@ public class Tooltip : MonoBehaviour
         else {
             tooltipText.gameObject.SetActive(false);
             backdrop.gameObject.SetActive(false);
+            healthIcon.gameObject.SetActive(false);
+            attackIcon.gameObject.SetActive(false);
         }
     }
     public string GetTooltip(EntityType type)
