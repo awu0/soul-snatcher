@@ -26,6 +26,7 @@ public class Player : Entity
     public AudioSource damageSFX;
     public AudioSource transformSFX;
     public Animator animator;
+    public int soulsSnatched;
 
     private new void Start()
     {
@@ -37,6 +38,8 @@ public class Player : Entity
 
         EntityBaseStats stats = EntityData.EntityBaseStatMap[EntityType.Slime];
         SetStats(maxHealth: stats.MaxHealth, stats.Attack, stats.Range, EntityType.Slime);
+
+        soulsSnatched = 0;
     }
 
     private void Update()
@@ -292,7 +295,7 @@ public class Player : Entity
 
         SoulSnatchedUIController soulSnatchedUIController = gameObject.GetComponent<SoulSnatchedUIController>();
         soulSnatchedUIController.UpdateSoulSnatchedUIText(this.type, soul.Type);
-        soulSnatchedUIController.DisplayAndFadeText();
+        soulSnatchedUIController.DisplayAndFadeText(false);
 
         Debug.Log($"Absorbed new soul type: {soul.Type}");
         this.type = soul.Type;
@@ -316,6 +319,8 @@ public class Player : Entity
         Debug.Log($"Player maxHealth: {this.maxHealth}");
         LogCurrentAbilities();
 
+        soulsSnatched++;
+
         if (SceneData.isTutorial && gameManager.tutorialStep == 4) {
           gameManager.tutorialStep = 5;
         } 
@@ -338,6 +343,11 @@ public class Player : Entity
 
         // we already asserted that previousEntityType is not null, so safe to cast here
         EntityType typeToTransformInto = (EntityType)this.previousEntityType;
+
+        SoulSnatchedUIController soulSnatchedUIController = gameObject.GetComponent<SoulSnatchedUIController>();
+        soulSnatchedUIController.UpdateSoulSnatchedUIText(this.type, typeToTransformInto);
+        soulSnatchedUIController.DisplayAndFadeText(true);
+
         this.previousEntityType = null;
 
         // let's always select the attack after this occurs
@@ -354,6 +364,8 @@ public class Player : Entity
 
         Debug.Log($"Player is now of type: {this.type}");
         LogCurrentAbilities();
+
+        soulsSnatched--;
     }
 
     public EntityBaseStats CalculateNewStats(EntityBaseStats enemyStats)

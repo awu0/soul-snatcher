@@ -22,6 +22,7 @@ public class SoulSnatchedUIController : MonoBehaviour
   private float flashFrequency = 0.5f;
   private Color flashColor1 = Color.white;
   private Color flashColor2 = Color.magenta;
+  private Color flashColorRevert = Color.cyan;
 
   private Coroutine fadeCoroutine;
   private Coroutine flashCoroutine;
@@ -39,7 +40,7 @@ public class SoulSnatchedUIController : MonoBehaviour
     soulSnatchAbilityValue.text = $"{oldStats.Ability} -> {currentStats.Ability}";
   }
 
-  public void DisplayAndFadeText() {
+  public void DisplayAndFadeText(bool isReverting) {
     if (fadeCoroutine != null)
         StopCoroutine(fadeCoroutine);
     if (flashCoroutine != null)
@@ -61,9 +62,14 @@ public class SoulSnatchedUIController : MonoBehaviour
     soulSnatchMaxHealthTitle.color = textColor;
     soulSnatchAttackTitle.color = textColor;
 
-    fadeCoroutine = StartCoroutine(FadeSoulSnatchedText());
-    flashCoroutine = StartCoroutine(FlashSoulSnatchedText());
+    if (isReverting) {
+      soulSnatchTitleText.text = "Soul Released!";
+    } else {
+      soulSnatchTitleText.text = "Soul Snatched!";
+    }
 
+    fadeCoroutine = StartCoroutine(FadeSoulSnatchedText());
+    flashCoroutine = StartCoroutine(FlashSoulSnatchedText(isReverting));
   }
 
   private IEnumerator FadeSoulSnatchedText() {
@@ -95,12 +101,13 @@ public class SoulSnatchedUIController : MonoBehaviour
         soulSnatchedUIParent.SetActive(false);
     }
 
-  private IEnumerator FlashSoulSnatchedText() {
+  private IEnumerator FlashSoulSnatchedText(bool isReverting) {
+    Color flashColor = isReverting ? flashColorRevert : flashColor2;
     float elapsedTime = 0f;
     bool isFirstColor = true;
 
     while (elapsedTime < displayDuration + fadeDuration) {
-      soulSnatchTitleText.color = isFirstColor ? flashColor1 : flashColor2;
+      soulSnatchTitleText.color = isFirstColor ? flashColor1 : flashColor;
 
       yield return new WaitForSeconds(flashFrequency);
 
