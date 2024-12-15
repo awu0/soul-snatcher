@@ -23,7 +23,7 @@ public abstract class Entity : MonoBehaviour
     [NonSerialized] public EntityType type;
     [NonSerialized] public float moveSpeed = 5f;
     [NonSerialized] public bool isMoving = false;
-    [NonSerialized] public GameObject hitSpark;
+    private GameObject hitSparkPrefab;
 
     protected Ability ability;
 
@@ -59,6 +59,12 @@ public abstract class Entity : MonoBehaviour
         if (playerObject != null) 
         {
             player = playerObject.GetComponent<Player>();
+        }
+
+        hitSparkPrefab = Resources.Load<GameObject>("Prefabs/HitSpark");
+        if (hitSparkPrefab == null)
+        {
+            Debug.LogError("hit spark prefab not found!");
         }
     }
 
@@ -180,7 +186,7 @@ public abstract class Entity : MonoBehaviour
             return 0;
         }
 
-        //Instantiate(hitSpark, transform.position, Quaternion.identity);
+        Instantiate(hitSparkPrefab, transform.position, Quaternion.identity);
 
         health -= amount;
         if (health <= 0)
