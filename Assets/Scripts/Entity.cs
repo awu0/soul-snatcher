@@ -23,7 +23,7 @@ public abstract class Entity : MonoBehaviour
     [NonSerialized] public EntityType type;
     [NonSerialized] public float moveSpeed = 5f;
     [NonSerialized] public bool isMoving = false;
-    private GameObject hitSparkPrefab;
+    public GameObject hitSparkPrefab;
 
     protected Ability ability;
 

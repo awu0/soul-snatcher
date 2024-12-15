@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - hitSpark: {fileID: 7511529007030853493, guid: 465f8e10bb9eefc45affdd6515e45570, type: 3}
+  - hitSparkPrefab: {fileID: 7511529007030853493, guid: 465f8e10bb9eefc45affdd6515e45570, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
