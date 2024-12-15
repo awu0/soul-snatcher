@@ -39,8 +39,8 @@ public static class EntityData
       [EntityType.Slime] = new EntityBaseStats(attack: 5, maxHealth: 13, range: 1, ability: "None"), //PLAYER
       [EntityType.GiantPillbug] = new EntityBaseStats(attack: 4, maxHealth: 12, range: 1, ability: "Roll"),
       [EntityType.Weakling] = new EntityBaseStats(attack: 1, maxHealth: 1, range: 1, ability: "None"),
-      [EntityType.EvilEye] = new EntityBaseStats(attack: 4, maxHealth: 6, ability: "Eye Laser"),
-      [EntityType.Snake] = new EntityBaseStats(attack: 4, maxHealth: 8, range: 1, ability: "Poison Bite"),
+      [EntityType.EvilEye] = new EntityBaseStats(attack: 4, maxHealth: 6, ability: "Laser"),
+      [EntityType.Snake] = new EntityBaseStats(attack: 4, maxHealth: 8, range: 1, ability: "Poison"),
       [EntityType.StoneGolem] = new EntityBaseStats(attack: 5, maxHealth: 14, ability: "Guard"),
       [EntityType.Hooker] = new EntityBaseStats(attack: 3, maxHealth: 11, ability: "Hook"),
   };

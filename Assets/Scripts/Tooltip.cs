@@ -1,10 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 public class Tooltip : MonoBehaviour
 {
     private Dictionary<EntityType, string> enemyTooltips;
     private Grids grids;
+    public TextMeshProUGUI tooltipText;
+    public Image backdrop;
+    public Vector3 offset;
 
     private void Awake()
     {
@@ -15,11 +22,9 @@ public class Tooltip : MonoBehaviour
             EntityType type = entity.Key;
             EntityBaseStats stats = entity.Value;
 
-            string tooltip = $"{EntityData.EntityStringMap[type]}\n" +
-                             $"Health: {stats.MaxHealth}\n" +
-                             $"Attack: {stats.Attack}\n" +
-                             $"Range: {stats.Range}\n" +
-                             $"Ability: {stats.Ability}";
+            string tooltip = $"MaxHp: {stats.MaxHealth}\n" +
+                            $"Atk: {stats.Attack}\n" +
+                            $"Abi: {stats.Ability}";
 
             enemyTooltips[type] = tooltip;
         }
@@ -31,15 +36,31 @@ public class Tooltip : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        Entity enemy = grids.GetEntityAtMouse(Input.mousePosition);
+        if (enemy != null) 
+        {
+            tooltipText.gameObject.SetActive(true);
+            backdrop.gameObject.SetActive(true);
+            tooltipText.text = GetTooltip(enemy.type);
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(enemy.transform.position);
+            transform.position = screenPosition + offset;
+        }
+        else {
+            tooltipText.gameObject.SetActive(false);
+            backdrop.gameObject.SetActive(false);
+        }
+    }
     public string GetTooltip(EntityType type)
     {
         if (enemyTooltips.ContainsKey(type))
         {
             return enemyTooltips[type];
         }
-        else
+        else 
         {
-            return "No tooltip available.";
+            return "no tooltip";
         }
     }
 }
