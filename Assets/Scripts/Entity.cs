@@ -23,6 +23,7 @@ public abstract class Entity : MonoBehaviour
     [NonSerialized] public EntityType type;
     [NonSerialized] public float moveSpeed = 5f;
     [NonSerialized] public bool isMoving = false;
+    [NonSerialized] public GameObject hitSpark;
 
     protected Ability ability;
 
@@ -178,6 +179,8 @@ public abstract class Entity : MonoBehaviour
         {
             return 0;
         }
+
+        //Instantiate(hitSpark, transform.position, Quaternion.identity);
 
         health -= amount;
         if (health <= 0)

@@ -25,10 +25,12 @@ public class Player : Entity
 
     public AudioSource damageSFX;
     public AudioSource transformSFX;
+    public Animator animator;
 
     private new void Start()
     {
         base.Start();
+        animator = GetComponent<Animator>();
 
         actionCount = maxActionCount;
         previousEntityType = null;
@@ -502,6 +504,7 @@ public class Player : Entity
 
     public override void Die()
     {
+        animator.SetTrigger("death");
         gameManager.ToggleDeathScreen(true);
         gameManager.StopAllCoroutines();
     }
