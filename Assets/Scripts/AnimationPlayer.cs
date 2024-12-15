@@ -46,5 +46,5 @@ public class AnimationPlayer : MonoBehaviour
             Debug.LogError("hookPrefab is not assigned!");
             return;
         }
-
+    }
 }
