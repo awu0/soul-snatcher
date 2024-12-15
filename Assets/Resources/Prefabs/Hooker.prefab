@@ -173,7 +173,7 @@ Animator:
   m_GameObject: {fileID: 6767737233154669583}
   m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9ce2eb5ebff031c42aa3b7c3811f9497, type: 2}
+  m_Controller: {fileID: 9100000, guid: 75b55cc9c9b47af46a2943dc396acf66, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -196,7 +196,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5955345f247144dcb2be824ebadd3899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitSparkPrefab: {fileID: 7511529007030853493, guid: 465f8e10bb9eefc45affdd6515e45570, type: 3}
   damageSFX: {fileID: 0}
+  animator: {fileID: -53783970136331035}
 --- !u!114 &-975202823123876182
 MonoBehaviour:
   m_ObjectHideFlags: 0
