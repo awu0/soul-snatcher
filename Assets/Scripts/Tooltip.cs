@@ -22,8 +22,7 @@ public class Tooltip : MonoBehaviour
             EntityType type = entity.Key;
             EntityBaseStats stats = entity.Value;
 
-            string tooltip = $"MaxHp: {stats.MaxHealth}\n" +
-                            $"Atk: {stats.Attack}\n" +
+            string tooltip = $"Atk: {stats.Attack}\n" +
                             $"Abi: {stats.Ability}";
 
             enemyTooltips[type] = tooltip;
@@ -43,7 +42,8 @@ public class Tooltip : MonoBehaviour
         {
             tooltipText.gameObject.SetActive(true);
             backdrop.gameObject.SetActive(true);
-            tooltipText.text = GetTooltip(enemy.type);
+            tooltipText.text = $"Hp: {enemy.health}/{enemy.maxHealth}\n";
+            tooltipText.text += GetTooltip(enemy.type);
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(enemy.transform.position);
             transform.position = screenPosition + offset;
         }
