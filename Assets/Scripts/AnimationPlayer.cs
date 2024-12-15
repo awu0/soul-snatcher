@@ -5,6 +5,9 @@ using UnityEngine;
 public class AnimationPlayer : MonoBehaviour
 {
     public GameObject laserPrefab;
+    public GameObject hookPrefab;
+    public GameObject chainPrefab;
+
     void Start()
     {
         
@@ -35,4 +38,13 @@ public class AnimationPlayer : MonoBehaviour
             Debug.Log($"laserPrefab created at {currentPosition}");
         }
     }
+
+    public void ThrowHook(int startX, int startY, Vector2Int direction, int length)
+    {
+        if (hookPrefab == null)
+        {
+            Debug.LogError("hookPrefab is not assigned!");
+            return;
+        }
+
 }

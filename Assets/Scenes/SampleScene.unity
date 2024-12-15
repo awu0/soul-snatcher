@@ -340,8 +340,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 13
+  m_fontSizeBase: 13
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1113,6 +1113,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 7511529007030853493, guid: 7d337119d2dc4134d83afce83f54d353, type: 3}
+  hookPrefab: {fileID: 0}
+  chainPrefab: {fileID: 0}
 --- !u!4 &228401769
 Transform:
   m_ObjectHideFlags: 0
