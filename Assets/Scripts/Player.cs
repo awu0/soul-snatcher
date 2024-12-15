@@ -22,6 +22,7 @@ public class Player : Entity
     public Ability selectedAbility;
 
     public EntityType? previousEntityType;
+    public TextMeshProUGUI soulsSnatchedCountUI;
 
     public AudioSource damageSFX;
     public AudioSource transformSFX;
@@ -66,6 +67,8 @@ public class Player : Entity
             DetectForMovementInput();
             HandleLeftClickAction();
         }
+
+        soulsSnatchedCountUI.text = $"Souls Snatched: {soulsSnatched}";
     }
 
     private void DetectForMovementInput()
