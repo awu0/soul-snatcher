@@ -191,6 +191,7 @@ public abstract class Entity : MonoBehaviour
         health -= amount;
         if (health <= 0)
         {
+            isMoving = false;
             Die();
         }
 
